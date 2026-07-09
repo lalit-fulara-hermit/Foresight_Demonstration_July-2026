@@ -518,6 +518,34 @@ svg.graph{width:100%;height:auto;max-height:min(70vh,520px);display:block;margin
 .docov-close{position:absolute;top:12px;right:14px;z-index:2;background:var(--mist);border:1px solid var(--line);color:var(--purple);width:34px;height:34px;border-radius:9px;font-size:15px;cursor:pointer}
 .docov-close:hover{background:#ece0f2}
 .docov iframe{width:100%;height:100%;border:0;background:#fff}
+/* foundations -> loop (zero to one) */
+.fnd{margin:4px 0 2px}
+.fnd-head{margin-bottom:12px}
+.fnd-eyebrow{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--magenta);font-weight:700}
+.fnd-head .fnd-h{margin:4px 0 0;font-size:15.5px;color:var(--purple);font-weight:800;letter-spacing:-.01em}
+.fnd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fnd-card{position:relative;border:1px solid var(--line);border-radius:12px;padding:14px;background:linear-gradient(160deg,#faf7fc,#f3edf8);display:block;text-decoration:none;color:inherit}
+.fnd-card.nav{cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}
+.fnd-card.nav:hover{border-color:var(--magenta);box-shadow:0 12px 26px -16px rgba(67,34,77,.5);transform:translateY(-2px)}
+.fnd-n{position:absolute;top:12px;right:13px;font-family:var(--fm);font-size:10px;font-weight:700;color:#c9b3d6}
+.fnd-ic{width:34px;height:34px;border-radius:9px;background:var(--purple);display:flex;align-items:center;justify-content:center;margin-bottom:9px}
+.fnd-ic svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.fnd-t{font-size:14px;font-weight:800;color:var(--purple)}
+.fnd-d{font-size:11.6px;color:#4a3753;line-height:1.42;margin:3px 0 8px}
+.fnd-meta{font-family:var(--fm);font-size:9.5px;letter-spacing:.02em;color:var(--muted);text-transform:uppercase}
+.fnd-arrow{display:flex;align-items:center;gap:12px;margin:14px 2px 4px;color:var(--muted);font-size:12px}
+.fnd-arrow .ln{height:1px;background:var(--line);flex:1}
+.fnd-arrow b{color:var(--purple);font-weight:600;white-space:nowrap}
+.fnd-arrow svg{width:15px;height:15px;stroke:var(--magenta);fill:none;stroke-width:2;flex:none}
+.run-eyebrow{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--magenta);font-weight:700;display:block;margin:2px 0 10px}
+.fnd-mini{display:flex;align-items:center;flex-wrap:wrap;gap:8px;background:var(--mist);border:1px solid var(--line);border-radius:11px;padding:9px 14px;margin:0 0 14px;font-size:12px}
+.fnd-mini .fm-lbl{font-family:var(--fm);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--magenta);font-weight:700}
+.fnd-mini .fm-chip{color:var(--purple);font-weight:600;text-decoration:none;cursor:pointer;border-bottom:1px dotted #c9b3d6}
+.fnd-mini .fm-chip:hover{color:var(--magenta);border-color:var(--magenta)}
+.fnd-mini svg{width:15px;height:15px;stroke:var(--muted);fill:none;stroke-width:2;flex:none}
+.fnd-mini .fm-run{color:var(--muted)}
+@media(max-width:820px){.fnd-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.fnd-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -764,6 +792,20 @@ const LOOP=[
  {n:"05",t:"Publish",p:"Briefings assembled with sources; a human signs off.",w:"Drafting agent + editor"},
  {n:"06",t:"Monitor",p:"Outputs, agents and models watched; the loop is tuned.",w:"AI Ops · on-the-loop"},
 ];
+const FOUNDATIONS=[
+ ["01","Scope","Which IEC sectors and committees are in scope.","12 domains \u00b7 67 committees","view","sectors",'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'],
+ ["02","Sources","Which sources count, and how far they are trusted.","Tiered A \u00b7 B \u00b7 C","opendoc","source-universe.html",'<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>'],
+ ["03","Method","What the three labels mean and the five questions behind them.","3 labels \u00b7 5 questions","op","method",'<path d="M21 12a9 9 0 1 1-6.2-8.5"/><path d="M8 11l3 3 5-6"/>'],
+ ["04","Governance","Who validates each signal and who signs it off.","RACI \u00b7 human sign-off","op","human",'<path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/>']
+];
+function fndAttr(f){return f[4]==="view"?'data-action="view" data-view="'+f[5]+'"':f[4]==="opendoc"?'data-action="opendoc" data-doc="'+f[5]+'"':'data-action="op" data-tab="'+f[5]+'"'}
+function foundationsBand(nav){
+ const cards=FOUNDATIONS.map(f=>`<a class="fnd-card ${nav?'nav':''}" ${nav?fndAttr(f):''}><span class="fnd-n">${f[0]}</span><span class="fnd-ic"><svg viewBox="0 0 24 24">${f[6]}</svg></span><div class="fnd-t">${f[1]}</div><div class="fnd-d">${f[2]}</div><div class="fnd-meta">${f[3]}</div></a>`).join("");
+ return `<div class="fnd"><div class="fnd-head"><span class="fnd-eyebrow">Set once \u00b7 zero to one</span><div class="fnd-h">The foundations, decided before anything is watched</div></div><div class="fnd-grid">${cards}</div><div class="fnd-arrow"><span class="ln"></span><b>Once these are set, the loop runs continuously</b><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg><span class="ln"></span></div></div>`;
+}
+function foundationsMini(){
+ return `<div class="fnd-mini"><span class="fm-lbl">Set once</span>${FOUNDATIONS.map(f=>`<a class="fm-chip" ${fndAttr(f)}>${f[1]}</a>`).join("")}<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="fm-run">then the loop runs continuously</span></div>`;
+}
 const AGENTS=[
  ["Monitoring","Watch source feeds, pull new items, remove duplicates.","Full","A source breaks or coverage drops"],
  ["Extraction & tagging","Use Gen AI to classify, extract facts, link to committees.","Full","An item can't be classified with confidence"],
@@ -1863,7 +1905,7 @@ V.overview=()=>{
  +'<div class="kpi kpiclick" data-action="kpinav" data-view="feed" data-cls="weak"><span class="kpi-go">\u2192</span><div class="v">'+SIGNALS.filter(s=>s.cls==="weak").length+'</div><div class="k">Weak signals</div><div class="d hotx">early & faint — watch list</div></div>'
  +'<div class="kpi kpiclick" data-action="kpinav" data-view="howitworks" data-optab="human"><span class="kpi-go">\u2192</span><div class="v">'+SIGNALS.filter(s=>s.val).length+' / '+SIGNALS.length+'</div><div class="k">Human-checked</div><div class="d">'+(SIGNALS.length-SIGNALS.filter(s=>s.val).length)+' still in review</div></div>'
  +'<div class="kpi kpiclick" data-action="kpinav" data-view="sectors"><span class="kpi-go">\u2192</span><div class="v">'+Object.keys(COMM).length+'</div><div class="k">IEC committees mapped</div><div class="d">TCs, SCs, SyCs, JTC 1</div></div></div>'
- +rn('Agents scan, sort and draft. Analysts validate. The Board decides. Signals are classified weak, building or established; nothing is scored or forecast. Open the operating model to see who does what at each step.','loop')
+ +foundationsMini()+rn('Agents scan, sort and draft. Analysts validate. The Board decides. Signals are classified weak, building or established; nothing is scored or forecast. Open the operating model to see who does what at each step.','loop')
  +'<div class="grid2"><div class="card"><h3>Highest-impact signals<a data-action="view" data-view="feed">All signals →</a></h3><div class="rlist">'+top.map(rowHTML).join("")+'</div></div>'
  +'<div class="card"><h3>Weak signals · early radar<a data-action="view" data-view="radar">Radar →</a></h3><div class="rlist">'+(weak.length?weak.map(rowHTML).join(""):'<div class="empty">No weak signals right now</div>')+'</div></div></div>'
  +'<div class="card" style="margin-top:18px"><h3>Coverage by IEC domain · all '+SECTORS.length+' domains<a data-action="view" data-view="sectors">Sectors →</a></h3><div class="pad">'+hbars(sectorCov)+'</div></div>'}
@@ -2107,7 +2149,7 @@ V.howitworks=()=>{
  const head=`<div class="crumb">Operate / Operating Model</div><div class="phead"><h1>How It Runs</h1><div class="sub">Software scans, sorts and drafts. A named person reviews and decides what gets published.</div></div>
  <div class="subtabs">${tabs.map(x=>`<button class="subtab ${t===x[0]?'on':''}" data-action="optab" data-tab="${x[0]}">${x[1]}</button>`).join("")}</div>`;
  let body="";
- if(t==="loop"){body=`<div class="actors">${ACTORS.map(a=>`<div class="actor"><div class="at" style="background:${a.c}">${a.n}<small>${a.s}</small></div><div class="ab">${a.is}<div class="lbl">Does</div><ul>${a.does.map(d=>`<li>${d}</li>`).join("")}</ul><div class="lbl">Never</div><ul>${a.not.map(d=>`<li>${d}</li>`).join("")}</ul></div></div>`).join("")}</div>
+ if(t==="loop"){body=`${foundationsBand(true)}<span class="run-eyebrow">Runs continuously \u00b7 who does the work, step by step</span><div class="actors">${ACTORS.map(a=>`<div class="actor"><div class="at" style="background:${a.c}">${a.n}<small>${a.s}</small></div><div class="ab">${a.is}<div class="lbl">Does</div><ul>${a.does.map(d=>`<li>${d}</li>`).join("")}</ul><div class="lbl">Never</div><ul>${a.not.map(d=>`<li>${d}</li>`).join("")}</ul></div></div>`).join("")}</div>
   <div class="flow6">${LOOP.map(l=>`<div class="fstep"><div class="n">${l.n}</div><h5>${l.t}</h5><p>${l.p}</p><div class="who">${l.w}</div></div>`).join("")}</div>
   ${rn('<b>Automation with oversight:</b> agents handle the routine steps between stages, which speeds the work but concentrates risk, since an automated step can act quickly and at scale. Logging, action limits and human review at each gate keep that in check.')}`}
  else if(t==="agentic"){
@@ -2122,7 +2164,7 @@ V.howitworks=()=>{
   ];
   const PIPE=AGENTS.slice(0,7),SUP=AGENTS[7];
   const opstages=PIPE.map((a,i)=>{const g=a[2]==="Gated";return `<div class="opl-stage ${g?'gated':'full'}"><div class="opl-tip"><b>Escalates when</b>${a[3]}</div><div class="opl-ico"><svg viewBox="0 0 24 24">${OPMETA[i][1]}</svg></div><div class="opl-nm">${OPMETA[i][0]}</div><span class="opl-tier ${g?'gated':'full'}">${a[2]}</span></div>`}).join("");
-  body=`<div class="card"><h3>The operating loop · one signal, end to end</h3><div class="pad">
+  body=`${foundationsMini()}<div class="card"><h3>The operating loop · one signal, end to end</h3><div class="pad">
   <div class="srcnote" style="padding:0 0 4px">A signal (the moving dot) is watched, extracted, clustered, checked, routed, drafted and alerted. Hover any step to see when it hands off to a person.</div>
   <div class="oploop"><div class="opl-track"></div><div class="opl-token"></div><div class="opl-stages">${opstages}</div></div>
   <div class="opl-super"><span class="s-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.4-2.5h-4l-.4 2.5a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.4 2.5h4l.4-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg></span><div class="s-tx"><b>${SUP[0]} · supervisor.</b> ${SUP[1]} It sits around the whole loop, not in it.</div></div>
@@ -2228,7 +2270,7 @@ function openHowWorks(){
  const stages=HWSTAGES.map(st=>`<div class="hw-stage ${st[0]==="human"?"human":""}"><div class="hw-ico"><svg viewBox="0 0 24 24">${st[1]}</svg></div><div class="hw-label">${st[2]}</div><div class="hw-sub">${st[3]}</div><span class="hw-who ${st[0]}">${st[4]}</span></div>`).join("");
  el("#howOverlay").innerHTML=`<div class="hw-card"><button class="hw-close" data-action="closeHow">\u2715</button>
   <div class="hw-head"><div class="hw-eyebrow">How Foresight works</div><h2>From a faint signal to a Board decision</h2><div class="hw-rule">AI assists \u00b7 people decide</div></div>
-  <div class="hw-pipe"><div class="hw-line"></div><div class="hw-flow">${dots}</div><div class="hw-stages">${stages}</div></div>
+  ${foundationsBand(false)}<span class="run-eyebrow">Runs continuously \u00b7 the loop</span><div class="hw-pipe"><div class="hw-line"></div><div class="hw-flow">${dots}</div><div class="hw-stages">${stages}</div></div>
   <div class="hw-foot">Nothing is scored or forecast. Every signal is labelled <b>weak</b>, <b>building</b> or <b>established</b>.</div>
   <div class="hw-guide">
    <div class="hw-note"><b>What is live today, and what is designed.</b> This is a working prototype. It runs on 48 hand-picked example signals, each labelled by the method below, so you can see how it behaves. The automatic scanning, the live source feeds and the software agents are fully specified but not yet switched on. Turning them on is the funded build. Where this guide says the tool reads sources or agents do something, read it as how it is built to work.</div>
