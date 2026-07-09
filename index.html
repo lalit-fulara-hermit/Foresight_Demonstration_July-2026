@@ -523,10 +523,23 @@ svg.graph{width:100%;height:auto;max-height:min(70vh,520px);display:block;margin
 .fnd-head{margin-bottom:12px}
 .fnd-eyebrow{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--magenta);font-weight:700}
 .fnd-head .fnd-h{margin:4px 0 0;font-size:15.5px;color:var(--purple);font-weight:800;letter-spacing:-.01em}
-.fnd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.fnd-card{position:relative;border:1px solid var(--line);border-radius:12px;padding:14px;background:linear-gradient(160deg,#faf7fc,#f3edf8);display:block;text-decoration:none;color:inherit}
-.fnd-card.nav{cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}
-.fnd-card.nav:hover{border-color:var(--magenta);box-shadow:0 12px 26px -16px rgba(67,34,77,.5);transform:translateY(-2px)}
+.fnd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:start}
+.fnd-card{position:relative;border:1px solid var(--line);border-radius:12px;background:linear-gradient(160deg,#faf7fc,#f3edf8);overflow:hidden}
+.fnd-sum{list-style:none;cursor:pointer;padding:14px;display:block;position:relative;transition:background .15s}
+.fnd-sum::-webkit-details-marker{display:none}
+.fnd-sum:hover{background:linear-gradient(160deg,#f6f0fa,#eee4f4)}
+details.fnd-card[open]{border-color:var(--magenta);box-shadow:0 14px 32px -18px rgba(67,34,77,.5)}
+.fnd-chev{position:absolute;bottom:12px;right:12px;color:#b89bc8;transition:transform .2s}
+.fnd-chev svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+details[open] .fnd-chev{transform:rotate(180deg);color:var(--magenta)}
+.fnd-exp{padding:0 14px 14px;border-top:1px solid var(--line)}
+.fnd-lead{font-size:11.6px;color:#4a3753;line-height:1.45;margin:11px 0 8px}
+.fnd-lines{list-style:none;margin:0 0 10px;padding:0}
+.fnd-lines li{font-size:11.6px;color:#3c2944;padding:3px 0 3px 14px;position:relative;line-height:1.4}
+.fnd-lines li:before{content:"";position:absolute;left:2px;top:9px;width:5px;height:5px;border-radius:50%;background:var(--magenta)}
+.fnd-open{font-family:var(--fm);font-size:10.5px;font-weight:700;color:var(--magenta);cursor:pointer;text-decoration:none}
+.fnd-open:hover{text-decoration:underline}
+.fnd-hint{font-size:11px;color:var(--muted);margin-top:3px}
 .fnd-n{position:absolute;top:12px;right:13px;font-family:var(--fm);font-size:10px;font-weight:700;color:#c9b3d6}
 .fnd-ic{width:34px;height:34px;border-radius:9px;background:var(--purple);display:flex;align-items:center;justify-content:center;margin-bottom:9px}
 .fnd-ic svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
@@ -793,15 +806,27 @@ const LOOP=[
  {n:"06",t:"Monitor",p:"Outputs, agents and models watched; the loop is tuned.",w:"AI Ops · on-the-loop"},
 ];
 const FOUNDATIONS=[
- ["01","Scope","Which IEC sectors and committees are in scope.","12 domains \u00b7 67 committees","view","sectors",'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'],
- ["02","Sources","Which sources count, and how far they are trusted.","Tiered A \u00b7 B \u00b7 C","opendoc","source-universe.html",'<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>'],
- ["03","Method","What the three labels mean and the five questions behind them.","3 labels \u00b7 5 questions","op","method",'<path d="M21 12a9 9 0 1 1-6.2-8.5"/><path d="M8 11l3 3 5-6"/>'],
- ["04","Governance","Who validates each signal and who signs it off.","RACI \u00b7 human sign-off","op","human",'<path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/>']
+ ["01","Scope","Which IEC sectors and committees are in scope.","12 domains \u00b7 67 committees","view","sectors",'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+   "Coverage is decided first, so the tool watches only what IEC owns.",
+   ["12 electrotechnical domains","About 67 committees: TCs, SCs, SyCs, JTC 1","Plus four conformity-assessment systems"]],
+ ["02","Sources","Which sources count, and how far they are trusted.","Tiered A \u00b7 B \u00b7 C","opendoc","source-universe.html",'<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>',
+   "A bounded, tiered list, not the open web. Backing means independent sources.",
+   ["A \u00b7 primary: standards bodies, regulators, patents, filings","B \u00b7 corroborating: labs, preprints, major newswires","C \u00b7 early: trade press, vendor notes; never trusted alone"]],
+ ["03","Method","What the three labels mean and the five questions behind them.","3 labels \u00b7 5 questions","op","method",'<path d="M21 12a9 9 0 1 1-6.2-8.5"/><path d="M8 11l3 3 5-6"/>',
+   "One label from five plain questions. No score, by design.",
+   ["1. Is it new?","2. Is it moving?","3. Who else says so?","4. How proven is it? (TRL 1 to 9)","5. How far does it reach?","Result: weak \u00b7 building \u00b7 established"]],
+ ["04","Governance","Who validates each signal and who signs it off.","RACI \u00b7 human sign-off","op","human",'<path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/>',
+   "Software proposes; a named person decides. Nothing publishes without sign-off.",
+   ["Three supervision tiers: analyst, editor, Board","A RACI map on every step","Override rate monitored both ways","No external publishing without a human"]]
 ];
 function fndAttr(f){return f[4]==="view"?'data-action="view" data-view="'+f[5]+'"':f[4]==="opendoc"?'data-action="opendoc" data-doc="'+f[5]+'"':'data-action="op" data-tab="'+f[5]+'"'}
-function foundationsBand(nav){
- const cards=FOUNDATIONS.map(f=>`<a class="fnd-card ${nav?'nav':''}" ${nav?fndAttr(f):''}><span class="fnd-n">${f[0]}</span><span class="fnd-ic"><svg viewBox="0 0 24 24">${f[6]}</svg></span><div class="fnd-t">${f[1]}</div><div class="fnd-d">${f[2]}</div><div class="fnd-meta">${f[3]}</div></a>`).join("");
- return `<div class="fnd"><div class="fnd-head"><span class="fnd-eyebrow">Set once \u00b7 zero to one</span><div class="fnd-h">The foundations, decided before anything is watched</div></div><div class="fnd-grid">${cards}</div><div class="fnd-arrow"><span class="ln"></span><b>Once these are set, the loop runs continuously</b><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg><span class="ln"></span></div></div>`;
+function fndLink(f){return f[4]==="view"?"Open the sector map":f[4]==="opendoc"?"Open the Source Universe":(f[5]==="method"?"Open the classification method":"Open human supervision")}
+function foundationsBand(){
+ const cards=FOUNDATIONS.map((f,i)=>{
+  const lines=f[8].map(l=>`<li>${l}</li>`).join("");
+  return `<details class="fnd-card"><summary class="fnd-sum"><span class="fnd-n">${f[0]}</span><span class="fnd-ic"><svg viewBox="0 0 24 24">${f[6]}</svg></span><div class="fnd-t">${f[1]}</div><div class="fnd-d">${f[2]}</div><div class="fnd-meta">${f[3]}</div><span class="fnd-chev"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="fnd-exp"><div class="fnd-lead">${f[7]}</div><ul class="fnd-lines">${lines}</ul><a class="fnd-open" data-action="fndopen" data-i="${i}">${fndLink(f)} \u2192</a></div></details>`;
+ }).join("");
+ return `<div class="fnd"><div class="fnd-head"><span class="fnd-eyebrow">Set once \u00b7 zero to one</span><div class="fnd-h">The foundations, decided before anything is watched</div><div class="fnd-hint">Tap any card for the detail, or open its full screen.</div></div><div class="fnd-grid">${cards}</div><div class="fnd-arrow"><span class="ln"></span><b>Once these are set, the loop runs continuously</b><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg><span class="ln"></span></div></div>`;
 }
 function foundationsMini(){
  return `<div class="fnd-mini"><span class="fm-lbl">Set once</span>${FOUNDATIONS.map(f=>`<a class="fm-chip" ${fndAttr(f)}>${f[1]}</a>`).join("")}<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="fm-run">then the loop runs continuously</span></div>`;
@@ -2410,6 +2435,7 @@ document.addEventListener("click",e=>{
  else if(act==="howworks")openHowWorks();
  else if(act==="opendoc"){openDoc(a.dataset.doc)}
  else if(act==="closeDoc"){closeDoc()}
+ else if(act==="fndopen"){const f=FOUNDATIONS[+a.dataset.i];closeHowWorks();closeDoc();if(f[4]==="view")setView(f[5]);else if(f[4]==="opendoc")openDoc(f[5]);else{state.opTab=f[5];setView("howitworks")}}
  else if(act==="closeHow"){if(e.target.id==="howOverlay"||a.dataset.action==="closeHow")closeHowWorks()}
  else if(act==="kpinav"){if(a.dataset.cls)state.feedCls=a.dataset.cls;if(a.dataset.optab)state.opTab=a.dataset.optab;setView(a.dataset.view)}
  else if(act==="quad"){state.quad=a.dataset.quad;el("#main").innerHTML=V.radar()}
