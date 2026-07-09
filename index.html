@@ -1201,11 +1201,14 @@ td b{color:var(--purple)}
 <h2>Agent roster</h2>
 <table>
 <tr><th>Agent</th><th>Job</th><th>Autonomy</th><th>Escalates when</th></tr>
-<tr><td><b>Scanner</b></td><td>Watch the allowed source universe for new or changed material.</td><td>Full (read-only)</td><td>A source is unreachable or returns unexpected volume.</td></tr>
+<tr><td><b>Monitoring</b></td><td>Watch source feeds, pull new items, remove duplicates.</td><td>Full</td><td>A source breaks or coverage drops.</td></tr>
+<tr><td><b>Extraction &amp; tagging</b></td><td>Use Gen AI to classify, extract facts, link to committees.</td><td>Full</td><td>An item can't be classified with confidence.</td></tr>
 <tr><td><b>Triage</b></td><td>Cluster duplicates, tag by lens and facet, attach sources, flag novelty and momentum.</td><td>Full</td><td>A signal sits on a label boundary.</td></tr>
-<tr><td><b>Extractor</b></td><td>Pull facts, figures and the owning committee from each item, keeping a link to source.</td><td>Full</td><td>A figure cannot be tied to a primary source.</td></tr>
-<tr><td><b>Drafter</b></td><td>Summarise and draft briefs, grounded in fetched evidence only.</td><td>Assisted</td><td>Always — drafts go to a human before release.</td></tr>
-<tr><td><b>Watcher</b></td><td>Track momentum, maturity and corroboration on published signals.</td><td>Full</td><td>A watched signal changes label or crosses a threshold.</td></tr>
+<tr><td><b>Cross-check</b></td><td>Triangulate across sources; flag single-source or contradictory claims.</td><td>Full</td><td>A high-impact claim has thin support.</td></tr>
+<tr><td><b>Routing</b></td><td>Send each signal to the right analyst or committee queue.</td><td>Full</td><td>Ownership is unclear.</td></tr>
+<tr><td><b>Drafting</b></td><td>Assemble briefings and white-paper drafts with citations.</td><td>Gated</td><td>Always — a person reviews before publishing.</td></tr>
+<tr><td><b>Alerting</b></td><td>Generate alerts and the weekly digest; notify committees.</td><td>Gated</td><td>A high-impact alert needs sign-off.</td></tr>
+<tr><td><b>Orchestrator</b></td><td>Sequence the agents, retry failures, enforce rules, log every step.</td><td>Supervisor</td><td>A rule is breached or an action can't complete safely.</td></tr>
 </table>
 <p class="note">Roster shown at specification level. Exact tool bindings, model versions and concurrency are set during the funded build. <span class="tc">to confirm</span></p>
 
@@ -1219,7 +1222,7 @@ td b{color:var(--purple)}
 </ul>
 
 <h2>Grounding (RAG)</h2>
-<p>The drafter uses <b>retrieval-augmented generation</b>: the model may only use facts fetched from real documents, not its own memory, and every claim must point to a source. An ungrounded claim is not publishable. Grounding adds a small processing step and keeps every statement traceable to a source.</p>
+<p>The drafting agent uses <b>retrieval-augmented generation</b>: the model may only use facts fetched from real documents, not its own memory, and every claim must point to a source. An ungrounded claim is not publishable. Grounding adds a small processing step and keeps every statement traceable to a source.</p>
 <div class="note"><b>Why this matters:</b> it is the main defence against a confident-sounding but invented statement. If a sentence in a brief has no source behind it, the platform treats it as not yet true.</div>
 
 <h2>The source universe in brief</h2>
@@ -2256,12 +2259,15 @@ function openHowWorks(){
     <div class="hw-row"><b>Level C, early</b><span>Earliest sightings, never trusted alone. Trade press, vendor announcements, expert blogs. Must be confirmed by a Level A or B source before it counts.</span></div>
    </div>
    <div class="hw-sec hw-screens"><h4>How signals are found (designed)</h4>
-    <div class="hw-note2">In the built version, five agents do the routine work within fixed limits, with every action logged. An agent is a program that does a set task on its own, not one that uses judgement.</div>
-    <div class="hw-row"><b>Scanner</b><span>Watches the approved sources for anything new or changed. Read-only, never alters a source.</span></div>
+    <div class="hw-note2">In the built version, eight agents do the routine work within fixed limits, with every action logged. An agent is a program that does a set task on its own, not one that uses judgement. Five run on their own, two draft and alert but always pass a person, and one supervises the rest.</div>
+    <div class="hw-row"><b>Monitoring</b><span>Watches the approved sources for anything new or changed. Read-only, never alters a source.</span></div>
+    <div class="hw-row"><b>Extraction &amp; tagging</b><span>Pulls out facts, figures and the owning committee, and links each item to the right committees.</span></div>
     <div class="hw-row"><b>Triage</b><span>Groups duplicates, tags by lens and sub-topic, attaches sources, flags how new and how fast-moving.</span></div>
-    <div class="hw-row"><b>Extractor</b><span>Pulls out facts, figures and the owning committee, keeping a link to the source.</span></div>
-    <div class="hw-row"><b>Drafter</b><span>Writes summaries and briefs from fetched evidence only, and always hands the draft to a person.</span></div>
-    <div class="hw-row"><b>Watcher</b><span>Keeps tracking published signals and flags when one changes.</span></div>
+    <div class="hw-row"><b>Cross-check</b><span>Compares sources against each other and flags anything single-source or contradictory.</span></div>
+    <div class="hw-row"><b>Routing</b><span>Sends each signal to the right analyst or committee queue.</span></div>
+    <div class="hw-row"><b>Drafting</b><span>Writes summaries and briefs from fetched evidence only, and always hands the draft to a person.</span></div>
+    <div class="hw-row"><b>Alerting</b><span>Raises alerts and the weekly digest; high-impact ones pass a person first.</span></div>
+    <div class="hw-row"><b>Orchestrator</b><span>Sequences the agents, retries failures, enforces the rules and logs every step.</span></div>
     <div class="hw-row"><b>The no-invention rule</b><span>The software may only use facts it has fetched from a real document, and every claim must point to a source. No source, not publishable.</span></div>
    </div>
    <div class="hw-sec hw-screens"><h4>The screens, one by one</h4>
