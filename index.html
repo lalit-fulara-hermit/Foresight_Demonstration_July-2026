@@ -523,7 +523,7 @@ svg.graph{width:100%;height:auto;max-height:min(70vh,520px);display:block;margin
 .fnd-head{margin-bottom:12px}
 .fnd-eyebrow{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--magenta);font-weight:700}
 .fnd-head .fnd-h{margin:4px 0 0;font-size:15.5px;color:var(--purple);font-weight:800;letter-spacing:-.01em}
-.fnd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:start}
+.fnd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:stretch}
 .fnd-card{position:relative;border:1px solid var(--line);border-radius:12px;background:linear-gradient(160deg,#faf7fc,#f3edf8);overflow:hidden}
 .fnd-sum{list-style:none;cursor:pointer;padding:14px;display:block;position:relative;transition:background .15s}
 .fnd-sum::-webkit-details-marker{display:none}
@@ -942,6 +942,16 @@ const FACETMAP={
 };
 /* ---- terms shown with a hover definition on first appearance ---- */
 const TERMS={
+"reputable commentary":"Considered analysis from a credentialed expert or established outlet, not unattributed opinion. A Tier C source: useful early, never validated on its own.",
+"specialist press":"Industry trade publications. Tier C: an early indicator that must be corroborated by a Tier A or B source before it is validated.",
+"trade press":"Industry trade publications. Tier C: an early indicator only, never trusted alone.",
+"vendor announcements":"A company's own statements about its products. Tier C: useful as an early signal, never trusted alone.",
+"independent sources":"Sources that do not share an origin. Several outlets reprinting one release count as a single source, not many.",
+"primary source":"The originating record: a standard, regulation, patent or filing. A Tier A source, trusted directly.",
+"system committee":"An IEC body (SyC) that coordinates standards across several technical committees for a whole system, such as Smart Energy.",
+"technical committee":"An IEC body (TC) that develops standards for a defined field.",
+"subcommittee":"A subdivision (SC) of an IEC technical committee focused on a narrower area.",
+"conformity assessment":"Checking and certifying that products meet standards. IEC runs schemes such as IECEE, IECEx and IECRE.",
  "TRL":"Technology Readiness Level — a 1 to 9 scale of how proven a technology is",
  "GaN":"Gallium nitride — a wide-bandgap semiconductor that switches faster with less loss than silicon",
  "SiC":"Silicon carbide — a wide-bandgap semiconductor for high-power, high-temperature use",
@@ -1840,7 +1850,35 @@ td b{color:var(--purple)}
 </div></body></html>`
 };
 function docCallout(file,title,desc){return `<a class="doccallout" data-action="opendoc" data-doc="${file}" style="cursor:pointer"><span class="dc-ic"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5"/></svg></span><span class="dc-tx"><span class="dc-k">Full document</span><span class="dc-t">${title}</span><span class="dc-d">${desc}</span></span><span class="dc-go">Open →</span></a>`}
-function openDoc(file){const html=DOCS[file];if(!html)return;const ov=el("#docOverlay");ov.innerHTML='<div class="docov-card"><button class="docov-close" data-action="closeDoc" title="Close">\u2715</button><iframe title="Foresight document" sandbox="allow-same-origin"></iframe></div>';ov.classList.add("show");ov.querySelector("iframe").srcdoc=html}
+function openDoc(file){const html=DOCS[file];if(!html)return;const ov=el("#docOverlay");ov.innerHTML='<div class="docov-card"><button class="docov-close" data-action="closeDoc" title="Close">\u2715</button><iframe title="Foresight document" sandbox="allow-same-origin"></iframe></div>';ov.classList.add("show");const f=ov.querySelector("iframe");f.onload=function(){decorateIframe(f)};f.srcdoc=html}
+
+function decorateIframe(f){try{
+ const d=f.contentDocument;if(!d||!d.body||d.getElementById('gltip'))return;
+ const st=d.createElement('style');
+ st.textContent=".gl{cursor:help;border-bottom:1px dotted #e0044e}#gltip{position:fixed;z-index:99999;max-width:260px;background:#1c1024;color:#efe6f3;font-size:11.5px;line-height:1.5;padding:9px 11px;border-radius:9px;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:opacity .12s;font-family:inherit}#gltip.show{opacity:1;visibility:visible}#gltip b{color:#f4c9d9;display:block;margin-bottom:2px}";
+ d.head.appendChild(st);
+ const tip=d.createElement('div');tip.id='gltip';d.body.appendChild(tip);
+ const terms=Object.keys(TERMS).sort((a,b)=>b.length-a.length);
+ const walker=d.createTreeWalker(d.body,NodeFilter.SHOW_TEXT,{acceptNode(n){
+  if(!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;
+  let p=n.parentNode;while(p&&p!==d.body){const t=p.nodeName.toLowerCase();
+   if(t==='script'||t==='style'||t==='a'||t==='h1'||t==='code')return NodeFilter.FILTER_REJECT;
+   if(p.classList&&p.classList.contains('gl'))return NodeFilter.FILTER_REJECT;
+   p=p.parentNode}return NodeFilter.FILTER_ACCEPT}});
+ const nodes=[];let nn;while(nn=walker.nextNode())nodes.push(nn);
+ for(const term of terms){const esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');const re=new RegExp('(^|[^\\w-])('+esc+')(?![\\w-])','i');
+  for(let k=0;k<nodes.length;k++){const no=nodes[k];if(!no||!no.parentNode)continue;const mm=re.exec(no.nodeValue);if(!mm)continue;
+   const idx=mm.index+mm[1].length;const after=no.splitText(idx);after.splitText(term.length);
+   const span=d.createElement('span');span.className='gl';span.dataset.term=term;span.textContent=after.nodeValue;
+   after.parentNode.replaceChild(span,after);nodes[k]=null;}}
+ const show=el=>{const def=TERMS[el.dataset.term];if(!def)return;tip.innerHTML='';const b=d.createElement('b');b.textContent=el.dataset.term;tip.appendChild(b);tip.appendChild(d.createTextNode(def));tip.classList.add('show');
+  const r=el.getBoundingClientRect();tip.style.left='0';tip.style.top='0';const tw=tip.offsetWidth,th=tip.offsetHeight;const W=d.documentElement.clientWidth;let x=r.left,y=r.top-th-8;
+  if(x+tw>W-8)x=W-8-tw;if(x<8)x=8;if(y<8)y=r.bottom+8;tip.style.left=x+'px';tip.style.top=y+'px';};
+ const hide=()=>tip.classList.remove('show');
+ d.addEventListener('mouseover',e=>{const g=e.target.closest&&e.target.closest('.gl');if(g)show(g)});
+ d.addEventListener('mouseout',e=>{const g=e.target.closest&&e.target.closest('.gl');if(g)hide()});
+ d.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('.gl');if(g)show(g);else hide()});
+}catch(e){}}
 function closeDoc(){const ov=el("#docOverlay");ov.classList.remove("show");ov.innerHTML=""}
 function tabDoc(t){const m={loop:['operating-loop-architecture.html','Operating Loop Architecture','The full six-stage loop \u2014 scan, structure, validate, decide, publish, monitor \u2014 with data flows, agent handoffs and the human gate at each step.'],agentic:['agents-and-automation.html','Agents & Automation Specification','Every agent, its tools and autonomy, the guardrails, the grounding rule, and the source universe it is allowed to read.'],method:['classification-method.html','Signal Classification Method','The questions, the three labels, label boundaries, the override log, and how horizon bands are derived. No scoring.'],human:['human-supervision-and-raci.html','Human Supervision & Accountability','The three supervision tiers, the RACI map, override-rate monitoring, and what must always pass a named person.'],controls:['controls-and-risk.html','Controls & Risk Register','Each control, the full risk register with mitigations, and the items still marked to confirm.'],kpi:['kpis-and-glossary.html','KPIs, Definitions & Glossary','How each KPI is defined and measured, plus the full glossary of terms and abbreviations.']};const d=m[t]||m.loop;return docCallout(d[0],d[1],d[2])}
 function av(id,cls){const m=member(id);return '<span class="'+(cls||'miniav')+'" style="background:'+m.color+'" title="'+m.name+'">'+m.initials+'</span>'}
@@ -2537,7 +2575,7 @@ function glHide(){glTip.classList.remove('show');}
 document.addEventListener('mouseover',e=>{const g=e.target.closest&&e.target.closest('.gl');if(g)glShow(g);});
 document.addEventListener('mouseout',e=>{const g=e.target.closest&&e.target.closest('.gl');if(g)glHide();});
 document.addEventListener('focusin',e=>{const g=e.target.closest&&e.target.closest('.gl');if(g)glShow(g);});
-document.addEventListener('focusout',glHide);
+document.addEventListener('focusout',glHide);document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('.gl');if(g){glShow(g)}else{glHide()}});
 document.addEventListener('scroll',glHide,true);
 let glObserver=null;
 function startGlossary(){const root=el("#main");
