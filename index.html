@@ -523,7 +523,7 @@ svg.graph{width:100%;height:auto;max-height:min(70vh,520px);display:block;margin
 .fnd-head{margin-bottom:12px}
 .fnd-eyebrow{font-family:var(--fm);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--magenta);font-weight:700}
 .fnd-head .fnd-h{margin:4px 0 0;font-size:15.5px;color:var(--purple);font-weight:800;letter-spacing:-.01em}
-.fnd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:stretch}
+.fnd-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:stretch}
 .fnd-card{position:relative;border:1px solid var(--line);border-radius:12px;background:linear-gradient(160deg,#faf7fc,#f3edf8);overflow:hidden}
 .fnd-sum{list-style:none;cursor:pointer;padding:14px;display:block;position:relative;transition:background .15s}
 .fnd-sum::-webkit-details-marker{display:none}
@@ -540,6 +540,9 @@ details[open] .fnd-chev{transform:rotate(180deg);color:var(--magenta)}
 .fnd-open{font-family:var(--fm);font-size:10.5px;font-weight:700;color:var(--magenta);cursor:pointer;text-decoration:none}
 .fnd-open:hover{text-decoration:underline}
 .fnd-hint{font-size:11px;color:var(--muted);margin-top:3px}
+.fnd-cont{border-color:#e9b9cd}
+.fnd-cont .fnd-ic{background:var(--magenta)}
+.fnd-cont .fnd-n{color:var(--magenta)}
 .creg-row{display:flex;align-items:baseline;gap:12px;padding:7px 0;border-bottom:1px solid var(--mist)}
 .creg-row:last-child{border-bottom:0}
 .creg-code{font-family:var(--fm);font-size:11.5px;font-weight:700;color:var(--purple);min-width:96px;flex:none}
@@ -572,6 +575,7 @@ details[open] .fnd-chev{transform:rotate(180deg);color:var(--magenta)}
 .fnd-mini .fm-chip:hover{color:var(--magenta);border-color:var(--magenta)}
 .fnd-mini svg{width:15px;height:15px;stroke:var(--muted);fill:none;stroke-width:2;flex:none}
 .fnd-mini .fm-run{color:var(--muted)}
+@media(max-width:1000px){.fnd-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:820px){.fnd-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.fnd-grid{grid-template-columns:1fr}}
 </style>
@@ -832,16 +836,19 @@ const FOUNDATIONS=[
    ["1. Is it new?","2. Is it moving?","3. Who else says so?","4. How proven is it? (TRL 1 to 9)","5. How far does it reach?","Result: weak \u00b7 building \u00b7 established"]],
  ["04","Governance","Who validates each signal and who signs it off.","RACI \u00b7 human sign-off","op","human",'<path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/>',
    "Software proposes; a named person decides. Nothing publishes without sign-off.",
-   ["Three supervision tiers: analyst, editor, Board","A RACI map on every step","Override rate monitored both ways","No external publishing without a human"]]
+   ["Three supervision tiers: analyst, editor, Board","A RACI map on every step","Override rate monitored both ways","No external publishing without a human"]],
+ ["05","Learning","How the system re-feeds and re-tests itself to keep improving.","Continuous \u00b7 MLOps","op","loop",'<path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/>',
+  "Unlike the four above, this one never stops. Every analyst decision is fed back and re-tested so the system gets more accurate the longer it runs.",
+  ["Every accept or override is logged as ground truth","Tested by analyst-agreement rate per domain, over time","Drift watched: new categories, sources and embeddings","Low-agreement items route to a human by design","The growing decision record is what earns fine-tuning later"]]
 ];
 function fndAttr(f){return f[4]==="view"?'data-action="view" data-view="'+f[5]+'"':f[4]==="opendoc"?'data-action="opendoc" data-doc="'+f[5]+'"':'data-action="op" data-tab="'+f[5]+'"'}
-function fndLink(f){return f[4]==="view"?"Open the sector map":f[4]==="opendoc"?"Open the Source Universe":(f[5]==="method"?"Open the classification method":"Open human supervision")}
+function fndLink(f){return f[4]==="view"?"Open the sector map":f[4]==="opendoc"?"Open the Source Universe":(f[5]==="method"?"Open the classification method":f[5]==="human"?"Open human supervision":"Open the operating loop")}
 function foundationsBand(){
  const cards=FOUNDATIONS.map((f,i)=>{
   const lines=f[8].map(l=>`<li>${l}</li>`).join("");
-  return `<details class="fnd-card"><summary class="fnd-sum"><span class="fnd-n">${f[0]}</span><span class="fnd-ic"><svg viewBox="0 0 24 24">${f[6]}</svg></span><div class="fnd-t">${f[1]}</div><div class="fnd-d">${f[2]}</div><div class="fnd-meta">${f[3]}</div><span class="fnd-chev"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="fnd-exp"><div class="fnd-lead">${f[7]}</div><ul class="fnd-lines">${lines}</ul><a class="fnd-open" data-action="fndopen" data-i="${i}">${fndLink(f)} \u2192</a></div></details>`;
+  return `<details class="fnd-card${f[0]==='05'?' fnd-cont':''}"><summary class="fnd-sum"><span class="fnd-n">${f[0]}</span><span class="fnd-ic"><svg viewBox="0 0 24 24">${f[6]}</svg></span><div class="fnd-t">${f[1]}</div><div class="fnd-d">${f[2]}</div><div class="fnd-meta">${f[3]}</div><span class="fnd-chev"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></summary><div class="fnd-exp"><div class="fnd-lead">${f[7]}</div><ul class="fnd-lines">${lines}</ul><a class="fnd-open" data-action="fndopen" data-i="${i}">${fndLink(f)} \u2192</a></div></details>`;
  }).join("");
- return `<div class="fnd"><div class="fnd-head"><span class="fnd-eyebrow">Set once \u00b7 zero to one</span><div class="fnd-h">The foundations, decided before anything is watched</div><div class="fnd-hint">Tap any card for the detail, or open its full screen.</div></div><div class="fnd-grid">${cards}</div><div class="fnd-arrow"><span class="ln"></span><b>Once these are set, the loop runs continuously</b><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg><span class="ln"></span></div></div>`;
+ return `<div class="fnd"><div class="fnd-head"><span class="fnd-eyebrow">The foundations of the work</span><div class="fnd-h">Five foundations, four set once and one that never stops</div><div class="fnd-hint">Tap any card for the detail, or open its full screen.</div></div><div class="fnd-grid">${cards}</div><div class="fnd-arrow"><span class="ln"></span><b>The first four are set once; the fifth, learning, never stops</b><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg><span class="ln"></span></div></div>`;
 }
 function foundationsMini(){
  return `<div class="fnd-mini"><span class="fm-lbl">Set once</span>${FOUNDATIONS.map(f=>`<a class="fm-chip" ${fndAttr(f)}>${f[1]}</a>`).join("")}<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="fm-run">then the loop runs continuously</span></div>`;
@@ -947,6 +954,34 @@ const FACETMAP={
 };
 /* ---- terms shown with a hover definition on first appearance ---- */
 const TERMS={
+"Maturity":"How proven a signal is, on the TRL scale of 1 to 9. Read from the evidence, then analyst-confirmed, and kept separate from how important it is.",
+"maturity":"How proven a signal is, on the TRL scale of 1 to 9. Read from the evidence, then analyst-confirmed, and kept separate from how important it is.",
+"PEM":"Proton-exchange membrane: a type of electrolyser or fuel cell that uses a solid polymer electrolyte.",
+"HTS":"High-temperature superconductor: a material that carries current with no resistance at relatively higher (though still very cold) temperatures.",
+"superconducting":"Carrying electric current with zero resistance below a critical temperature.",
+"superconductivity":"Carrying electric current with zero resistance below a critical temperature.",
+"MicroLED":"A display technology using microscopic LEDs for brighter, more efficient screens.",
+"Li-Fi":"Light Fidelity: high-speed data transmission using light instead of radio waves.",
+"UHV":"Ultra-high voltage: transmission above roughly 800 kV, for very long-distance bulk power.",
+"DC":"Direct current: electricity flowing in one direction, as in batteries, solar and HVDC links.",
+"PV":"Photovoltaic: converting sunlight directly into electricity, as in solar panels.",
+"EV":"Electric vehicle: a road vehicle or truck driven by an electric motor and battery.",
+"OT":"Operational technology: the systems that run industrial equipment, distinct from IT.",
+"AGVs":"Automated guided vehicles: driverless industrial vehicles used in factories and warehouses.",
+"microgrids":"Local grids that can run connected to the main grid or independently (islanded).",
+"Functional-safety":"Designing systems so failures do not cause harm; governed by standards such as IEC 61508.",
+"functional safety":"Designing systems so failures do not cause harm; governed by standards such as IEC 61508.",
+"Active-assisted-living":"Technology that helps older or less-able people live independently at home.",
+"active assisted living":"Technology that helps older or less-able people live independently at home.",
+"Critical-minerals":"Raw materials essential to electrotechnology, such as rare earths, whose supply is strategically at risk.",
+"critical minerals":"Raw materials essential to electrotechnology, such as rare earths, whose supply is strategically at risk.",
+"Ex-rated":"Equipment certified safe for use in explosive atmospheres, such as around hydrogen or flammable gases.",
+"SyC":"System committee: an IEC body coordinating standards across several technical committees for a whole system.",
+"tandem solar":"A solar cell stacking two light-absorbing layers, such as perovskite on silicon, to capture more of the spectrum.",
+"long-duration":"Energy storage that discharges over many hours or days, beyond typical lithium-ion batteries.",
+"shore-power":"Supplying ships at berth with grid electricity so they can switch off their engines.",
+"Matter":"A smart-home connectivity standard for interoperability across devices and brands.",
+"Thread":"A low-power wireless mesh networking protocol for smart-home and IoT devices.",
 "Generation & renewables":"How electricity is generated: solar, wind, marine, hydro, fuel cells and solar-thermal, and how they connect to the grid.",
 "Transmission, distribution & grid":"Moving and managing power: HVDC and UHV lines, transformers, switchgear, system operation and grid data.",
 "Power electronics & semiconductors":"The devices that convert and control power: converters, drives, UPS and wide-bandgap semiconductors.",
@@ -2259,6 +2294,15 @@ V.howitworks=()=>{
  let body="";
  if(t==="loop"){body=`${foundationsBand(true)}<span class="run-eyebrow">Runs continuously \u00b7 who does the work, step by step</span><div class="actors">${ACTORS.map(a=>`<div class="actor"><div class="at" style="background:${a.c}">${a.n}<small>${a.s}</small></div><div class="ab">${a.is}<div class="lbl">Does</div><ul>${a.does.map(d=>`<li>${d}</li>`).join("")}</ul><div class="lbl">Never</div><ul>${a.not.map(d=>`<li>${d}</li>`).join("")}</ul></div></div>`).join("")}</div>
   <div class="flow6">${LOOP.map(l=>`<div class="fstep"><div class="n">${l.n}</div><h5>${l.t}</h5><p>${l.p}</p><div class="who">${l.w}</div></div>`).join("")}</div>
+  <div class="card" style="margin-top:18px"><h3>How the loop learns \u00b7 continuous improvement</h3><div class="pad">
+   <div class="srcnote" style="padding:0 0 8px">The loop does not just run, it improves. Software proposes, people decide, and every decision is fed back so the next one is better. This is the fifth foundation, and unlike the other four it never stops.</div>
+   <div class="mech"><b>Re-feed</b><div>Every analyst accept or override is logged with its evidence, building a growing, proprietary record of validated signals.</div></div>
+   <div class="mech"><b>Test</b><div>With no external ground truth, the system is measured by how often the model's proposal matches the analyst's decision, tracked per domain and over time. Falling agreement flags a problem.</div></div>
+   <div class="mech"><b>Watch for drift</b><div>Source formats change, new technology categories appear and embeddings age. These are monitored, and the models are re-embedded and re-prompted on a cadence.</div></div>
+   <div class="mech"><b>Fail safe</b><div>Low-agreement or low-confidence items route to a human automatically, so the system degrades toward more human review, never toward silent error.</div></div>
+   <div class="mech"><b>Improve</b><div>The accumulating decision record is the moat: it earns the right to fine-tune the models later, and it makes the tool more defensible the longer it runs.</div></div>
+   <div class="srcnote">Designed, not yet live: today the tool runs on ${SIGNALS.length} curated signals, so the learning loop is specified but not switched on. It starts when live scanning and human validation begin, as part of the funded build.</div>
+  </div></div>
   ${rn('<b>Automation with oversight:</b> agents handle the routine steps between stages, which speeds the work but concentrates risk, since an automated step can act quickly and at scale. Logging, action limits and human review at each gate keep that in check.')}`}
  else if(t==="agentic"){
   const OPMETA=[
