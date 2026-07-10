@@ -558,6 +558,9 @@ details[open] .fnd-chev{transform:rotate(180deg);color:var(--magenta)}
 .msr-tag.estimate{background:#fdeaf1;color:var(--magenta)}
 .msr-d{font-size:12.2px;color:#3c2944;line-height:1.5}
 .msr-src{font-family:var(--fm);font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4}
+.fctlist{margin-top:7px}
+.fctd{font-size:11.6px;color:#4a3753;line-height:1.4;padding:2px 0 2px 12px;border-left:2px solid var(--mist)}
+.fctd b{color:var(--purple);font-weight:700;margin-right:5px}
 .fnd-n{position:absolute;top:12px;right:13px;font-family:var(--fm);font-size:10px;font-weight:700;color:#c9b3d6}
 .fnd-ic{width:34px;height:34px;border-radius:9px;background:var(--purple);display:flex;align-items:center;justify-content:center;margin-bottom:9px}
 .fnd-ic svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
@@ -954,6 +957,31 @@ const FACETMAP={
 };
 /* ---- terms shown with a hover definition on first appearance ---- */
 const TERMS={
+"Technology lens":"Signals about the technology itself: a capability advancing, a device, material or method maturing.",
+"Market lens":"Signals about commercial forces: demand, investment, supply, deployment and competition.",
+"Regulatory lens":"Signals about rules changing: standards, safety, cyber, environment and spectrum.",
+"Geopolitical lens":"Signals about cross-border dynamics: materials, trade controls, industrial policy and sovereignty.",
+"Demand":"Market pull: who wants the technology and how fast demand is growing.",
+"Supply & mfg":"The supply side: manufacturing capacity, gigafactories and supply-chain shifts.",
+"Deployment":"Roll-out and infrastructure: how and where the technology is actually installed.",
+"Investment":"Capital flows: funding, subsidies and where money is being put to work.",
+"Competition":"Rivalry and consolidation: which players and platforms contend to set the pattern.",
+"Generation":"How electricity is produced: solar, wind, marine, hydro and other sources.",
+"Power elec.":"Power electronics: the devices that convert and control electrical power.",
+"Grids":"Transmission and distribution: moving and managing power across the network.",
+"Storage":"Storing energy: batteries and other grid- and device-scale storage.",
+"Automation & AI":"Control, automation and AI applied to electrotechnical systems.",
+"Standards":"Technical standards opening, revising or being adopted.",
+"Safety":"Product and functional-safety requirements.",
+"Cyber & AI gov":"Cybersecurity and AI-governance rules for connected and intelligent systems.",
+"Environment":"Environmental and eco-design requirements.",
+"EMC & spectrum":"Electromagnetic compatibility and radio-spectrum rules.",
+"Materials":"Critical-materials supply: rare earths and other strategically scarce inputs.",
+"Trade controls":"Export controls, tariffs and trade restrictions affecting the sector.",
+"Industrial policy":"Government strategy and subsidy to build domestic capability.",
+"Sovereignty":"National control over strategic technology, data and infrastructure.",
+"In standards":"The mature band: technology settled and reflected in standards work.",
+"Building":"The middle band: a signal gaining corroboration and maturity, not yet settled.",
 "Maturity":"How proven a signal is, on the TRL scale of 1 to 9. Read from the evidence, then analyst-confirmed, and kept separate from how important it is.",
 "maturity":"How proven a signal is, on the TRL scale of 1 to 9. Read from the evidence, then analyst-confirmed, and kept separate from how important it is.",
 "PEM":"Proton-exchange membrane: a type of electrolyser or fuel cell that uses a solid polymer electrolyte.",
@@ -2026,10 +2054,10 @@ function radarSVG(cx,cy){const R=252,G=radarGeom(cx,cy);
  if(!G.single){divs='<line x1="'+cx+'" y1="'+(cy-R)+'" x2="'+cx+'" y2="'+(cy+R)+'" stroke="#e4e0ea"/><line x1="'+(cx-R)+'" y1="'+cy+'" x2="'+(cx+R)+'" y2="'+cy+'" stroke="#e4e0ea"/>'}
  else{divs=G.dividers.map(a=>{const p=G.toXY(a,R);return '<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="#e4e0ea" stroke-width="1"/>'}).join("")}
  const rlab=state.radarRings==="hz"?["Now \u2013 2 yrs","~3 \u2013 4 yrs","5 yrs +"]:["In standards","Building","Weak signal"];
- let rl="";for(let i=0;i<3;i++){const rr=R*(i+0.5)/3;rl+='<text class="rl" x="'+(cx+7)+'" y="'+(cy-rr+4)+'">'+rlab[i]+'</text>'}
+ let rl="";for(let i=0;i<3;i++){const rr=R*(i+0.5)/3;rl+='<text class="rl gl" data-term="'+rlab[i]+'" x="'+(cx+7)+'" y="'+(cy-rr+4)+'">'+rlab[i]+'</text>'}
  let labels;
- if(!G.single){labels='<text class="ql" x="'+(cx+R-6)+'" y="'+(cy-R+22)+'" text-anchor="end">Technology</text><text class="ql" x="'+(cx+R-6)+'" y="'+(cy+R-8)+'" text-anchor="end">Market</text><text class="ql" x="'+(cx-R+6)+'" y="'+(cy+R-8)+'">Regulatory</text><text class="ql" x="'+(cx-R+6)+'" y="'+(cy-R+22)+'">Geopolitical</text>'}
- else{labels=G.flabels.map(f=>{const p=G.toXY(f.ang,R+16);const c=Math.cos(f.ang*Math.PI/180);const an=Math.abs(c)<0.35?'middle':(c>0?'start':'end');return '<text class="fl" x="'+p[0].toFixed(1)+'" y="'+(p[1]+3).toFixed(1)+'" text-anchor="'+an+'">'+f.label.toUpperCase()+'</text>'}).join("")}
+ if(!G.single){labels='<text class="ql gl" data-term="Technology lens" x="'+(cx+R-6)+'" y="'+(cy-R+22)+'" text-anchor="end">Technology</text><text class="ql gl" data-term="Market lens" x="'+(cx+R-6)+'" y="'+(cy+R-8)+'" text-anchor="end">Market</text><text class="ql gl" data-term="Regulatory lens" x="'+(cx-R+6)+'" y="'+(cy+R-8)+'">Regulatory</text><text class="ql gl" data-term="Geopolitical lens" x="'+(cx-R+6)+'" y="'+(cy-R+22)+'">Geopolitical</text>'}
+ else{labels=G.flabels.map(f=>{const p=G.toXY(f.ang,R+16);const c=Math.cos(f.ang*Math.PI/180);const an=Math.abs(c)<0.35?'middle':(c>0?'start':'end');return '<text class="fl gl" data-term="'+(f.term||f.label)+'" x="'+p[0].toFixed(1)+'" y="'+(p[1]+3).toFixed(1)+'" text-anchor="'+an+'">'+f.label.toUpperCase()+'</text>'}).join("")}
  const dots=G.list.map(s=>{const p=G.pos[s.id];if(!p)return"";return '<circle class="dot '+(s.new?'sig':'')+'" data-action="signal" data-id="'+s.id+'" cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="'+(4+s.imp*1.5).toFixed(1)+'" fill="'+MOM[s.mom]+'" stroke="#fff" stroke-width="1.2"><title>'+s.t+' \u00b7 '+CLSLABEL[s.cls]+' \u00b7 impact '+s.imp+'</title></circle>'}).join("");
  const pad=G.single?104:18;
  return '<svg class="radar" viewBox="'+(-pad)+' '+(-pad)+' '+(cx*2+pad*2)+' '+(cy*2+pad*2)+'" role="img" aria-label="Horizon radar">'+rings+divs+rl+labels+dots+'<circle cx="'+cx+'" cy="'+cy+'" r="2.5" fill="#c9bcd2"/></svg>'}
@@ -2350,10 +2378,10 @@ V.howitworks=()=>{
    ["Confidence","How sure is the reading?","How much to trust the reading itself: higher when sources are strong-tier and agree, lower when evidence is thin, single-tier or contradictory. An established label needs high confidence.","Live: from source quality and agreement. Prototype: an analyst-set percentage.","Analyst-set","estimate"]
   ];
   const lensCard=`<div class="card"><h3>Placing the signal: which lens, and which facet</h3><div class="pad"><div class="srcnote" style="padding:0 0 8px">A signal is classified on two axes. First it is placed: which of the four lenses it sits under, and which facet within that lens. Then it is assessed with the weak, building or established label. This section covers placing; the questions below cover assessing.</div>
-<div class="msr"><div class="msr-h"><span class="msr-n">Technology</span><span class="msr-q">Can something now be done, or done better?</span></div><div class="msr-d">A capability advancing: a device, material, method or architecture maturing.</div><div class="msr-src">Facets: ${FACETS.tech.map(f=>f.short).join(", ")}.</div></div>
-<div class="msr"><div class="msr-h"><span class="msr-n">Market</span><span class="msr-q">Is it about money, demand, supply or competition?</span></div><div class="msr-d">A commercial force shifting: demand, investment, manufacturing, deployment or rivalry.</div><div class="msr-src">Facets: ${FACETS.market.map(f=>f.short).join(", ")}.</div></div>
-<div class="msr"><div class="msr-h"><span class="msr-n">Regulatory</span><span class="msr-q">Is a rule, standard or requirement changing?</span></div><div class="msr-d">A standard opening or revising, or a safety, cyber or environmental duty changing.</div><div class="msr-src">Facets: ${FACETS.reg.map(f=>f.short).join(", ")}.</div></div>
-<div class="msr"><div class="msr-h"><span class="msr-n">Geopolitical</span><span class="msr-q">Is it about trade, materials, borders or national policy?</span></div><div class="msr-d">A cross-border or strategic dynamic: trade controls, critical materials, sovereignty.</div><div class="msr-src">Facets: ${FACETS.geo.map(f=>f.short).join(", ")}.</div></div>
+<div class="msr"><div class="msr-h"><span class="msr-n">Technology</span><span class="msr-q">Can something now be done, or done better?</span></div><div class="msr-d">A capability advancing: a device, material, method or architecture maturing.</div><div class="fctlist">${FACETS.tech.map(f=>'<div class="fctd"><b>'+f.short+'</b> '+(TERMS[f.short]||'')+'</div>').join('')}</div></div>
+<div class="msr"><div class="msr-h"><span class="msr-n">Market</span><span class="msr-q">Is it about money, demand, supply or competition?</span></div><div class="msr-d">A commercial force shifting: demand, investment, manufacturing, deployment or rivalry.</div><div class="fctlist">${FACETS.market.map(f=>'<div class="fctd"><b>'+f.short+'</b> '+(TERMS[f.short]||'')+'</div>').join('')}</div></div>
+<div class="msr"><div class="msr-h"><span class="msr-n">Regulatory</span><span class="msr-q">Is a rule, standard or requirement changing?</span></div><div class="msr-d">A standard opening or revising, or a safety, cyber or environmental duty changing.</div><div class="fctlist">${FACETS.reg.map(f=>'<div class="fctd"><b>'+f.short+'</b> '+(TERMS[f.short]||'')+'</div>').join('')}</div></div>
+<div class="msr"><div class="msr-h"><span class="msr-n">Geopolitical</span><span class="msr-q">Is it about trade, materials, borders or national policy?</span></div><div class="msr-d">A cross-border or strategic dynamic: trade controls, critical materials, sovereignty.</div><div class="fctlist">${FACETS.geo.map(f=>'<div class="fctd"><b>'+f.short+'</b> '+(TERMS[f.short]||'')+'</div>').join('')}</div></div>
 <div class="drv" style="margin-top:8px"><b>The rule.</b> A development often touches more than one lens. It is placed under the one that is its primary driver, the thing that is actually changing, and the analyst records the call. Like the label, the placement can be challenged.</div>
 <div class="drv"><b>Worked example.</b> "Active-assisted-living platforms gain standards" reads at first like Regulatory, but what is driving it is a maturing market with vendors competing to set the pattern, so it is placed under Market, Competition; the standards follow the market. A different analyst might argue Regulatory, which is exactly the kind of call the Board can review.</div>
 <div class="srcnote">In the live build the extraction agent proposes the lens and facet from the content and an analyst confirms. In this prototype both are analyst-set.</div>
