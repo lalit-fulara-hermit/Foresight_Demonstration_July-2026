@@ -992,6 +992,7 @@ const TERMS={
  "provenance":"The traceable record of where a fact came from",
  "NWIP":"New Work Item Proposal \u2014 how new IEC standards work begins",
 };
+Object.keys(COMM).forEach(function(k){var v=COMM[k];var i=v.indexOf(" · ");if(i>0){var code=v.slice(0,i),scope=v.slice(i+3);if(!TERMS[code])TERMS[code]=scope}});
 
 /* ================= METHOD (mechanisms) ================= */
 const RUBRIC=[
@@ -1867,10 +1868,11 @@ function decorateIframe(f){try{
    p=p.parentNode}return NodeFilter.FILTER_ACCEPT}});
  const nodes=[];let nn;while(nn=walker.nextNode())nodes.push(nn);
  for(const term of terms){const esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');const re=new RegExp('(^|[^\\w-])('+esc+')(?![\\w-])','i');
-  for(let k=0;k<nodes.length;k++){const no=nodes[k];if(!no||!no.parentNode)continue;const mm=re.exec(no.nodeValue);if(!mm)continue;
-   const idx=mm.index+mm[1].length;const after=no.splitText(idx);after.splitText(term.length);
-   const span=d.createElement('span');span.className='gl';span.dataset.term=term;span.textContent=after.nodeValue;
-   after.parentNode.replaceChild(span,after);nodes[k]=null;}}
+  for(let k=0;k<nodes.length;k++){const node=nodes[k];if(!node||!node.parentNode)continue;const mm=node.nodeValue.match(re);if(!mm)continue;
+   const idx=mm.index+mm[1].length;const before=node.nodeValue.slice(0,idx);const aft=node.nodeValue.slice(idx+term.length);
+   const span=d.createElement('span');span.className='gl';span.dataset.term=term;span.textContent=term;
+   const bn=d.createTextNode(before),an=d.createTextNode(aft);const frag=d.createDocumentFragment();frag.appendChild(bn);frag.appendChild(span);frag.appendChild(an);
+   node.parentNode.replaceChild(frag,node);nodes.splice(k,1,bn,an);}}
  const show=el=>{const def=TERMS[el.dataset.term];if(!def)return;tip.innerHTML='';const b=d.createElement('b');b.textContent=el.dataset.term;tip.appendChild(b);tip.appendChild(d.createTextNode(def));tip.classList.add('show');
   const r=el.getBoundingClientRect();tip.style.left='0';tip.style.top='0';const tw=tip.offsetWidth,th=tip.offsetHeight;const W=d.documentElement.clientWidth;let x=r.left,y=r.top-th-8;
   if(x+tw>W-8)x=W-8-tw;if(x<8)x=8;if(y<8)y=r.bottom+8;tip.style.left=x+'px';tip.style.top=y+'px';};
@@ -2563,8 +2565,8 @@ function glossaryDecorate(root){
    const idx=m.index+m[1].length;const before=node.nodeValue.slice(0,idx);const after=node.nodeValue.slice(idx+term.length);
    const isFirst=!firstDone.has(term);firstDone.add(term);
    const span=document.createElement('span');span.className='gl'+(isFirst?' first':'');span.setAttribute('tabindex','0');span.dataset.term=term;span.textContent=term;
-   const frag=document.createDocumentFragment();frag.appendChild(document.createTextNode(before));frag.appendChild(span);const an=document.createTextNode(after);frag.appendChild(an);
-   node.parentNode.replaceChild(frag,node);nodes.splice(k,1,an)}}
+   const frag=document.createDocumentFragment();const bn=document.createTextNode(before);const an=document.createTextNode(after);frag.appendChild(bn);frag.appendChild(span);frag.appendChild(an);
+   node.parentNode.replaceChild(frag,node);nodes.splice(k,1,bn,an)}}
 }
 /* single floating tooltip — never clipped by cards or scroll containers */
 const glTip=document.createElement('div');glTip.id='gltip';document.body.appendChild(glTip);
