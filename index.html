@@ -540,6 +540,11 @@ details[open] .fnd-chev{transform:rotate(180deg);color:var(--magenta)}
 .fnd-open{font-family:var(--fm);font-size:10.5px;font-weight:700;color:var(--magenta);cursor:pointer;text-decoration:none}
 .fnd-open:hover{text-decoration:underline}
 .fnd-hint{font-size:11px;color:var(--muted);margin-top:3px}
+.creg-row{display:flex;align-items:baseline;gap:12px;padding:7px 0;border-bottom:1px solid var(--mist)}
+.creg-row:last-child{border-bottom:0}
+.creg-code{font-family:var(--fm);font-size:11.5px;font-weight:700;color:var(--purple);min-width:96px;flex:none}
+.creg-scope{font-size:12.6px;color:#3c2944;flex:1;line-height:1.4}
+.creg-n{font-family:var(--fm);font-size:9.5px;color:var(--muted);white-space:nowrap}
 .msr{padding:12px 0;border-bottom:1px solid var(--mist)}
 .msr:last-child{border-bottom:0}
 .msr-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px}
@@ -636,7 +641,7 @@ const COMM={
 /* ================= SECTORS (all IEC domains, verified TCs) ================= */
 const SECTORS=[
  {key:"renewables",name:"Generation & renewables",color:"#1f8a82",tcs:["tc82","tc88","tc114","tc105","tc117","tc4"],blurb:"Solar PV, wind, marine, fuel cells, solar-thermal and hydro generation, and how they connect.",ic:'<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/><circle cx="12" cy="12" r="3.5"/>'},
- {key:"grid",name:"Transmission, distribution & grid",color:"#43224d",tcs:["tc8","sc8a","tc115","tc122","tc14","tc17","tc57","tc123","syclvdc"],blurb:"Moving and managing power: HVDC/UHV, transformers, switchgear, system operation and data exchange.",ic:'<path d="M4 20l4-9 4 5 4-11 4 15"/>'},
+ {key:"grid",name:"Transmission, distribution & grid",color:"#43224d",tcs:["tc8","sc8a","tc115","tc122","tc14","tc20","tc17","tc57","tc123","syclvdc"],blurb:"Moving and managing power: HVDC/UHV, transformers, switchgear, system operation and data exchange.",ic:'<path d="M4 20l4-9 4 5 4-11 4 15"/>'},
  {key:"powerelec",name:"Power electronics & semiconductors",color:"#8a3fb0",tcs:["tc22","sc22f","sc22g","tc47","sc47e","ta15"],blurb:"Converters, drives, UPS and the semiconductor devices (incl. GaN/SiC) at the core of electrification.",ic:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9zM9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/>'},
  {key:"storage",name:"Energy storage & batteries",color:"#c0700d",tcs:["tc21","tc35","tc120"],blurb:"Secondary and primary cells, grid-scale and long-duration storage, and battery data/passport rules.",ic:'<rect x="3" y="7" width="16" height="10" rx="2"/><path d="M19 10h2v4h-2M7 10v4M11 10v4"/>'},
  {key:"emobility",name:"E-mobility & charging",color:"#c01b50",tcs:["tc69","tc23"],blurb:"Electric road vehicles, industrial trucks, charging power transfer and vehicle-to-grid.",ic:'<path d="M5 16V9h11l3 4v3M5 16h14M7 16a2 2 0 1 1-4 0M19 16a2 2 0 1 1-2 2"/>'},
@@ -942,6 +947,23 @@ const FACETMAP={
 };
 /* ---- terms shown with a hover definition on first appearance ---- */
 const TERMS={
+"Generation & renewables":"How electricity is generated: solar, wind, marine, hydro, fuel cells and solar-thermal, and how they connect to the grid.",
+"Transmission, distribution & grid":"Moving and managing power: HVDC and UHV lines, transformers, switchgear, system operation and grid data.",
+"Power electronics & semiconductors":"The devices that convert and control power: converters, drives, UPS and wide-bandgap semiconductors.",
+"Energy storage & batteries":"Primary and secondary cells, grid-scale and long-duration storage, and battery data and passport rules.",
+"E-mobility & charging":"Electric road vehicles and industrial trucks, charging infrastructure and vehicle-to-grid.",
+"Industrial automation & safety":"Process measurement and control, industrial networks, functional safety and dependability.",
+"Electronics, EMC & product safety":"Electromagnetic compatibility, radio interference, environmental testing and electronic product safety.",
+"Buildings, lighting & appliances":"Electrical installations, lighting, household appliances and the connected smart home.",
+"Medical & health electrotech":"Medical electrical equipment, diagnostic imaging and active assisted living.",
+"ICT, IoT, AI & smart systems":"Information technology, IoT, artificial intelligence, IT security and smart-system coordination.",
+"Emerging & frontier tech":"Early-stage fields: superconductivity, nanotechnology, printed and wearable electronics, and displays.",
+"Transport, hazardous & machines":"Rail, marine and offshore electrification, explosive atmospheres, lightning protection and machine safety.",
+"horizon":"How soon a signal is likely to matter: now to 2 years, 3 to 4, or 5 plus. An analyst estimate, not a date.",
+"watch list":"Signals being monitored that are not yet ready to inform a brief.",
+"momentum":"The trend in how often a signal appears across independent sources over time: steady, building or accelerating.",
+"novelty":"How new a development is versus what the watch list already tracks.",
+"override":"When an analyst changes the label the tool proposed. Every override is logged.",
 "reputable commentary":"Considered analysis from a credentialed expert or established outlet, not unattributed opinion. A Tier C source: useful early, never validated on its own.",
 "specialist press":"Industry trade publications. Tier C: an early indicator that must be corroborated by a Tier A or B source before it is validated.",
 "trade press":"Industry trade publications. Tier C: an early indicator only, never trusted alone.",
@@ -1896,6 +1918,7 @@ const NAV=[
  {v:"feed",label:"Signal feed",grp:2,c:()=>SIGNALS.length,ic:'<path d="M4 6h16M4 12h16M4 18h10"/>'},
  {v:"maturity",label:"Maturity / TRL",grp:2,ic:'<path d="M4 20l5-5 4 4 7-9"/><path d="M16 10h4v4"/>'},
  {v:"sectors",label:"IEC sectors",grp:3,c:()=>SECTORS.length,ic:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'},
+ {v:"committees",label:"Committee register",grp:3,c:()=>Object.keys(COMM).length,ic:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/>'},
  {v:"standards",label:"Standards & rules",grp:3,c:()=>REGS.length,ic:'<path d="M5 4h11l3 3v13H5zM14 4v4h4"/>'},
  {v:"market",label:"Market signals",grp:3,ic:'<path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-7"/>'},
  {v:"geo",label:"Geopolitical",grp:3,ic:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>'},
@@ -2127,6 +2150,16 @@ V.maturity=()=>{
  <div class="card" style="margin-top:18px"><h3>What TRL means · the 1 to 9 ladder</h3><div class="pad"><div class="trlladder">${TRL_LADDER.map(x=>`<div class="trung"><span class="tn">${x[0]}</span><div><b>${x[1]}</b><span>${x[2]}</span></div></div>`).join("")}</div><div class="srcnote">We read the band from the evidence — papers and patents sit low, pilots and demonstrators in the middle, deployments and standards activity high — then an analyst confirms or corrects it. TRL is about how proven a thing is, not how important: a high-impact signal can still sit at TRL 3.</div></div></div>
  <div class="card" style="margin-top:18px"><h3>All signals by stage</h3><div class="rlist">${RINGS.flatMap(r=>byRing[r]).map(rowHTML).join("")}</div></div>`};
 
+V.committees=()=>{
+ const sigCount={};SIGNALS.forEach(s=>(s.comm||[]).forEach(c=>{sigCount[c]=(sigCount[c]||0)+1}));
+ const total=Object.keys(COMM).length;
+ const rows=SECTORS.map(sc=>{
+  const list=sc.tcs.map(k=>{const v=COMM[k]||k;const d=v.indexOf(" · ");const code=d>0?v.slice(0,d):v;const scope=d>0?v.slice(d+3):"";const n=sigCount[k]||0;
+   return `<div class="creg-row"><span class="creg-code">${code}</span><span class="creg-scope">${scope}</span>${n?`<span class="creg-n">${n} signal${n>1?"s":""}</span>`:""}</div>`}).join("");
+  return `<div class="card" style="margin-bottom:14px"><h3><span class="gl first" data-term="${sc.name}" tabindex="0">${sc.name}</span><span class="c">${sc.tcs.length}</span></h3><div class="pad" style="padding-top:2px">${list}</div></div>`;
+ }).join("");
+ return `<div class="crumb">Map / Committee Register</div><div class="phead"><h1>IEC Committee Register</h1><div class="sub">Every committee Foresight maps, grouped by domain, each with its scope. ${total} committees across ${SECTORS.length} domains; a few serve more than one domain. Hover any code anywhere in the tool to see its scope.</div></div>${rows}`;
+};
 V.standards=()=>{
  return `<div class="crumb">Map / Standards & Rules</div>
  <div class="phead"><h1>Standards & Regulatory Watch</h1><div class="sub">Live standards, regulations and trade rules that intersect IEC work, each linked to the signal that surfaced it.</div></div>
@@ -2165,7 +2198,7 @@ V.graph=()=>{
 
 V.sectors=()=>{
  const cards=SECTORS.map(sc=>{const sigs=SIGNALS.filter(s=>s.sector===sc.key);const cov=Math.min(100,Math.round(sigs.length/5*100));
-  return `<div class="sct" data-action="sectoropen" data-key="${sc.key}"><div class="top"><span class="ic" style="background:${sc.color}"><svg viewBox="0 0 24 24">${sc.ic}</svg></span><div><h4>${sc.name}</h4><div class="tcs">${sc.tcs.slice(0,4).map(t=>(COMM[t]||t).split(' · ')[0]).join(' · ')}${sc.tcs.length>4?' +'+(sc.tcs.length-4):''}</div></div></div>
+  return `<div class="sct" data-action="sectoropen" data-key="${sc.key}"><div class="top"><span class="ic" style="background:${sc.color}"><svg viewBox="0 0 24 24">${sc.ic}</svg></span><div><h4><span class="gl first" data-term="${sc.name}" tabindex="0">${sc.name}</span></h4><div class="tcs">${sc.tcs.slice(0,4).map(t=>(COMM[t]||t).split(' · ')[0]).join(' · ')}${sc.tcs.length>4?' +'+(sc.tcs.length-4):''}</div></div></div>
    <div class="bd">${sc.blurb}<div class="cov"><span class="track"><i style="width:${cov}%"></i></span><span class="n">${sigs.length} signal${sigs.length===1?'':'s'}</span></div>${sigs.length<2?'<span class="covtag thin">Monitored · quiet</span>':(sigs.length>=4?'<span class="covtag rich">Signal-rich</span>':'')}</div></div>`}).join("");
  const langCov=LANGS.map(l=>[l,SIGNALS.filter(s=>s.lang.includes(l)).length]);
  const tot=SECTORS.reduce((a,sc)=>a+sc.tcs.length,0);
