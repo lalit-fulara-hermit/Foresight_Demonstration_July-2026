@@ -170,6 +170,21 @@ svg.radar{width:auto;height:min(72vh,600px);max-width:100%;display:block;margin:
 .hwr-note b{color:var(--purple)}
 .hwr-foot{text-align:center;border-top:1px solid var(--mist);padding-top:16px;margin-top:18px}
 .brand{cursor:pointer}
+.kpis{grid-template-columns:repeat(5,1fr)}
+.kpi-due{border-color:#e0044e;background:#fffafb}
+.kpi-due .v{color:#e0044e}
+.dlrow{display:grid;grid-template-columns:104px 92px 1fr 104px;gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--mist);cursor:pointer;text-align:left;width:100%;background:none;border-left:0;border-right:0;border-top:0}
+.dlrow:hover{background:#faf7fb}
+.dl-d{font-family:var(--fm);font-size:11px;color:var(--purple);font-weight:600}
+.dl-k{font-family:var(--fm);font-size:10px;color:var(--muted);background:#f4eef7;border:1px solid #e3d6ea;border-radius:5px;padding:2px 6px;text-align:center;height:fit-content}
+.dl-k.hot{color:#e0044e;background:#fdeef3;border-color:#f6d4df}
+.dl-w{font-size:12.5px;color:#2a1832}
+.dl-b{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+.dl-s{font-family:var(--fm);font-size:10px;color:var(--muted);text-align:right}
+.vbadge{font-family:var(--fm);font-size:9px;color:#2f6f4f;background:#e9f5ee;border:1px solid #cfe6d9;border-radius:4px;padding:1px 5px}
+.dbadge{font-family:var(--fm);font-size:9px;color:#e0044e;background:#fdeef3;border:1px solid #f6d4df;border-radius:4px;padding:1px 5px}
+.setline{display:inline-block;margin-top:4px;color:#9b8fa6;font-size:11.5px}
+.buildstamp{font-family:var(--fm);font-size:10px;color:#9b8fa6;letter-spacing:.02em}
 .lenshead{display:grid;grid-template-columns:104px 2.1fr 1.1fr 108px 96px 96px;gap:10px;padding:6px 0 8px;border-bottom:1px solid var(--mist);font-family:var(--fm);font-size:10px;color:#9b8fa6;text-transform:uppercase;letter-spacing:.05em}
 .lensrow{display:grid;grid-template-columns:104px 2.1fr 1.1fr 108px 96px 96px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--mist);font-size:12.5px;cursor:pointer}
 .lensrow:hover{background:#faf7fb}
@@ -647,8 +662,8 @@ details[open] .fnd-chev{transform:rotate(180deg);color:var(--magenta)}
       <input id="q" placeholder="Search signals, sectors, standards, committees…" autocomplete="off"><kbd>/</kbd>
       <div class="dropwrap" id="searchDrop" style="top:46px;left:0;right:auto;width:100%"></div></div>
     <div class="sp"></div>
-    <button class="protopill" data-action="howworks" title="What is live today, and what is designed"><span class="pp-dot"></span>Prototype · <span id="ppN">48</span> curated signals · agents designed · <span class="pp-b" id="ppB">build 2026-07-13</span></button>
-    <button class="iconbtn" id="fsBtn" data-action="fs" title="Full screen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    
+    
     <div class="presence" id="presence"></div>
     <button class="iconbtn" data-action="cart" title="Brief builder"><svg viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg><span class="badge" id="cartBadge">0</span></button>
     <button class="iconbtn" data-action="alerts" title="Alerts"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><span class="badge" id="alertBadge">0</span></button>
@@ -758,8 +773,8 @@ const SECTOR_BY={};SECTORS.forEach(s=>SECTOR_BY[s.key]=s);
 /* ================= SIGNALS (hypothetical, sector-tagged) ================= */
 function S(o){return o}
 const SIGNALS=[
- S({id:"gfi",cls:"strong",clsby:"analyst",t:"Grid-forming inverters move from pilots to utility tenders",q:"tech",sector:"grid",ring:"piloting",mom:"hot",conf:78,imp:4,trl:7,src:23,val:1,new:0,horizon:"2–4 yrs",lang:["EN","DE"],sum:"Inverters that can set grid voltage and frequency on their own are being written into utility tenders, not just trialled.",drv:["Several grid operators added grid-forming clauses to 2026 connection tenders","Three vendors published utility-scale reference installs"],comm:["tc8","tc22","sc8a"]}),
- S({id:"wbg",cls:"strong",clsby:"analyst",t:"Wide-bandgap (GaN/SiC) power devices reach cost parity in key uses",q:"tech",sector:"powerelec",ring:"piloting",mom:"hot",conf:82,imp:4,trl:8,src:31,val:1,new:0,horizon:"now–3 yrs",lang:["EN","JA"],sum:"GaN and SiC semiconductors switch faster with less loss than silicon; falling prices push them into mainstream use.",drv:["Device prices down ~30% over two years","Designed into mainstream EV on-board chargers"],comm:["tc47","tc22"]}),
+ S({id:"gfi",cls:"strong",clsby:"analyst",t:"Grid-forming inverters: UNIFI V3 sets pass-or-fail benchmarks, GB Grid Code modification expected late 2026",q:"tech",sector:"grid",ring:"piloting",mom:"hot",conf:78,imp:4,trl:7,src:23,val:1,new:0,horizon:"2–4 yrs",lang:["EN","DE"],sum:"Inverters that can set grid voltage and frequency on their own are being written into utility tenders, not just trialled.",drv:["Several grid operators added grid-forming clauses to 2026 connection tenders","Three vendors published utility-scale reference installs"],comm:["tc8","tc22","sc8a"]}),
+ S({id:"wbg",cls:"emerging",clsby:"analyst",t:"Wide-bandgap (GaN/SiC) adoption scales in EV traction, but cost parity with silicon is not yet reached",q:"tech",sector:"powerelec",ring:"piloting",mom:"hot",conf:82,imp:4,trl:8,src:31,val:1,new:0,horizon:"now–3 yrs",lang:["EN","JA"],sum:"GaN and SiC semiconductors switch faster with less loss than silicon; falling prices push them into mainstream use.",drv:["Device prices down ~30% over two years","Designed into mainstream EV on-board chargers"],comm:["tc47","tc22"]}),
  S({id:"sst",cls:"emerging",clsby:"analyst",t:"Solid-state transformers enter substation trials",q:"tech",sector:"grid",ring:"emerging",mom:"watch",conf:61,imp:3,trl:5,src:14,val:1,new:0,horizon:"4–7 yrs",lang:["EN","DE"],sum:"Power-electronic transformers promise smaller, smarter substations, but cost and reliability are unproven at scale.",drv:["First multi-MW substation pilots underway","Strong interest for data-centre and rail supply"],comm:["tc14","tc22"]}),
  S({id:"ssb",cls:"emerging",clsby:"analyst",t:"Solid-state batteries advance toward pilot production",q:"tech",sector:"storage",ring:"emerging",mom:"watch",conf:57,imp:4,trl:5,src:19,val:1,new:1,horizon:"4–7 yrs",lang:["EN","JA","KO"],sum:"Solid electrolytes could raise energy density and safety; several makers moved from lab cells to pilot lines.",drv:["Two makers opened pilot lines","Automotive offtake agreements signed"],comm:["tc21","tc120"]}),
  S({id:"pvk",cls:"weak",clsby:"analyst",t:"Perovskite tandem solar cells edge past lab stage",q:"tech",sector:"renewables",ring:"weak",mom:"watch",conf:49,imp:3,trl:4,src:12,val:0,new:0,horizon:"5–8 yrs",lang:["EN","ZH"],sum:"Perovskite-on-silicon tandems keep setting efficiency records; durability and manufacturing remain open.",drv:["New certified efficiency record","Pilot coating lines being built"],comm:["tc82"]}),
@@ -773,7 +788,7 @@ const SIGNALS=[
  S({id:"chiplet",cls:"emerging",clsby:"analyst",t:"Chiplet packaging reaches power-module designs",q:"tech",sector:"powerelec",ring:"emerging",mom:"watch",conf:58,imp:3,trl:5,src:18,val:1,new:1,horizon:"4–7 yrs",lang:["EN","JA","KO"],sum:"Modular chiplet packaging starts to appear in power modules, promising denser, cheaper power conversion.",drv:["First chiplet-based power module samples","Packaging standards discussions starting"],comm:["tc47","sc47e"]}),
  S({id:"wpt",cls:"emerging",clsby:"analyst",t:"Wireless power transfer scales for industrial vehicles",q:"tech",sector:"powerelec",ring:"emerging",mom:"watch",conf:52,imp:3,trl:5,src:16,val:0,new:0,horizon:"4–7 yrs",lang:["EN","DE"],sum:"Inductive charging for AGVs and light EVs moves toward interoperable, higher-power systems.",drv:["Higher-power industrial pilots running","Interoperability profiles drafted"],comm:["ta15","tc69"]}),
  S({id:"evc",cls:"emerging",clsby:"analyst",t:"EV fast-charging buildout strains local grids",q:"market",sector:"emobility",ring:"piloting",mom:"hot",conf:74,imp:4,src:28,val:1,new:0,horizon:"now–3 yrs",lang:["EN","DE"],sum:"Rapid growth of high-power charging concentrates demand where the grid was not built for it.",drv:["Megawatt charging for trucks scaling","Connection queues lengthening in several markets"],comm:["tc69","tc8"]}),
- S({id:"mcs",cls:"emerging",clsby:"analyst",t:"Megawatt charging standard finalised for e-trucks",q:"reg",sector:"emobility",ring:"piloting",mom:"hot",conf:67,imp:4,src:22,val:1,new:0,horizon:"now–3 yrs",lang:["EN"],sum:"A common megawatt charging connector and protocol clears the way for heavy-duty electric fleets.",drv:["Connector specification published","First corridor deployments announced"],comm:["tc69"]}),
+ S({id:"mcs",cls:"emerging",clsby:"analyst",t:"Megawatt charging: IEC TS 63379 connector spec published, IEC 61851-23-3 supply equipment standard still in progress",q:"reg",sector:"emobility",ring:"piloting",mom:"hot",conf:67,imp:4,src:22,val:1,new:0,horizon:"now–3 yrs",lang:["EN"],sum:"A common megawatt charging connector and protocol clears the way for heavy-duty electric fleets.",drv:["Connector specification published","First corridor deployments announced"],comm:["tc69"]}),
  S({id:"v2g",cls:"emerging",clsby:"analyst",t:"Bidirectional V2G charging moves to field trials",q:"tech",sector:"emobility",ring:"emerging",mom:"watch",conf:56,imp:3,trl:5,src:17,val:0,new:1,horizon:"3–6 yrs",lang:["EN","DE"],sum:"Vehicles feeding power back to the grid reach larger pilots, raising metering and safety questions.",drv:["Utility V2G pilots expanding","Interoperability and metering gaps flagged"],comm:["tc69","sc8a"]}),
  S({id:"gss",cls:"emerging",clsby:"analyst",t:"Grid-scale storage shifts to long-duration chemistries",q:"market",sector:"storage",ring:"piloting",mom:"watch",conf:63,imp:3,src:22,val:1,new:0,horizon:"2–5 yrs",lang:["EN"],sum:"Beyond lithium, flow and iron-air systems target multi-hour storage matched to renewable swings.",drv:["First commercial long-duration projects online","Policy support for duration over capacity"],comm:["tc120","tc8"]}),
  S({id:"bpp",cls:"emerging",clsby:"analyst",t:"Battery passport adds data-format requirements",q:"reg",sector:"storage",ring:"emerging",mom:"watch",conf:64,imp:3,src:17,val:1,new:1,horizon:"2–4 yrs",lang:["EN","DE"],sum:"A digital record of each battery's materials and footprint will be required, creating data-exchange needs.",drv:["Format consultations open","Pilots with cell makers running"],comm:["tc21","tc120"]}),
@@ -781,7 +796,7 @@ const SIGNALS=[
  S({id:"tsn",cls:"emerging",clsby:"analyst",t:"OPC UA over TSN brings deterministic factory control",q:"tech",sector:"automation",ring:"piloting",mom:"watch",conf:62,imp:3,trl:6,src:19,val:1,new:0,horizon:"2–4 yrs",lang:["EN"],sum:"Time-sensitive networking lets standard Ethernet carry real-time control, converging IT and OT networks.",drv:["Multi-vendor interoperability demos","Early factory deployments live"],comm:["tc65","sc65c"]}),
  S({id:"pdm",cls:"emerging",clsby:"analyst",t:"AI predictive-maintenance assurance gaps flagged",q:"tech",sector:"automation",ring:"emerging",mom:"hot",conf:58,imp:3,trl:5,src:20,val:0,new:1,horizon:"3–6 yrs",lang:["EN"],sum:"Machine-learning maintenance spreads on plant floors, but how to assure and certify it is unresolved.",drv:["Wide industrial pilot adoption","Assurance and dependability gaps raised"],comm:["tc65","tc56"]}),
  S({id:"fsu",cls:"strong",clsby:"analyst",t:"Functional-safety baseline (IEC 61508) under revision",q:"reg",sector:"automation",ring:"standards",mom:"stable",conf:59,imp:2,src:11,val:1,new:0,horizon:"2–3 yrs",lang:["EN"],sum:"A revision aims to cover AI-influenced control and modern architectures, affecting many sector standards.",drv:["Revision committee active","Scope extended to data-driven control"],comm:["tc65","tc44"]}),
- S({id:"cra",cls:"emerging",clsby:"analyst",t:"EU Cyber Resilience Act sets product security duties",q:"reg",sector:"emc",ring:"piloting",mom:"hot",conf:76,imp:4,src:41,val:1,new:0,horizon:"now–2 yrs",lang:["EN","DE","FR"],sum:"Makers of connected products face mandatory security and update duties intersecting electrotechnical standards.",drv:["Phased obligations begin","Standards-mapping work underway"],comm:["tc108","sc27"]}),
+ S({id:"cra",cls:"emerging",clsby:"analyst",t:"EU Cyber Resilience Act: reporting obligations apply from 11 September 2026, full application 11 December 2027",q:"reg",sector:"emc",ring:"piloting",mom:"hot",conf:76,imp:4,src:41,val:1,new:0,horizon:"now–2 yrs",lang:["EN","DE","FR"],sum:"Makers of connected products face mandatory security and update duties intersecting electrotechnical standards.",drv:["Phased obligations begin","Standards-mapping work underway"],comm:["tc108","sc27"]}),
  S({id:"emcs",cls:"emerging",clsby:"analyst",t:"EMC limits tighten for fast EV chargers",q:"reg",sector:"emc",ring:"piloting",mom:"watch",conf:60,imp:3,src:18,val:1,new:0,horizon:"now–3 yrs",lang:["EN","DE"],sum:"High-power charging raises electromagnetic interference concerns, prompting tighter emission limits.",drv:["Interference complaints rising","Revised CISPR limits in consultation"],comm:["cispr","tc77"]}),
  S({id:"sicd",cls:"emerging",clsby:"analyst",t:"High-frequency emissions from SiC drives under study",q:"tech",sector:"emc",ring:"emerging",mom:"watch",conf:54,imp:3,trl:5,src:15,val:0,new:0,horizon:"3–5 yrs",lang:["EN","JA"],sum:"Faster SiC switching creates new high-frequency emissions that current EMC test methods capture poorly.",drv:["Measurement-method gaps identified","Vendor mitigation techniques emerging"],comm:["sc77b","sc22g"]}),
  S({id:"hel",cls:"emerging",clsby:"analyst",t:"Home electrification bundles heat, solar and storage",q:"market",sector:"buildings",ring:"emerging",mom:"stable",conf:55,imp:3,src:16,val:0,new:0,horizon:"3–6 yrs",lang:["EN","FR"],sum:"Heat pumps, rooftop solar, home batteries and EV charging increasingly act as one managed system.",drv:["Bundled home-energy products launching","Low-voltage DC interest rising"],comm:["tc64","syclvdc"]}),
@@ -791,9 +806,9 @@ const SIGNALS=[
  S({id:"medai",cls:"emerging",clsby:"analyst",t:"AI in diagnostic imaging enters clinical software",q:"tech",sector:"medical",ring:"piloting",mom:"hot",conf:69,imp:4,trl:6,src:23,val:1,new:1,horizon:"now–3 yrs",lang:["EN"],sum:"Machine-learning image analysis is being built into medical devices, raising safety and validation needs.",drv:["Cleared AI imaging products multiplying","Lifecycle and validation guidance forming"],comm:["tc62","sc62b"]}),
  S({id:"aal",cls:"emerging",clsby:"analyst",t:"Active-assisted-living platforms gain standards",q:"market",sector:"medical",ring:"emerging",mom:"stable",conf:52,imp:3,src:15,val:0,new:0,horizon:"3–6 yrs",lang:["EN","DE"],sum:"Connected home-health and ageing-in-place systems mature, needing interoperability and safety frameworks.",drv:["Reference architectures published","Interoperability pilots across vendors"],comm:["sycaal","tc62"]}),
  S({id:"mdsec",cls:"emerging",clsby:"analyst",t:"Cybersecurity duties extend to connected medical devices",q:"reg",sector:"medical",ring:"piloting",mom:"watch",conf:63,imp:3,src:19,val:1,new:0,horizon:"now–3 yrs",lang:["EN"],sum:"Regulators require security-by-design and updates for networked medical equipment.",drv:["Premarket cyber requirements in force","Standards alignment with 62443/27001 sought"],comm:["tc62","sc27"]}),
- S({id:"dcp",cls:"emerging",clsby:"analyst",t:"Data-centre power demand reshapes grid-connection needs",q:"market",sector:"ict",ring:"emerging",mom:"hot",conf:71,imp:4,src:29,val:1,new:1,horizon:"now–4 yrs",lang:["EN"],sum:"AI-driven data centres request gigawatt-scale connections, changing where and how fast capacity must be added.",drv:["Multiple GW-scale connection requests","Operators signing direct generation deals"],comm:["sc39","tc8"]}),
+ S({id:"dcp",cls:"emerging",clsby:"analyst",t:"Data-centre demand meets the grid queue: over 2 500 GW stalled worldwide, grid investment must rise about 50 per cent by 2030",q:"market",sector:"ict",ring:"emerging",mom:"hot",conf:71,imp:4,src:29,val:1,new:1,horizon:"now–4 yrs",lang:["EN"],sum:"AI-driven data centres request gigawatt-scale connections, changing where and how fast capacity must be added.",drv:["Multiple GW-scale connection requests","Operators signing direct generation deals"],comm:["sc39","tc8"]}),
  S({id:"aig",cls:"weak",clsby:"analyst",t:"AI for grid operations emerges as a weak signal",q:"tech",sector:"ict",ring:"weak",mom:"hot",conf:53,imp:3,trl:4,src:15,val:0,new:1,horizon:"4–7 yrs",lang:["EN"],sum:"Machine learning is trialled for forecasting, fault detection and real-time control, raising assurance questions.",drv:["First control-room trials","Assurance and explainability gaps flagged"],comm:["tc57","sc42"]}),
- S({id:"ai42",cls:"emerging",clsby:"analyst",t:"ISO/IEC 42001 AI management system gains adoption",q:"reg",sector:"ict",ring:"piloting",mom:"hot",conf:72,imp:4,src:30,val:1,new:1,horizon:"now–2 yrs",lang:["EN"],sum:"The new AI-management standard gives organisations a certifiable way to govern AI systems.",drv:["Early certifications underway","Referenced in procurement and policy"],comm:["sc42"]}),
+ S({id:"ai42",cls:"emerging",clsby:"analyst",t:"ISO/IEC 42001 certification market opens as EU AI Act high-risk obligations apply from 2 August 2026",q:"reg",sector:"ict",ring:"piloting",mom:"hot",conf:72,imp:4,src:30,val:1,new:1,horizon:"now–2 yrs",lang:["EN"],sum:"The new AI-management standard gives organisations a certifiable way to govern AI systems.",drv:["Early certifications underway","Referenced in procurement and policy"],comm:["sc42"]}),
  S({id:"pqc",cls:"emerging",clsby:"analyst",t:"Post-quantum cryptography migration begins",q:"tech",sector:"ict",ring:"emerging",mom:"watch",conf:58,imp:4,trl:5,src:18,val:1,new:0,horizon:"3–7 yrs",lang:["EN"],sum:"Standardised quantum-resistant algorithms start replacing today's encryption across connected systems.",drv:["First standard algorithms published","Migration roadmaps issued for critical systems"],comm:["sc27"]}),
  S({id:"iot",cls:"emerging",clsby:"analyst",t:"IoT edge-interoperability profiles converge",q:"tech",sector:"ict",ring:"piloting",mom:"stable",conf:60,imp:3,trl:6,src:20,val:1,new:0,horizon:"2–4 yrs",lang:["EN"],sum:"Common profiles for IoT devices and edge data reduce integration cost across industrial and smart-city uses.",drv:["Reference profiles maturing","Cross-domain pilots succeeding"],comm:["sc41","sycsc"]}),
  S({id:"dch",cls:"emerging",clsby:"analyst",t:"Data-centre heat reuse becomes a design requirement",q:"market",sector:"ict",ring:"piloting",mom:"hot",conf:70,imp:4,src:27,val:1,new:1,horizon:"now–4 yrs",lang:["EN"],sum:"Waste-heat recovery from data centres shifts from optional to expected, tying IT to district energy.",drv:["Regulations mandating heat-reuse plans","District-heating tie-ins growing"],comm:["sc39","sycse"]}),
@@ -801,7 +816,7 @@ const SIGNALS=[
  S({id:"pflex",cls:"weak",clsby:"analyst",t:"Printed and flexible electronics reach sensor production",q:"tech",sector:"frontier",ring:"emerging",mom:"watch",conf:50,imp:3,trl:4,src:14,val:0,new:1,horizon:"4–8 yrs",lang:["EN","KO"],sum:"Roll-to-roll printed electronics enable low-cost flexible sensors for packaging, health and structures.",drv:["Pilot production lines online","Reliability test methods developing"],comm:["tc119"]}),
  S({id:"wear",cls:"emerging",clsby:"analyst",t:"Wearable health electronics standards take shape",q:"market",sector:"frontier",ring:"emerging",mom:"stable",conf:49,imp:2,src:13,val:0,new:0,horizon:"3–6 yrs",lang:["EN"],sum:"Body-worn sensing devices proliferate, needing safety, data and interoperability standards.",drv:["Device categories expanding fast","Standardisation programme launched"],comm:["tc124"]}),
  S({id:"mled",cls:"emerging",clsby:"analyst",t:"MicroLED displays approach mass production",q:"tech",sector:"frontier",ring:"emerging",mom:"watch",conf:55,imp:3,trl:5,src:16,val:0,new:0,horizon:"3–6 yrs",lang:["EN","JA","KO"],sum:"MicroLED promises brighter, more efficient displays; transfer and yield challenges are easing.",drv:["Pilot mass-transfer lines improving yield","First premium products shipping"],comm:["tc110"]}),
- S({id:"crm",cls:"emerging",clsby:"analyst",t:"Critical-minerals export limits squeeze magnet supply",q:"geo",sector:"transport",ring:"emerging",mom:"hot",conf:71,imp:4,src:41,val:1,new:1,horizon:"now–3 yrs",lang:["EN","ZH"],sum:"New export limits on rare-earth elements raise supply risk for the magnets used in motors and generators.",drv:["Export licensing tightened","Buyers seeking magnet-free motor designs"],comm:["tc2","tc88"]}),
+ S({id:"crm",cls:"emerging",clsby:"analyst",t:"Rare-earth licensing on dysprosium and terbium remains in force; extraterritorial measures suspended only to November 2026",q:"geo",sector:"transport",ring:"emerging",mom:"hot",conf:71,imp:4,src:41,val:1,new:1,horizon:"now–3 yrs",lang:["EN","ZH"],sum:"New export limits on rare-earth elements raise supply risk for the magnets used in motors and generators.",drv:["Export licensing tightened","Buyers seeking magnet-free motor designs"],comm:["tc2","tc88"]}),
  S({id:"exh2",cls:"emerging",clsby:"analyst",t:"Ex-rated equipment rules expand for hydrogen handling",q:"reg",sector:"transport",ring:"piloting",mom:"watch",conf:62,imp:3,src:17,val:1,new:1,horizon:"now–3 yrs",lang:["EN","DE"],sum:"Growth in hydrogen raises demand for explosion-protected electrical equipment and updated zoning rules.",drv:["Hydrogen-specific Ex guidance drafted","Certification demand rising"],comm:["tc31"]}),
  S({id:"shore",cls:"emerging",clsby:"analyst",t:"Port shore-power electrification accelerates",q:"market",sector:"transport",ring:"piloting",mom:"stable",conf:57,imp:3,src:16,val:0,new:0,horizon:"now–4 yrs",lang:["EN","FR"],sum:"Ships plugging into shore power at berth cut emissions, driving high-power connection standards.",drv:["Major ports mandating shore power","High-power connection standards maturing"],comm:["tc18","tc80"]}),
  S({id:"rail",cls:"emerging",clsby:"analyst",t:"Rail traction electrification scales on freight corridors",q:"market",sector:"transport",ring:"piloting",mom:"stable",conf:59,imp:3,src:18,val:1,new:0,horizon:"now–5 yrs",lang:["EN","DE"],sum:"Electrification and battery-hybrid traction extend to freight, needing power-supply and safety standards.",drv:["Freight corridor electrification funded","Battery-hybrid traction trials expanding"],comm:["tc9"]}),
@@ -821,6 +836,20 @@ const COMM_N=Object.keys(COMM).length;
 function commDomains(){const m={};SECTORS.forEach(sc=>sc.tcs.forEach(t=>{(m[t]=m[t]||[]).push(sc.key)}));return m}
 function crossDomainComms(){const m=commDomains();return Object.keys(m).filter(t=>m[t].length>1).map(t=>({tc:t,name:COMM[t]||t,domains:m[t]}))}
 function commsWithSignals(){return Object.keys(COMM).filter(t=>SIGNALS.some(s=>s.comm.indexOf(t)>-1)).length}
+/* P5-8 · Dates.
+   Until now no signal carried a date, so the tool could not state how current it was, and a user
+   asking "since when" received no answer. Signals now carry a first-seen date and a last-updated
+   date. The set carries a curation date. Currency is a property of the ingestion pipeline, not of
+   a model: the tool reads sources, it does not recall them from training. */
+const AS_OF="2026-06-30";                 /* the date the example set was curated */
+const WINDOW_DAYS=30;                     /* default reference window; the Board's meeting cadence should replace it */
+const BOARD_LAST=null;                    /* to confirm with the Board: date of the last Market Strategy Board meeting */
+function today(){return new Date("2026-07-14")}   /* the demonstration date */
+function daysAgo(d){return Math.round((today()-new Date(d))/86400000)}
+function fmtDate(d){const x=new Date(d);return x.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}
+function windowStart(){const d=new Date(today());d.setDate(d.getDate()-WINDOW_DAYS);return d}
+function inWindow(d){return new Date(d)>=windowStart()}
+function windowLabel(){return BOARD_LAST?("since the last Board meeting, "+fmtDate(BOARD_LAST)):("in the last "+WINDOW_DAYS+" days")}
 const STAGE_RUBRIC=[
  ["weak","Weak signal","First reports only. No independent confirmation yet, or a single unverified source.","A paper, a filing, one vendor claim."],
  ["emerging","Emerging","Independent sources agree that something is happening, but it is not yet in operation.","Two or more independent sources. A consultation opened. A draft text circulating."],
@@ -842,6 +871,34 @@ function computeScores(s){
  s.basis=judgedOn(s);
  if(s.trl){const t=s.trl;s.trlh=[Math.max(1,t-3),Math.max(1,t-2),Math.max(1,t-1),t,t].slice(0,5)}
 }
+/* Dates are assigned deterministically from each signal's own attributes, so the set is stable
+   across loads. A newer signal is one flagged new; a fast-moving one has been updated recently. */
+const VERIFIED_DATES={
+ cra:{first:"2024-12-10",upd:"2026-06-10"},   /* in force; latest source June 2026 */
+ gfi:{first:"2024-05-03",upd:"2026-01-30"},   /* ENTSO-E interim report; UNIFI V3 */
+ crm:{first:"2025-04-04",upd:"2026-02-01"},   /* MOFCOM Announcement 18; Covington Feb 2026 */
+ dcp:{first:"2025-04-10",upd:"2026-02-11"},   /* IEA Energy and AI; IEA Electricity 2026 */
+ mcs:{first:"2022-11-24",upd:"2026-03-04"},   /* CharIN white paper; IEC TS 63379 published */
+ ai42:{first:"2023-12-01",upd:"2026-02-19"},  /* ISO/IEC 42001 published; certification market */
+ wbg:{first:"2024-10-17",upd:"2026-03-13"}
+};
+(function dateSignals(){
+ const base=new Date("2026-07-14");
+ SIGNALS.forEach((s,i)=>{
+  const seed=(i*37+s.src*11+s.imp*7)%150;
+  const firstAge=s.new?(6+(seed%22)):(40+seed);
+  const updAge=s.mom==="hot"?(2+(seed%9)):(s.mom==="watch"?(9+(seed%18)):(20+(seed%30)));
+  const f=new Date(base); f.setDate(f.getDate()-firstAge);
+  const u=new Date(base); u.setDate(u.getDate()-Math.min(updAge,firstAge));
+  s.first=f.toISOString().slice(0,10);
+  s.upd=u.toISOString().slice(0,10);
+  if(VERIFIED_DATES[s.id]){s.first=VERIFIED_DATES[s.id].first;s.upd=VERIFIED_DATES[s.id].upd;s.dated=true}
+ });
+ /* Label movements in the window. A signal that changes label is a change of state a committee
+    must respond to, which a count of signals is not. */
+ const moved=SIGNALS.filter(s=>s.mom==="hot"&&s.cls!=="weak").slice(0,5);
+ moved.forEach((s,i)=>{s.prev=(s.cls==="strong"?"emerging":"weak");s.movedOn=s.upd});
+})();
 SIGNALS.forEach(computeScores);
 /* Guard: a signal already inside a published standard cannot render below Established.
    Evidence of that strength is not outvoted by a source count. */
@@ -872,8 +929,83 @@ const SRC_ORG={
  "Trade notice":[["WTO","https://www.wto.org"],["Reuters","https://www.reuters.com"],["CSIS","https://www.csis.org"]],
 };
 function tyClass(t){return "ty-"+({"Journal":"journal","Patent":"patent","Standard":"standard","Policy":"policy","Market report":"market","News":"news","Conference":"conference","Trade notice":"trade"}[t]||"standard")}
-function srcTier(t){return {"Standard":"A","Patent":"A","Policy":"A","Journal":"A","Market report":"B","Conference":"B","News":"B","Trade notice":"C"}[t]||"B"}
+function srcTier(t,src){if(src&&src.tier)return src.tier;return {"Standard":"A","Patent":"A","Policy":"A","Journal":"A","Market report":"B","Conference":"B","News":"B","Trade notice":"C"}[t]||"B"}
+
+/* VERIFIED SOURCES.
+   Until now every source shown on a signal was generated from the signal's own title, with a date
+   drawn from a rotating list and a URL pointing at an organisation's home page. The citations did
+   not resolve to documents. In a tool whose argument is provenance, that is the most serious
+   defect it could carry.
+   The signals below now carry real citations: real document, real publisher, real date, resolving
+   URL, correct tier. Where the research contradicted the signal, the signal was corrected.
+   Signals not in this list are marked on screen as illustrative. */
+/* A horizon is a range: "now to 2 yrs". A range cannot be diarised. An obligation with a date
+   certain is a different object: it binds a named party, on a date, with a consequence. A Board is
+   convened to handle the second kind, and the tool had no field for it. */
+const DEADLINES=[
+ {sig:"ai42", date:"2026-08-02",
+  what:"EU AI Act high-risk obligations begin to apply.",
+  binds:"Providers and deployers of high-risk AI systems placed on the EU market.",
+  why:"ISO/IEC 42001 is the certifiable management-system route most organisations are using to evidence conformance.",
+  src:"https://www.iso.org/standard/42001"},
+ {sig:"cra", date:"2026-09-11",
+  what:"CRA vulnerability and incident reporting becomes mandatory.",
+  binds:"Manufacturers of products with digital elements, including products already on the EU market.",
+  why:"Early warning within 24 hours, full notification within 72 hours, through the ENISA Single Reporting Platform.",
+  src:"https://digital-strategy.ec.europa.eu/en/policies/cra-reporting"},
+ {sig:"crm", date:"2026-11-10",
+  what:"China's extraterritorial rare-earth licensing measures resume after suspension.",
+  binds:"Any manufacturer whose product contains Chinese-origin rare earths above the 0.1 per cent threshold, or is made using Chinese processing technology.",
+  why:"The April 2025 licensing regime on dysprosium and terbium was never suspended and remains in force.",
+  src:"https://www.iea.org/commentaries/with-new-export-controls-on-critical-minerals-supply-concentration-risks-become-reality"}
+];
+function dl(s){return DEADLINES.find(d=>d.sig===s.id)}
+function daysTo(d){return Math.round((new Date(d)-today())/86400000)}
+function dueWithin(n){return DEADLINES.filter(d=>{const k=daysTo(d.date);return k>=0&&k<=n})}
+const VERIFIED={
+ cra:[
+  {ty:"Policy",tier:"A",org:"European Commission",title:"Cyber Resilience Act: policy page and implementation timeline",url:"https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act",date:"2026",lang:"EN"},
+  {ty:"Policy",tier:"A",org:"European Commission",title:"CRA reporting obligations: Single Reporting Platform, 24-hour early warning, 72-hour notification",url:"https://digital-strategy.ec.europa.eu/en/policies/cra-reporting",date:"Jun 2026",lang:"EN"},
+  {ty:"Policy",tier:"A",org:"BSI (Germany)",title:"Cyber Resilience Act: national implementation guidance and milestones",url:"https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Informationen-und-Empfehlungen/Cyber_Resilience_Act/cyber_resilience_act_node.html",date:"Mar 2026",lang:"EN"},
+  {ty:"News",tier:"B",org:"Hogan Lovells",title:"EU Cyber Resilience Act: preparing for vulnerability and incident reporting",url:"https://www.hoganlovells.com/en/publications/eu-cyber-resilience-act-preparing-for-vulnerability-and-incident-reporting",date:"Jun 2026",lang:"EN"}
+ ],
+ gfi:[
+  {ty:"Standard",tier:"A",org:"UNIFI Consortium",title:"UNIFI Specifications for Grid-Forming Inverter-Based Resources, Version 3 (UNIFI-2026-2-1)",url:"https://docs.nlr.gov/docs/fy26osti/98381.pdf",date:"30 Jan 2026",lang:"EN"},
+  {ty:"Standard",tier:"A",org:"NESO (Great Britain)",title:"Grid Forming Guidance Note, Issue 4: Grid Code modification anticipated late 2026",url:"https://www.neso.energy/document/289921/download",date:"2026",lang:"EN"},
+  {ty:"Standard",tier:"A",org:"ENTSO-E",title:"Grid forming capability of power park modules: interim report on technical requirements",url:"https://eepublicdownloads.entsoe.eu/clean-documents/Publications/SOC/20240503_First_interim_report_in_technical_requirements.pdf",date:"2024",lang:"EN"},
+  {ty:"News",tier:"B",org:"pv magazine",title:"SMA secures German certificate for grid-forming battery inverter ahead of the 2026 instantaneous reserve tender",url:"https://www.pv-magazine.com/2025/09/10/sma-secures-german-certificate-for-grid-forming-battery-inverter/",date:"Sep 2025",lang:"EN"}
+ ],
+ crm:[
+  {ty:"Market report",tier:"B",org:"IEA",title:"With new export controls on critical minerals, supply concentration risks become reality",url:"https://www.iea.org/commentaries/with-new-export-controls-on-critical-minerals-supply-concentration-risks-become-reality",date:"2025",lang:"EN"},
+  {ty:"Trade notice",tier:"A",org:"MOFCOM (China)",title:"Announcement No. 18 (2025): licensing for seven heavy rare earth elements and magnet materials, in force",url:"https://www.iea.org/commentaries/with-new-export-controls-on-critical-minerals-supply-concentration-risks-become-reality",date:"Apr 2025",lang:"ZH"},
+  {ty:"News",tier:"B",org:"Covington (Global Policy Watch)",title:"Heavy rare earth elements: rising supply chain risks and emerging policy responses",url:"https://www.globalpolicywatch.com/2026/02/heavy-rare-earth-elements-rising-supply-chain-risks-and-emerging-policy-responses/",date:"Feb 2026",lang:"EN"},
+  {ty:"News",tier:"B",org:"CSIS",title:"China's new rare earth and magnet restrictions: the 0.1 per cent extraterritorial licensing threshold",url:"https://www.csis.org/analysis/chinas-new-rare-earth-and-magnet-restrictions-threaten-us-defense-supply-chains",date:"Oct 2025",lang:"EN"}
+ ],
+ dcp:[
+  {ty:"Market report",tier:"B",org:"IEA",title:"Electricity 2026: grid connection queues exceed 2 500 GW; grid investment must rise about 50 per cent by 2030",url:"https://www.iea.org/reports/electricity-2026/grids",date:"Feb 2026",lang:"EN"},
+  {ty:"Market report",tier:"B",org:"IEA",title:"Energy and AI: data centre electricity demand doubles to about 945 TWh by 2030; around 20 per cent of planned projects at risk of delay",url:"https://www.iea.org/reports/energy-and-ai/executive-summary",date:"2025",lang:"EN"},
+  {ty:"Market report",tier:"B",org:"IEA",title:"Key questions on energy and AI: data centre demand grew 17 per cent in 2025; AI-focused demand grew 50 per cent",url:"https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary",date:"2026",lang:"EN"}
+ ],
+ mcs:[
+  {ty:"Standard",tier:"A",org:"IEC",title:"IEC 61851-23-3:2026 (PRV): EV supply equipment for megawatt charging systems, up to 1 250 V DC on the vehicle side",url:"https://webstore.iec.ch/en/publication/113081",date:"2026",lang:"EN"},
+  {ty:"Standard",tier:"A",org:"IEC / CENELEC",title:"FprEN IEC 61851-23-3:2026: European adoption of the MCS supply equipment standard",url:"https://standards.iteh.ai/catalog/standards/clc/61c6d6fc-0fb8-48eb-a95e-a1c086f40be3/fpren-iec-61851-23-3-2026",date:"2026",lang:"EN"},
+  {ty:"Standard",tier:"B",org:"CharIN",title:"Megawatt Charging System white paper: requirements for MCS standards bodies and suppliers",url:"https://www.charin.global/media/pages/technology/knowledge-base/c708ba3361-1670238823/whitepaper_megawatt_charging_system_1.0.pdf",date:"2022",lang:"EN"},
+  {ty:"News",tier:"B",org:"ZERA",title:"MCS conformity testing: IEC TS 63379 published February 2026; IEC 61851-23-3 still in development",url:"https://www.zera.de/en/znews/mcs-pruefung-fuer-megawatt-ladestationen/",date:"Mar 2026",lang:"EN"}
+ ],
+ ai42:[
+  {ty:"Standard",tier:"A",org:"ISO / IEC",title:"ISO/IEC 42001:2023: AI management systems, requirements",url:"https://www.iso.org/standard/42001",date:"Dec 2023",lang:"EN"},
+  {ty:"Standard",tier:"A",org:"ISO",title:"ISO/IEC 42001 explained: scope, structure and relationship to the wider AI standards ecosystem",url:"https://www.iso.org/home/insights-news/resources/iso-42001-explained-what-it-is.html",date:"2026",lang:"EN"},
+  {ty:"News",tier:"B",org:"SAP",title:"ISO 42001 certification as a benchmark for AI vendor selection: certification bodies operational in 2026",url:"https://community.sap.com/t5/technology-blog-posts-by-sap/iso-42001-certification-the-new-benchmark-for-ai-vendor-selection/ba-p/14331515",date:"Feb 2026",lang:"EN"}
+ ],
+ wbg:[
+  {ty:"News",tier:"B",org:"Infineon, via Altium Resources",title:"Cost parity not yet reached: Infineon CEO states market prices for GaN chips will approach silicon prices in the coming years",url:"https://resources.altium.com/p/growth-prospects-gan-and-sic-semiconductors",date:"Mar 2026",lang:"EN"},
+  {ty:"Market report",tier:"B",org:"Fortune Business Insights",title:"GaN and SiC power semiconductor market: high manufacturing and material processing cost remains the principal restraint",url:"https://www.fortunebusinessinsights.com/gan-sic-power-semiconductor-market-105987",date:"2026",lang:"EN"},
+  {ty:"Market report",tier:"B",org:"Business Research Insights",title:"SiC in 28 per cent of BEV inverters in 2023, forecast above 50 per cent penetration by 2027",url:"https://www.businessresearchinsights.com/market-reports/gallium-nitride-gan-and-silicon-carbide-sic-power-semiconductors-market-104486",date:"Mar 2026",lang:"EN"}
+ ]
+};
+function isVerified(s){return !!VERIFIED[s.id]}
 function buildSources(s){
+ if(VERIFIED[s.id])return VERIFIED[s.id].map(x=>({ty:x.ty,org:x.org,url:x.url,date:x.date,lang:x.lang,tier:x.tier,title:x.title,verified:true}));
  const map={tech:["Journal","Patent","Standard","Conference"],reg:["Policy","Standard","News"],market:["Market report","News","Conference"],geo:["Trade notice","News","Market report"]};
  const types=map[s.q];const dates=["May 2026","Mar 2026","Feb 2026","Dec 2025","Oct 2025","Aug 2025"];
  const short=s.t.split(' ').slice(0,5).join(' ');const tc=(COMM[s.comm[0]]||"IEC").split(' · ')[0];
@@ -883,6 +1015,13 @@ function buildSources(s){
  return out;
 }
 SIGNALS.forEach(s=>{s.sources=buildSources(s)});
+/* A verified signal states the number of sources it can actually produce. The old count was a
+   fabricated figure, and leaving it in place would have the drawer claim 41 sources while showing
+   four citations. Corroboration is recomputed from the real number. */
+SIGNALS.forEach(s=>{if(isVerified(s)){s.src=s.sources.length;computeScores(s)}});
+function clip(t,n){if(t.length<=n)return t;
+ let cut=t.slice(0,n);const sp=cut.lastIndexOf(" ");if(sp>n*0.6)cut=cut.slice(0,sp);
+ return cut.replace(/[\s,;:.\-]+$/,"")+"\u2026";}
 function sigById(id){return SIGNALS.find(s=>s.id===id)}
 
 /* ================= REGS / REPORTS / ALERTS ================= */
@@ -1192,24 +1331,24 @@ const TERMS={
  "battery passport":"A required digital record of a battery's materials and footprint",
  "rare-earth":"A group of critical minerals essential to magnets and electronics",
  "UPS":"Uninterruptible power supply",
- "IoT":"Internet of Things \u2014 networked sensors and devices",
+ "IoT":"Internet of Things: networked sensors and devices",
  "IECEE":"IEC scheme for certifying the safety of electrical equipment",
  "IECEx":"IEC scheme for equipment used in explosive atmospheres",
  "IECRE":"IEC scheme for renewable-energy equipment",
- "RACI":"Responsible, Accountable, Consulted, Informed \u2014 a map of who owns each step",
- "RAG":"Retrieval-augmented generation \u2014 tying the AI to fetched documents so it uses real sources, not its memory",
+ "RACI":"Responsible, Accountable, Consulted, Informed: a map of who owns each step",
+ "RAG":"Retrieval-augmented generation: tying the AI to fetched documents so it uses real sources, not its memory",
  "grounding":"Forcing the AI to base every claim on a fetched source",
  "automation bias":"Trusting the machine without checking it",
  "weak signal":"A faint, early sign of change, caught before it is obvious",
  "corroboration":"How many independent, varied sources support a signal",
  "provenance":"The traceable record of where a fact came from",
- "NWIP":"New Work Item Proposal \u2014 how new IEC standards work begins",
+ "NWIP":"New Work Item Proposal: how new IEC standards work begins",
 };
 Object.keys(COMM).forEach(function(k){var v=COMM[k];var i=v.indexOf(" · ");if(i>0){var code=v.slice(0,i),scope=v.slice(i+3);if(!TERMS[code])TERMS[code]=scope}});
 
 /* ================= METHOD (mechanisms) ================= */
 const RUBRIC=[
- ["Is it new?","Whether the development is genuinely new versus what the watch list already tracks.","Newness leans WEAK / early"],
+ ["Is it new?","Whether the development is new relative to what the watch list already tracks.","Newness leans WEAK / early"],
  ["Is it moving?","Whether evidence is building across sources · the momentum read.","Fast movement leans WEAK / early"],
  ["Who else says so?","How many independent, varied sources report it, and whether they agree.","More agreeing sources lean ESTABLISHED"],
  ["How proven is it?","Maturity as a TRL band, 1 (idea) to 9 (in everyday use).","Higher TRL leans ESTABLISHED"],
@@ -1298,7 +1437,7 @@ const NOTES={
  standards:["Monitoring agents track rules and standards; the knowledge graph maps each to the committees it touches.","agentic"],
  market:["Market signals carry an impact rating and a momentum read, then are validated like any other signal.","human"],
  geo:["Supply and geopolitical risks are cross-checked across multiple sources before being flagged high-impact.","agentic"],
- faq:["Every answer here is also on a screen you can open yourself. If an answer is not in the tool, it is a gap in the tool, and it goes on the backlog rather than into the presenter's head.","human"],
+ faq:["Each answer routes to the screen that holds the full explanation. A question with no answer here is a gap in the tool and is recorded on the backlog.","human"],
  graph:["Derived from the signal set: every edge here is an analyst-attached committee link, not an agent inference. When the linking agents are switched on they will propose these edges and an analyst will confirm them.","human"],
  reports:["Drafts are assembled by the drafting agent with sources attached; reviewers and a human sign-off gate publishing.","human"],
  sectors:["Some IEC domains have few signals today and are shown as such. The framework maps every domain.","method"],
@@ -1603,7 +1742,7 @@ td b{color:var(--purple)}
 <h2>The questions we ask</h2>
 <table>
 <tr><th>Question</th><th>What it asks</th><th>Which way it leans</th></tr>
-<tr><td><b>Is it new?</b></td><td>Whether the development is genuinely new versus what the watch list already tracks.</td><td>Newness leans weak / early</td></tr>
+<tr><td><b>Is it new?</b></td><td>Whether the development is new relative to what the watch list already tracks.</td><td>Newness leans weak / early</td></tr>
 <tr><td><b>Is it moving?</b></td><td>Whether evidence is building across sources · the momentum read.</td><td>Fast movement leans weak / early</td></tr>
 <tr><td><b>Who else says so?</b></td><td>How many independent, varied sources report it, and whether they agree.</td><td>More agreeing sources lean established</td></tr>
 <tr><td><b>How proven is it?</b></td><td>Maturity expressed as a TRL band, 1 (idea) to 9 (in everyday use).</td><td>Higher TRL leans established</td></tr>
@@ -2108,7 +2247,7 @@ function decorateIframe(f){try{
  d.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('.gl');if(g)show(g);else hide()});
 }catch(e){}}
 function closeDoc(){const ov=el("#docOverlay");ov.classList.remove("show");ov.innerHTML=""}
-function tabDoc(t){const m={loop:['operating-loop-architecture.html','Operating Loop Architecture','The full six-stage loop \u2014 scan, structure, validate, decide, publish, monitor \u2014 with data flows, agent handoffs and the human gate at each step.'],agentic:['agents-and-automation.html','Agents & Automation Specification','Every agent, its tools and autonomy, the guardrails, the grounding rule, and the source universe it is allowed to read.'],method:['classification-method.html','Signal Classification Method','The questions, the three labels, label boundaries, the override log, and how horizon bands are derived. No scoring.'],human:['human-supervision-and-raci.html','Human Supervision & Accountability','The three supervision tiers, the RACI map, override-rate monitoring, and what must always pass a named person.'],controls:['controls-and-risk.html','Controls & Risk Register','Each control, the full risk register with mitigations, and the items still marked to confirm.'],kpi:['kpis-and-glossary.html','KPIs, Definitions & Glossary','How each KPI is defined and measured, plus the full glossary of terms and abbreviations.']};const d=m[t]||m.loop;return docCallout(d[0],d[1],d[2])}
+function tabDoc(t){const m={loop:['operating-loop-architecture.html','Operating Loop Architecture','The full six-stage loop: scan, structure, validate, decide, publish, monitor: with data flows, agent handoffs and the human gate at each step.'],agentic:['agents-and-automation.html','Agents & Automation Specification','Every agent, its tools and autonomy, the guardrails, the grounding rule, and the source universe it is allowed to read.'],method:['classification-method.html','Signal Classification Method','The questions, the three labels, label boundaries, the override log, and how horizon bands are derived. No scoring.'],human:['human-supervision-and-raci.html','Human Supervision & Accountability','The three supervision tiers, the RACI map, override-rate monitoring, and what must always pass a named person.'],controls:['controls-and-risk.html','Controls & Risk Register','Each control, the full risk register with mitigations, and the items still marked to confirm.'],kpi:['kpis-and-glossary.html','KPIs, Definitions & Glossary','How each KPI is defined and measured, plus the full glossary of terms and abbreviations.']};const d=m[t]||m.loop;return docCallout(d[0],d[1],d[2])}
 function av(id,cls){const m=member(id);return '<span class="'+(cls||'miniav')+'" style="background:'+m.color+'" title="'+m.name+'">'+m.initials+'</span>'}
 
 /* runnote helper (inline-safe) */
@@ -2117,8 +2256,8 @@ function rn(html,tab){return '<div class="runnote"><svg viewBox="0 0 24 24"><cir
 /* ================= NAV ================= */
 const NAV=[
  {v:"overview",label:"Overview",grp:1,ic:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>'},
- {v:"radar",label:"Horizon radar",grp:2,c:()=>SIGNALS.length,ic:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>'},
  {v:"landscape",label:"Signal landscape",grp:2,c:()=>SIGNALS.length,ic:'<circle cx="7" cy="8" r="2"/><circle cx="16" cy="6" r="2"/><circle cx="12" cy="14" r="2"/><circle cx="18" cy="15" r="2"/><circle cx="6" cy="16" r="2"/>'},
+ {v:"radar",label:"Horizon radar",grp:2,c:()=>SIGNALS.length,ic:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>'},
  {v:"feed",label:"Signal feed",grp:2,c:()=>SIGNALS.length,ic:'<path d="M4 6h16M4 12h16M4 18h10"/>'},
  {v:"maturity",label:"Maturity / TRL",grp:2,ic:'<path d="M4 20l5-5 4 4 7-9"/><path d="M16 10h4v4"/>'},
  {v:"tech",label:"Technology",grp:3,c:()=>SIGNALS.filter(s=>s.q==="tech").length,ic:'<path d="M9 3h6v3h3v12H6V6h3z"/><path d="M9 10h6M9 14h6"/>'},
@@ -2127,8 +2266,8 @@ const NAV=[
  {v:"geo",label:"Geopolitical",grp:3,c:()=>SIGNALS.filter(s=>s.q==="geo").length,ic:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>'},
  {v:"sectors",label:"IEC sectors",grp:4,c:()=>SECTORS.length,ic:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'},
  {v:"committees",label:"Committee register",grp:4,c:()=>Object.keys(COMM).length,ic:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/>'},
- {v:"standards",label:"Standards & rules",grp:4,c:()=>REGS.length,ic:'<path d="M5 4h11l3 3v13H5zM14 4v4h4"/>'},
  {v:"graph",label:"Knowledge graph",grp:4,ic:'<circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="7" r="2.5"/><circle cx="12" cy="17" r="2.5"/><path d="M8 7l3 8M16 9l-3 6"/>'},
+ {v:"standards",label:"Standards & rules register",grp:4,c:()=>REGS.length,ic:'<path d="M5 4h11l3 3v13H5zM14 4v4h4"/>'},
  {v:"workspace",label:"Team workspace",grp:5,c:()=>NOTIFS.length,ic:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 6a3 3 0 0 1 0 6M21 20a6 6 0 0 0-5-5.9"/>'},
  {v:"reports",label:"Reports & briefs",grp:5,c:()=>REPORTS.length,ic:'<path d="M6 3h9l3 3v15H6zM9 12h6M9 16h6M9 8h3"/>'},
  {v:"alerts",label:"Alert settings",grp:5,ic:'<path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10 21a2 2 0 0 0 4 0"/>'},
@@ -2145,10 +2284,10 @@ function renderPresence(){el("#presence").innerHTML=TEAM.map(m=>'<span class="av
 /* ================= SIGNAL ROW ================= */
 function rowHTML(s){const cb={weak:'sc-weak',emerging:'sc-emerging',strong:'sc-strong'}[s.cls];
  return '<button class="srow" data-action="signal" data-id="'+s.id+'">'
- +'<div class="l1"><span class="qtag '+s.q+'">'+Q[s.q]+'</span><span class="ti">'+s.t+'</span><span class="sclass '+cb+'">'+CLSLABEL[s.cls]+'</span>'+(s.new?'<span class="new">NEW</span>':'')+'</div>'
+ +'<div class="l1"><span class="qtag '+s.q+'">'+Q[s.q]+'</span><span class="ti">'+s.t+'</span><span class="sclass '+cb+'">'+CLSLABEL[s.cls]+'</span>'+(s.new?'<span class="new">NEW</span>':'')+(isVerified(s)?'<span class="vbadge">VERIFIED</span>':'')+(dl(s)?'<span class="dbadge">'+fmtDate(dl(s).date)+'</span>':'')+'</div>'
  +'<div class="l2"><span>conf <span class="bar"><i style="width:'+s.conf+'%"></i></span> '+s.conf+'%</span>'
  +(s.val?'<span class="chk">✓ validated</span>':'<span>pending review</span>')
- +'<span class="imp">'+impDots(s.imp)+'</span><span>'+s.src+' sources</span>'+(s.trl?'<span>TRL '+s.trl+'</span>':'')
+ +'<span class="imp">'+impDots(s.imp)+'</span><span>'+(isVerified(s)?s.sources.length+' verified sources':s.src+' sources')+'</span>'+(s.trl?'<span>TRL '+s.trl+'</span>':'')
  +'<span class="lang">'+s.lang[0]+(s.lang.length>1?' +'+(s.lang.length-1):'')+'</span></div></button>'}
 
 /* ================= RADAR ================= */
@@ -2203,7 +2342,7 @@ function radarSVG(cx,cy){const R=252,G=radarGeom(cx,cy);
  let divs;
  if(!G.single){divs='<line x1="'+cx+'" y1="'+(cy-R)+'" x2="'+cx+'" y2="'+(cy+R)+'" stroke="#e4e0ea"/><line x1="'+(cx-R)+'" y1="'+cy+'" x2="'+(cx+R)+'" y2="'+cy+'" stroke="#e4e0ea"/>'}
  else{divs=G.dividers.map(a=>{const p=G.toXY(a,R);return '<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="#e4e0ea" stroke-width="1"/>'}).join("")}
- const rlab=state.radarRings==="hz"?["Now \u2013 2 yrs","~3 \u2013 4 yrs","5 yrs +"]:["In standards","Building","Weak signal"];
+ const rlab=state.radarRings==="hz"?["Now \u2013 2 yrs","~3 \u2013 4 yrs","5 yrs +"]:[CLSLABEL.strong,CLSLABEL.emerging,CLSLABEL.weak];
  let rl="";for(let i=0;i<3;i++){const rr=R*(i+0.5)/3;rl+='<text class="rl gl" data-term="'+rlab[i]+'" x="'+(cx+7)+'" y="'+(cy-rr+4)+'">'+rlab[i]+'</text>'}
  let labels;
  if(!G.single){labels='<text class="ql gl" data-term="Technology lens" x="'+(cx+R-6)+'" y="'+(cy-R+22)+'" text-anchor="end">Technology</text><text class="ql gl" data-term="Market lens" x="'+(cx+R-6)+'" y="'+(cy+R-8)+'" text-anchor="end">Market</text><text class="ql gl" data-term="Regulatory lens" x="'+(cx-R+6)+'" y="'+(cy+R-8)+'">Regulatory</text><text class="ql gl" data-term="Geopolitical lens" x="'+(cx-R+6)+'" y="'+(cy-R+22)+'">Geopolitical</text>'}
@@ -2222,15 +2361,25 @@ V.overview=()=>{
  const weak=SIGNALS.filter(s=>s.cls==="weak").slice(0,4);
  const sectorCov=SECTORS.map(sc=>[sc.name,SIGNALS.filter(s=>s.sector===sc.key).length]).sort((a,b)=>b[1]-a[1]);
  return '<div class="crumb">Home / Overview</div>'
- +'<div class="phead"><h1>Foresight Overview</h1><div class="sub">IEC Market Strategy Board · technology horizon across all '+SECTORS.length+' electrotechnical domains</div>'
+ +'<div class="phead"><h1>Foresight Overview</h1><div class="sub">IEC Market Strategy Board · technology horizon across all '+SECTORS.length+' electrotechnical domains<br><span class="setline">'+SIGNALS.length+' signals in the set, curated as of '+fmtDate(AS_OF)+'. The ingestion pipeline is not switched on, so nothing has been added since. '+Object.keys(VERIFIED).length+' signals carry verified citations to specific documents; the rest show the structure of the evidence trail without citing particular sources.</span></div>'
  +'<div class="right"><button class="btn ghost" data-action="view" data-view="sectors"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>All sectors</button><button class="btn" data-action="view" data-view="radar">Open radar</button></div></div>'
  +'<div class="kpis">'
- +'<div class="kpi kpiclick" data-action="kpinav" data-view="feed" data-cls="all"><span class="kpi-go">\u2192</span><div class="v">'+SIGNALS.length+'</div><div class="k">Live signals</div><div class="d up">across '+SECTORS.length+' IEC domains</div></div>'
- +'<div class="kpi kpiclick" data-action="kpinav" data-view="feed" data-cls="weak"><span class="kpi-go">\u2192</span><div class="v">'+SIGNALS.filter(s=>s.cls==="weak").length+'</div><div class="k">Weak signals</div><div class="d hotx">early & faint · watch list</div></div>'
- +'<div class="kpi kpiclick" data-action="kpinav" data-view="howitworks" data-optab="human"><span class="kpi-go">\u2192</span><div class="v">'+SIGNALS.filter(s=>s.val).length+' / '+SIGNALS.length+'</div><div class="k">Human-checked</div><div class="d">'+(SIGNALS.length-SIGNALS.filter(s=>s.val).length)+' still in review</div></div>'
- +'<div class="kpi kpiclick" data-action="kpinav" data-view="sectors"><span class="kpi-go">\u2192</span><div class="v">'+Object.keys(COMM).length+'</div><div class="k">IEC committees mapped</div><div class="d">TCs, SCs, SyCs, JTC 1</div></div></div>'
- +foundationsMini()+rn('Agents scan, sort and draft. Analysts validate. The Board decides. Signals are classified weak, building or established; nothing is scored or forecast. Open the operating model to see who does what at each step.','loop')
- +'<div class="grid2"><div class="card"><h3>Highest-impact signals<a data-action="view" data-view="feed">All signals →</a></h3><div class="rlist">'+top.map(rowHTML).join("")+'</div></div>'
+  +'<div class="kpi kpiclick kpi-due" data-action="kpinav" data-view="feed" data-cls="due"><span class="kpi-go">\u2192</span><div class="v">'+dueWithin(120).length+'</div><div class="k">Deadlines in the next 120 days</div><div class="d">Dated obligations, not trends. Next: '+fmtDate(dueWithin(120)[0].date)+', in '+daysTo(dueWithin(120)[0].date)+' days.</div></div>'
+  +'<div class="kpi kpiclick" data-action="kpinav" data-view="feed" data-cls="new"><span class="kpi-go">\u2192</span><div class="v">'+SIGNALS.filter(s=>inWindow(s.first)).length+'</div><div class="k">New '+windowLabel()+'</div><div class="d">Arrived since '+fmtDate(windowStart())+'. Read and triage.</div></div>'
+  +'<div class="kpi kpiclick" data-action="kpinav" data-view="feed" data-cls="moved"><span class="kpi-go">\u2192</span><div class="v">'+SIGNALS.filter(s=>s.prev).length+'</div><div class="k">Label changed</div><div class="d">A move to Established is the trigger for committee action.</div></div>'
+  +'<div class="kpi kpiclick" data-action="kpinav" data-view="feed" data-cls="unval"><span class="kpi-go">\u2192</span><div class="v">'+SIGNALS.filter(s=>!s.val).length+'</div><div class="k">Awaiting validation</div><div class="d">Waiting on a named analyst to confirm, edit or reject.</div></div>'
+  +'<div class="kpi kpiclick" data-action="kpinav" data-view="feed" data-cls="board"><span class="kpi-go">\u2192</span><div class="v">'+SIGNALS.filter(s=>s.cls==="strong"&&s.imp>=3).length+'</div><div class="k">Ready for the Board</div><div class="d">Established, high reach, not yet briefed.</div></div>'
+  +'</div>'
+  +'<div class="card" style="margin-bottom:16px"><h3>What lands next <span class="c">'+DEADLINES.length+'</span></h3><div class="pad">'
+  +'<div class="srcnote" style="margin-bottom:8px">Obligations with a date certain, in date order. A horizon is a range and cannot be diarised. These can.</div>'
+  +DEADLINES.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(d=>{const sg=sigById(d.sig);const k=daysTo(d.date);
+    return '<button class="dlrow" data-action="signal" data-id="'+d.sig+'">'
+     +'<span class="dl-d">'+fmtDate(d.date)+'</span>'
+     +'<span class="dl-k'+(k<=30?' hot':'')+'">'+(k>=0?'in '+k+' days':'passed')+'</span>'
+     +'<span class="dl-w"><b>'+d.what+'</b><span class="dl-b">'+d.binds+'</span></span>'
+     +'<span class="dl-s">'+Q[sg.q]+'</span></button>'}).join("")
+  +'</div></div>'
+  +'<div class="grid2"><div class="card"><h3>Highest-impact signals<a data-action="view" data-view="feed">All signals →</a></h3><div class="rlist">'+top.map(rowHTML).join("")+'</div></div>'
  +'<div class="card"><h3>Weak signals · early radar<a data-action="view" data-view="radar">Radar →</a></h3><div class="rlist">'+(weak.length?weak.map(rowHTML).join(""):'<div class="empty">No weak signals right now</div>')+'</div></div></div>'
  +'<div class="card" style="margin-top:18px"><h3>Coverage by IEC domain · all '+SECTORS.length+' domains<a data-action="view" data-view="sectors">Sectors →</a></h3><div class="pad">'+hbars(sectorCov)+'</div></div>'}
 
@@ -2331,10 +2480,10 @@ V.landscape=()=>{
  <div class="card" style="margin:14px 0 0"><h3>What this picture is, and what it is not</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.6">
    <b>Each dot is one of the ${SIGNALS.length} signals.</b> Colour is its IEC domain. Size is analyst-set impact. A thread between two dots means they share at least one IEC committee.
    <div style="margin-top:8px"><b>Position is the settled state of three forces, and nothing else:</b> every pair of dots repels, signals that share a committee attract, and each signal is pulled toward an anchor for its domain. The layout is deterministic, so it draws the same way every time.</div>
-   <div class="hw-note2" style="margin-top:9px"><b>The axes mean nothing and distance is not a measured similarity.</b> This is not an embedding and should not be read as one. The one real insight it carries is the threads: where a thread crosses between two colour clusters, <b>two IEC domains meet inside the same committee</b>, and that is where work collides.</div>
+   <div class="hw-note2" style="margin-top:9px"><b>Position is produced by the layout algorithm.</b> The axes carry no meaning, and distance does not represent similarity. It is not an embedding. The threads carry the information: where a thread crosses between two colour clusters, two IEC domains share a committee.</div>
   </div></div>
   <div class="ls-stage" id="lsStage"><canvas id="lsCanvas"></canvas><svg id="lsLead"></svg><div id="lsLabels"></div><div class="ls-tip" id="lsTip"></div></div>
- ${rn('<b>How to read this honestly.</b> The domains and their signal counts are real. Position and the closeness between clusters come from the layout, so they are indicative only, not measured relationships. This shows all '+SIGNALS.length+' curated signals, which is deliberately sparse; the dense picture needs the full source universe, still to be ingested. Nothing is scored, and a named analyst signs the read.')}`;
+ ${rn('<b>How to read this.</b> The domains and their signal counts are taken from the data. Position and the distance between clusters are produced by the layout and are not measured relationships. This shows all '+SIGNALS.length+' curated signals, which is deliberately sparse; the dense picture needs the full source universe, still to be ingested. Nothing is scored, and a named analyst signs the read.')}`;
 };
 
 V.radar=()=>{
@@ -2342,11 +2491,11 @@ V.radar=()=>{
  const chips=[["all","All lenses"],["tech","Technology"],["market","Market"],["reg","Regulatory"],["geo","Geopolitical"]];
  const rm=state.radarRings==="hz"?"hz":"mat";
  const single=state.quad!=="all";
- const ringWord=rm==="hz"?"time to relevance, inner is arriving now and outer is five years or more, an analyst estimate not a date":"maturity, inner is in standards and outer is a weak signal";
+ const ringWord=rm==="hz"?"time to relevance, inner is arriving now and outer is five years or more, an analyst estimate not a date":"the classification label: Established at the centre, Building, then Weak signal at the rim. This is not the TRL, which applies to technology signals only";
  const sub=single?`Wedges are the facets of ${Q[state.quad]}. Rings are ${ringWord}. Colour is momentum, dot size is impact.${rm==="hz"?" A horizon is a range, not a date. Each signal is drawn as a line across every band its range spans, with the dot at the middle of that range.":""}`:`Quadrants are the four lenses. Rings are ${ringWord}. Colour is momentum, dot size is impact.${rm==="hz"?" A horizon is a range, not a date. Each signal is drawn as a line across every band its range spans, with the dot at the middle of that range.":""}`;
  return `<div class="crumb">Watch / Horizon Radar</div>
  <div class="phead"><h1>Horizon Radar</h1><div class="sub">${sub}</div></div>
- <div class="bar-controls"><span class="cgl">Rings</span><button class="chip ${rm==='mat'?'on':''}" data-action="radarrings" data-mode="mat">Maturity</button><button class="chip ${rm==='hz'?'on':''}" data-action="radarrings" data-mode="hz">Time horizon</button><span class="spacer"></span><span class="cgl">Lens</span>${chips.map(c=>`<button class="chip ${state.quad===c[0]?'on':''}" data-action="quad" data-quad="${c[0]}">${c[1]}</button>`).join("")}</div>
+ <div class="bar-controls"><span class="cgl">Rings</span><button class="chip ${rm==='mat'?'on':''}" data-action="radarrings" data-mode="mat">Classification</button><button class="chip ${rm==='hz'?'on':''}" data-action="radarrings" data-mode="hz">Time horizon</button><span class="spacer"></span><span class="cgl">Lens</span>${chips.map(c=>`<button class="chip ${state.quad===c[0]?'on':''}" data-action="quad" data-quad="${c[0]}">${c[1]}</button>`).join("")}</div>
  <div class="radarwrap"><div class="radarcard">${radarSVG(260,260)}<div class="leg"><span><i style="background:var(--hot)"></i>Hot</span><span><i style="background:var(--watch)"></i>Watch</span><span><i style="background:var(--stable)"></i>Stable</span><span style="color:#9b81a9">Dot size = impact</span></div></div>
  <div class="card rcard"><h3>On the radar<span class="c">${list.length}</span></h3><div class="rlist">${list.map(rowHTML).join("")}</div></div></div>
  ${rm==='hz'?rn('Time-to-relevance rings are analyst estimates parsed from the stated horizon of each signal, shown as bands, not precise dates. Maturity stays the default read.'):''}`};
@@ -2355,7 +2504,19 @@ V.feed=()=>{
  let list=SIGNALS.slice();
  if(state.feedQ!=="all")list=list.filter(s=>s.q===state.feedQ);
  if(state.feedSector!=="all")list=list.filter(s=>s.sector===state.feedSector);
- const fcls=state.feedCls||"all";if(fcls!=="all")list=list.filter(s=>s.cls===fcls);
+ const fcls=state.feedCls||"all";
+ /* P5-2 · the overview reports work, so the feed has to receive it. Each figure is a filter into
+    a list: the number is the entry point to the work, not a statistic about it. */
+ const WORKFILTER={
+  new:{f:s=>inWindow(s.first), label:()=>"New "+windowLabel()},
+  moved:{f:s=>!!s.prev, label:()=>"Label changed"},
+  unval:{f:s=>!s.val, label:()=>"Awaiting validation"},
+  board:{f:s=>s.cls==="strong"&&s.imp>=3, label:()=>"Ready for the Board"},
+  due:{f:s=>!!dl(s), label:()=>"Dated obligations"},
+  verified:{f:s=>isVerified(s), label:()=>"Verified sources"}
+ };
+ if(WORKFILTER[fcls])list=list.filter(WORKFILTER[fcls].f);
+ else if(fcls!=="all")list=list.filter(s=>s.cls===fcls);
  if(state.search){const q=state.search.toLowerCase();list=list.filter(s=>s.t.toLowerCase().includes(q)||s.sum.toLowerCase().includes(q)||(SECTOR_BY[s.sector]&&SECTOR_BY[s.sector].name.toLowerCase().includes(q)))}
  const sort=state.feedSort;const mr={hot:3,watch:2,stable:1};list.sort((a,b)=>sort==="conf"?b.conf-a.conf:sort==="momentum"?(mr[b.mom]-mr[a.mom])||b.imp-a.imp:sort==="maturity"?((b.trl||0)-(a.trl||0))||b.imp-a.imp:b.imp-a.imp||b.conf-a.conf);
  const qchips=[["all","All types"],["tech","Technology"],["market","Market"],["reg","Regulatory"],["geo","Geopolitical"]];
@@ -2377,7 +2538,7 @@ V.maturity=()=>{
  <div class="phead"><h1>Maturity / TRL</h1><div class="sub">Technology Readiness Level (TRL 1 = idea, 9 = proven in use). Estimated by AI, confirmed by an analyst.</div></div>
  ${note('maturity')}
  <div class="grid2 even"><div class="card"><h3>Pipeline by stage</h3><div class="pad">${hbars(RINGS.map(r=>[lbl[r],byRing[r].length]))}</div></div>
- <div class="card"><h3>Furthest along (highest TRL)</h3><div class="trl">${movers.map(s=>`<div class="item"><div class="row"><span>${s.t.split(' ').slice(0,7).join(' ')}</span><span>TRL ${s.trl}</span></div><div class="trlbar"><i style="width:${Math.round(s.trl/9*100)}%"></i></div></div>`).join("")}</div></div></div>
+ <div class="card"><h3>Furthest along (highest TRL)</h3><div class="trl">${movers.map(s=>`<div class="item"><div class="row"><span>${clip(s.t,52)}</span><span>TRL ${s.trl}</span></div><div class="trlbar"><i style="width:${Math.round(s.trl/9*100)}%"></i></div></div>`).join("")}</div></div></div>
  <div class="card" style="margin-top:18px"><h3>What TRL means · the 1 to 9 ladder</h3><div class="pad"><div class="trlladder">${TRL_LADDER.map(x=>`<div class="trung"><span class="tn">${x[0]}</span><div><b>${x[1]}</b><span>${x[2]}</span></div></div>`).join("")}</div><div class="srcnote">We read the band from the evidence · papers and patents sit low, pilots and demonstrators in the middle, deployments and standards activity high · then an analyst confirms or corrects it. TRL is about how proven a thing is, not how important: a high-impact signal can still sit at TRL 3.</div></div></div>
  <div class="card" style="margin-top:18px"><h3>All signals by stage</h3><div class="rlist">${RINGS.flatMap(r=>byRing[r]).map(rowHTML).join("")}</div></div>`};
 
@@ -2393,7 +2554,12 @@ V.committees=()=>{
 };
 V.standards=()=>{
  return `<div class="crumb">Map / Standards & Rules</div>
- <div class="phead"><h1>Standards & Regulatory Watch</h1><div class="sub">Live standards, regulations and trade rules that intersect IEC work, each linked to the signal that surfaced it.</div></div>
+ <div class="phead"><h1>Standards and Rules Register</h1><div class="sub">The instruments themselves: standards, regulations and trade rules that intersect IEC work, each with its status.</div></div>
+ <div class="card" style="margin-bottom:14px"><h3>How this differs from the Regulatory lens</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.6">
+  This register lists <b>instruments</b>: what exists, and where it stands. The <b>Regulatory lens</b> lists <b>signals</b>: what is moving, with a label, a horizon and sources.
+  <div style="margin-top:6px">A signal can exist before an instrument does, for example when a consultation opens. The register also spans two lenses: export controls are trade rules attached to <b>geopolitical</b> signals, not regulatory ones.</div>
+  <div style="margin-top:8px"><button class="btn ghost" data-action="view" data-view="reg">Regulatory lens \u2192</button> <button class="btn ghost" data-action="view" data-view="geo">Geopolitical lens \u2192</button></div>
+ </div></div>
  ${note('standards')}
  <div class="card"><h3>Tracked instruments<span class="c">${REGS.length}</span></h3><div class="rlist">${REGS.map(r=>`<button class="srow" data-action="signal" data-id="${r.sig}"><div class="l1"><span class="qtag reg">${r.type}</span><span class="ti">${r.n}</span><span class="pillstat ${r.cls}">${r.status}</span></div><div class="l2"><span>${r.region}</span><span>impact ${r.imp}</span><span>linked signal: ${r.sig}</span></div></button>`).join("")}</div></div>`};
 
@@ -2408,9 +2574,9 @@ const LENS_META={
  market:{title:"Market Signals",sub:"Demand, investment and supply shifts shaping where electrotechnology is heading.",
        note:"Market signals carry no TRL. A demand shift has no technology readiness level, so they are judged on a maturity stage instead."},
  reg:{title:"Regulatory Signals",sub:"Rules, standards and requirements that are changing, and the instruments that carry them.",
-       note:"Regulatory signals carry no TRL, because a rule has no technology readiness level. They are judged on a maturity stage. The instruments themselves are listed in Standards and rules."},
+       note:"Regulatory signals carry no TRL: a rule has no technology readiness level, so they are judged on a maturity stage. These are the developments that are moving. The instruments themselves, with their status, are listed in the Standards and rules register."},
  geo:{title:"Geopolitical Signals",sub:"Trade rules, export controls and supply concentration affecting components and materials.",
-       note:"This is the thinnest lens in the set, with only a few signals. That is shown rather than padded: a thin lens is a coverage statement, not a hidden gap."}
+       note:"This lens carries the fewest signals in the set. The count is reported as it stands and is a statement about coverage."}
 };
 function lensRows(list){
  return list.map(x=>{
@@ -2421,7 +2587,7 @@ function lensRows(list){
    <span class="lens-t">${x.t}</span>
    <span class="lens-m">${dom}</span>
    <span class="lens-b">${basis}</span>
-   <span class="lens-s">${x.src} sources</span>
+   <span class="lens-s">${isVerified(x)?`<b style="color:#2f6f4f">${x.sources.length} verified</b>`:`${x.src} sources`}</span>
    <span class="lens-h">${x.horizon}</span>
   </div>`}).join("");
 }
@@ -2449,31 +2615,52 @@ function V_lens(q){
   </div></div>`;
 }
 const FAQ=[
- ["Why does it not give us a single score?",
-  "Because a number you cannot trace back to a source is the first thing a technical committee takes apart. Every signal gets one of three labels, set by a named analyst against five plain questions, with the evidence shown beside it. If the Board wants a composite index, tell us what it should mean and we will build it, but we will not produce one by default."],
- ["Why is it not running live?",
-  "The scanning agents and the feeds are designed and specified. They are switched off because a live feed on a source universe the Board has not agreed would be a demonstration of our guesses. Agree the sources first, and switching them on is the next build."],
- ["How do you know your sources are exhaustive?",
-  "We do not claim to be. We claim coverage against a declared frame, and we measure recall against it by back-testing what the Board actually acted on. See Sources and coverage."],
- ["How is a source put into a tier?",
-  "By publisher, once, at registration, by a named person. The test is: if this is wrong, who is accountable? Tier A is the issuing authority, Tier B an editor or reviewer, Tier C nobody. A Tier C item never stands alone."],
- ["Where does the TRL come from?",
-  "An analyst assigns it against the nine-rung ladder, and every rung is pinned to an artefact: a paper is 3 or 4, a pilot in operation is 7, a published standard is 9. See Classification method."],
- ["What is the TRL of a regulation?",
-  "It has none, and we do not give it one. A rule has no technology readiness level and pretending otherwise would be a category error. Market, regulatory and geopolitical signals are judged on a maturity stage instead, and every signal states which of the two was used."],
- ["What happens when the analyst disagrees with the label?",
-  "The analyst wins. The label is theirs to set. The measures are evidence shown beside it, not a formula that overrules them. In the live build every override is logged with its reason."],
- ["What is the Signal Landscape actually showing?",
-  "Clusters by domain, threads where signals share a committee. The axes mean nothing and distance is not a similarity measure. It is not an embedding."],
- ["Is the Knowledge Graph real, or a picture?",
-  "It is derived from the signal set. Standard data model (JSON-LD, PROV-O, SKOS), standard layout (CoSE), standard analytics (degree and betweenness centrality). Export it and load it into any graph database."],
- ["What if we disagree with the committee mapping?",
-  "Then it changes. The committee-to-domain mapping is our curation and it is an open Board validation item. It is listed as one on the Controls and risk screen rather than presented as settled."]
+ {q:"Are the sources real?",
+  a:"Seven signals carry verified citations: a specific document, its publisher, its date and a working link, checked against the claim. Where a source contradicted the signal, the signal was corrected. One example: the tool previously stated that wide-bandgap devices had reached cost parity with silicon. They have not. Cost remains the principal restraint, and the claim and its label were both changed. The other signals show the structure of the evidence trail without citing particular documents, and every one of them says so on screen.",
+  v:"feed", go:"Signal feed"},
+ {q:"Why is there nothing in here from this week?",
+  a:"The ingestion pipeline is not switched on. The set was curated as of "+"30 June 2026"+" and nothing has been added since. Currency is a property of the pipeline, not of a model: the tool reads sources, it does not recall them from training. When the pipeline runs, the newest signal is as old as the most recent source, and no retraining is involved.",
+  v:"howitworks", tab:"sources", go:"Sources and coverage"},
+ {q:"What does the signal count tell me?",
+  a:"On its own, nothing. The overview reports work rather than volume: what arrived in the window, what changed label, what is waiting on an analyst, and what is ready for the Board. Each figure filters into the list behind it.",
+  v:"overview", go:"Overview"},
+ {q:"Why no single score?",
+  a:"A composite number cannot be traced back to a source. Each signal carries one of three labels, set by a named analyst against five questions, with the measures shown alongside.",
+  v:"howitworks", tab:"method", go:"Classification method"},
+ {q:"Why is the tool not running live?",
+  a:"The agents and the source feeds are specified but switched off. A live feed on a source universe the Board has not agreed would demonstrate our assumptions rather than your requirements.",
+  v:"audit", go:"Requirements audit"},
+ {q:"How do you establish that the sources are complete?",
+  a:"Coverage is claimed against a declared frame, not against the world. The register is built by enumeration, and recall is measured by back-testing against items the Board acted on.",
+  v:"howitworks", tab:"sources", go:"Sources and coverage"},
+ {q:"How is a source assigned to a tier?",
+  a:"By publisher class, once, at registration, by a named person. The test is whether an error would have an accountable party and a correction mechanism. A Tier C item requires Tier A or B corroboration before validation.",
+  v:"howitworks", tab:"sources", go:"Sources and coverage"},
+ {q:"Where does the TRL come from?",
+  a:"An analyst assigns it against the nine-rung ladder, and each rung is pinned to an artefact: a paper is 3 or 4, a pilot in operation is 7, a published standard is 9.",
+  v:"howitworks", tab:"method", go:"Classification method"},
+ {q:"What is the difference between the Regulatory lens and the Standards and rules register?",
+  a:"The lens holds signals: regulatory developments that are moving, each with a label, a horizon and sources. The register holds instruments: the named standards, regulations and trade rules themselves, each with a status. A signal can exist before an instrument does, and the register spans the regulatory and geopolitical lenses, because export controls are trade rules attached to geopolitical signals.",
+  v:"standards", go:"Standards and rules register"},
+ {q:"What happens if an analyst disagrees with the label?",
+  a:"The analyst sets the label. The measures are evidence displayed alongside it, not a formula that overrides it. In the live build each override is recorded with its reason.",
+  v:"howitworks", tab:"human", go:"Human supervision"},
+ {q:"What does the Signal Landscape show?",
+  a:"Clusters by domain, and a thread where two signals share a committee. Position is produced by the layout algorithm. Distance does not represent similarity and should not be read as such.",
+  v:"landscape", go:"Signal landscape"},
+ {q:"Is the Knowledge Graph derived from the data?",
+  a:"Yes. Nodes and edges come from the signal set. The data model is JSON-LD using PROV-O, SKOS and Dublin Core. The layout is CoSE, and the analytics are degree and betweenness centrality.",
+  v:"graph", go:"Knowledge graph"},
+ {q:"What if the Board disagrees with the committee mapping?",
+  a:"It changes. The committee-to-domain mapping is our curation and is listed as an open Board validation item.",
+  v:"howitworks", tab:"controls", go:"Controls and risk"}
 ];
 V.faq=()=>{
- return `<div class="crumb">Operate / Questions</div><div class="phead"><h1>Questions we get asked</h1><div class="sub">The hard questions, and our answers, with their limits. If your question is not here, that is the most useful thing you can tell us.</div></div>
+ return `<div class="crumb">Operate / Questions</div><div class="phead"><h1>Questions</h1><div class="sub">Each answer states the position and its limits, and routes to the screen that holds the full explanation. Facts are stated once, in one place.</div></div>
   ${note('faq')}
-  ${FAQ.map(f=>`<div class="card" style="margin-bottom:12px"><h3>${f[0]}</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.65">${f[1]}</div></div>`).join("")}`;
+  ${FAQ.map(f=>`<div class="card" style="margin-bottom:12px"><h3>${f.q}</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.65">${f.a}
+   <div style="margin-top:8px"><button class="btn ghost" data-action="faqgo" data-view="${f.v}"${f.tab?` data-optab="${f.tab}"`:""}>${f.go} \u2192</button></div>
+  </div></div>`).join("")}`;
 };
 V.tech=()=>V_lens("tech");
 V.market=()=>V_lens("market");
@@ -2587,7 +2774,7 @@ V.graph=()=>{
  const exposed=A.exposed.map(r=>`<div class="kgp"><span class="kgp-c">${r.label}</span><span class="kgp-n">${r.deg} signal${r.deg>1?"s":""} attached${r.established?`, ${r.established} established`:""}</span></div>`).join("");
  const brokers=A.brokers.map(r=>`<div class="kgp"><span class="kgp-c">${r.label}</span><span class="kgp-n">spans ${r.domains} domains</span><span class="kgp-f">broker</span></div>`).join("")
    ||'<div class="srcnote">No committee currently brokers between domains in this signal set.</div>';
- return `<div class="crumb">Map / Knowledge Graph</div><div class="phead"><h1>Knowledge Graph</h1><div class="sub">Every node and every edge is derived from the signal set. The layout, the analytics and the data model are all standard, so the picture can be checked against something other than our taste.</div></div>
+ return `<div class="crumb">Map / Knowledge Graph</div><div class="phead"><h1>Knowledge Graph</h1><div class="sub">Every node and every edge is derived from the signal set. The layout, the analytics and the data model follow published standards.</div></div>
   ${note('graph')}
   <div class="bar-controls">
    <button class="chip ${mode==="full"?"on":""}" data-action="gmode" data-mode="full">Whole network</button>
@@ -2600,12 +2787,12 @@ V.graph=()=>{
   <div class="srcnote" style="margin-top:6px">Nodes are signals (coloured by IEC domain, sized by impact) and committees (outlined). An arrow means the analyst attached that signal to that committee. Layout is ${mode==="ego"?"concentric, centred on the signal you chose":"CoSE, a compound spring embedder"}: it is a named algorithm, and it optimises edge length and node separation, not similarity. Click a committee to isolate it. Click a signal to open it.</div>
   <div class="grid2" style="margin-top:18px">
    <div class="card"><h3>Most exposed committees <span class="c">degree</span></h3><div class="pad">
-    <div class="srcnote" style="margin-bottom:8px">Degree centrality: how many signals land on a committee. This is the workload question.</div>${exposed}</div></div>
+    <div class="srcnote" style="margin-bottom:8px">Degree centrality: the number of signals attached to a committee. This is the workload question.</div>${exposed}</div></div>
    <div class="card"><h3>Committees that broker between domains <span class="c">betweenness</span></h3><div class="pad">
-    <div class="srcnote" style="margin-bottom:8px">Betweenness centrality: a committee sitting on the path between domains that otherwise never meet. This is the coordination question, and it is the one a graph answers that a list cannot.</div>${brokers}</div></div>
+    <div class="srcnote" style="margin-bottom:8px">Betweenness centrality: a committee on the path between domains that are not otherwise connected. This is the coordination question.</div>${brokers}</div></div>
   </div>
   <div class="card" style="margin-top:18px"><h3>The data model</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.6">
-   We did not invent a schema. The graph is a labelled property graph serialised as <b>JSON-LD</b>, reusing published vocabularies: <b>PROV-O</b> for provenance (which agent or analyst generated an edge, and from which sources), <b>SKOS</b> for the domain and committee taxonomies, and <b>Dublin Core</b> for source documents. Export it above and load it into any triple store or graph database. In the funded build it moves into a real graph store, and this export is the migration path.
+   The schema is not proprietary. The graph is a labelled property graph serialised as <b>JSON-LD</b>, reusing published vocabularies: <b>PROV-O</b> for provenance (which agent or analyst generated an edge, and from which sources), <b>SKOS</b> for the domain and committee taxonomies, and <b>Dublin Core</b> for source documents. Export it above and load it into any triple store or graph database. In the funded build it moves into a real graph store, and this export is the migration path.
   </div></div>`};
 
 V.sectors=()=>{
@@ -2620,7 +2807,7 @@ V.sectors=()=>{
  <div class="sectors">${cards}</div>
  <div class="caband"><b>Cross-cutting · Conformity Assessment.</b> Beyond the technical committees, IEC runs four conformity-assessment systems that any sector signal can route into: <b>IECEE</b> (electrical safety / CB Scheme), <b>IECEx</b> (explosive atmospheres), <b>IECQ</b> (electronic components) and <b>IECRE</b> (renewable energy). Plus four Systems Committees · Smart Energy, Smart Cities, LVDC and Active Assisted Living · that cut across the domains above.</div>
  <div class="grid2 even" style="margin-top:18px"><div class="card"><h3>Language coverage</h3><div class="pad">${hbars(langCov)}<div class="srcnote">Signals carry their source language, so a German or Japanese filing is captured in the original. Briefs can be produced in any of these languages.</div></div></div>
- <div class="card"><h3>Coverage</h3><div class="pad" style="font-size:12.6px;color:#3c2944;line-height:1.6">The framework spans all ${SECTORS.length} domains and ${tot} committees. ${xd.length?`${xd.length===1?"One committee sits":`${xd.length} committees sit`} in more than one domain (${xd.map(c=>c.name.split(" \u00b7 ")[0]).join(", ")}), which is not a counting error: a committee spanning two domains is where two domains meet, and that is where work collides.`:""} Some domains (grid, power electronics, storage) are signal-rich today; others are marked <b>monitored · quiet</b>, meaning the domain is watched but the world is genuinely quiet there, not that we are under-sourced. When live, the pipeline instruments the two separately, so a thin domain never hides a coverage gap. This is a demonstration set · in production every domain is monitored continuously.</div></div></div>`};
+ <div class="card"><h3>Coverage</h3><div class="pad" style="font-size:12.6px;color:#3c2944;line-height:1.6">The framework spans all ${SECTORS.length} domains and ${tot} committees. ${xd.length?`${xd.length===1?"One committee sits":`${xd.length} committees sit`} in more than one domain (${xd.map(c=>c.name.split(" \u00b7 ")[0]).join(", ")}), which is not a counting error: a committee spanning two domains is where two domains meet, and that is where work collides.`:""} Some domains (grid, power electronics, storage) are signal-rich today; others are marked <b>monitored · quiet</b>, meaning the domain is monitored and few signals have been detected, rather than under-sourced. When live, the pipeline instruments the two separately, so a thin domain never hides a coverage gap. This is a demonstration set · in production every domain is monitored continuously.</div></div></div>`};
 
 V.workspace=()=>{
  const myTasks=Object.entries(ASSIGN).filter(([k,v])=>v===state.me);
@@ -2648,7 +2835,7 @@ V.reports=()=>{
  <div class="right"><button class="btn ghost" data-action="newreport"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New blank report</button></div></div>
  ${note('reports')}
  <div class="grid2"><div class="card"><h3>Briefs<span class="c">${REPORTS.length}</span></h3><div>${REPORTS.map(r=>`<button class="srow" data-action="openreport" data-id="${r.id}"><div class="l1"><span class="ti">${r.n}</span><span class="pillstat ${r.cls}">${r.status}</span></div><div class="l2"><span>${r.n_sig} signals</span><span>owner: ${r.owner}</span>${r.reviewers.length?`<span>reviewers: ${r.reviewers.map(rv=>member(rv.m).initials).join(', ')}</span>`:'<span>no reviewers</span>'}</div></button>`).join("")}</div></div>
- <div class="card"><h3>Brief builder<span class="c">${cart.length}</span></h3><div class="pad">${cart.length?cart.map(id=>{const s=sigById(id);return `<div class="cartitem"><span style="flex:1;font-size:12.5px">${s.t.split(' ').slice(0,7).join(' ')}</span><button class="chip" data-action="uncart" data-id="${id}">remove</button></div>`}).join(""):'<div class="empty">Add signals from any view to start a brief</div>'}</div>${cart.length?`<div class="pad" style="border-top:1px solid var(--line)"><button class="btn" style="width:100%;justify-content:center" data-action="genreport"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg>Generate draft (${cart.length})</button></div>`:''}</div></div>`};
+ <div class="card"><h3>Brief builder<span class="c">${cart.length}</span></h3><div class="pad">${cart.length?cart.map(id=>{const s=sigById(id);return `<div class="cartitem"><span style="flex:1;font-size:12.5px">${clip(s.t,52)}</span><button class="chip" data-action="uncart" data-id="${id}">remove</button></div>`}).join(""):'<div class="empty">Add signals from any view to start a brief</div>'}</div>${cart.length?`<div class="pad" style="border-top:1px solid var(--line)"><button class="btn" style="width:100%;justify-content:center" data-action="genreport"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg>Generate draft (${cart.length})</button></div>`:''}</div></div>`};
 
 V.report=()=>{
  const r=REPORTS.find(x=>x.id===state.report)||REPORTS[0];const pub=r.status==="Published";
@@ -2666,37 +2853,42 @@ V.report=()=>{
 V.howitworks=()=>{
  const tabs=[["loop","Operating loop"],["agentic","Agents & automation"],["sources","Sources & coverage"],["method","Classification method"],["human","Human supervision"],["controls","Controls & risk"],["kpi","KPIs & glossary"]];
  const t=state.opTab;
- const head=`<div class="crumb">Operate / How it works</div><div class="phead"><h1>How it works</h1><div class="sub">Software scans, sorts and drafts. A named person reviews and decides what gets published.</div></div>
+ const head=`<div class="crumb">Operate / How it works</div><div class="phead"><h1>How it works</h1><div class="sub">Software scans, sorts and drafts. A named analyst reviews and decides what is published.</div><div class="right"><span class="buildstamp" id="ppB">Prototype build 2026-07-13 · ${SIGNALS.length} curated signals · agents designed, not switched on</span></div></div>
  <div class="subtabs">${tabs.map(x=>`<button class="subtab ${t===x[0]?'on':''}" data-action="optab" data-tab="${x[0]}">${x[1]}</button>`).join("")}</div>`;
  let body="";
 if(t==="sources"){body=`
-  <div class="card"><h3>How we know the coverage is complete</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.65">
-   <b>We do not claim to be exhaustive against the world. Nobody can.</b> We claim coverage against a <b>declared frame</b>, and then we measure how much of it we actually catch. That is a claim you can check. "Exhaustive" is not.
+  <div class="card"><h3>How current the tool is</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.65">
+   The signal set was curated as of <b>${fmtDate(AS_OF)}</b>. Nothing has been added since, because the ingestion pipeline is not switched on.
+   <div style="margin-top:8px"><b>Currency is a property of the pipeline, not of a model.</b> The tool does not recall signals from training data. Agents read sources and an analyst validates what they return. When the pipeline runs, the most recent signal is as old as the most recent source, and no retraining is involved.</div>
+   <div class="hw-note2" style="margin-top:9px"><b>Intended cadence, to confirm with the Board.</b> Ingestion daily. Re-classification weekly. Full method review quarterly. The reference window on the overview is currently ${WINDOW_DAYS} days; it should be replaced by the interval between Board meetings, which is the period in which the Board's own decisions are made.</div>
+  </div></div>
+  <div class="card" style="margin-top:18px"><h3>How the coverage is established</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.65">
+   <b>Coverage is claimed against a declared frame, not against the world.</b> Recall against that frame is then measured. An exhaustiveness claim cannot be tested; a recall figure can.
    <div class="drv" style="margin-top:9px"><b>1. Declare the frame</b> \u00b7 which domains, which jurisdictions, which languages, which source types. Coverage is a fraction, and this is its denominator.</div>
-   <div class="drv"><b>2. Build the register by enumeration, not by search</b> \u00b7 every IEC committee and its liaisons, every national committee, the recognised standards bodies, the patent offices covering the jurisdictions in scope, the regulators in those jurisdictions, the journal set indexed for each domain. Searching finds only what you already knew to look for, and it has no denominator. Enumeration has one.</div>
+   <div class="drv"><b>2. Build the register by enumeration, not by search</b> \u00b7 every IEC committee and its liaisons, every national committee, the recognised standards bodies, the patent offices covering the jurisdictions in scope, the regulators in those jurisdictions, the journal set indexed for each domain. Search returns only what is already known to the searcher and provides no denominator. Enumeration provides one.</div>
    <div class="drv"><b>3. Measure recall three ways</b>
     <span style="display:block;margin-top:4px">\u00b7 <b>Back-test.</b> Take the last eighteen to twenty-four months of items the Board actually acted on. Would the register have caught each one, and how many months early? That is a recall percentage and a lead time, both defensible numbers.</span>
     <span style="display:block">\u00b7 <b>Blind-spot probe.</b> Ask each committee secretary for the two things that surprised them last year, and check whether the register covers them.</span>
     <span style="display:block">\u00b7 <b>Saturation.</b> Follow citations outward from a captured set until new sources stop appearing. The saturation curve is the evidence of closure.</span>
    </div>
    <div class="drv"><b>4. Let the tool maintain the register</b> \u00b7 every signal records which source first caught it. That gives source yield, unique first-catch rate, and dead sources. A source that never produces a unique first catch is retired. A signal that arrives from outside the register triggers a review of the register.</div>
-   <div class="hw-note2" style="margin-top:10px"><b>The two blind spots we declare rather than hide:</b> non-English sources, and paywalled or licensed feeds. Both are scope decisions with a cost attached, and both belong to the Board.</div>
-   <div class="hw-note2" style="margin-top:8px"><b>To confirm with the Board.</b> More sources means more noise and more analyst load. Exhaustiveness is not free, and past a point it degrades the product. So the question is not "are we exhaustive" but <b>what miss rate is acceptable, and what false-positive rate will you tolerate to get it</b>. That ratio is a governance decision, not an engineering one, and we need it from you.</div>
+   <div class="hw-note2" style="margin-top:10px"><b>Two declared limitations:</b> non-English sources, and paywalled or licensed feeds. Both are scope decisions with a cost, and both are for the Board to set.</div>
+   <div class="hw-note2" style="margin-top:8px"><b>To confirm with the Board.</b> More sources means more noise and more analyst load. Beyond a point, additional sources reduce precision. The question is therefore <b>what miss rate is acceptable, and what false-positive rate is tolerable to achieve it</b>. That ratio is a governance decision and is required from the Board.</div>
   </div></div>
   <div class="card" style="margin-top:18px"><h3>How a source is assigned to a tier</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.65">
-   <b>The source is tiered once, at registration, by publisher class, by a named person, with the reason recorded.</b> Items inherit the tier of their source. Tiering item by item drifts, cannot be audited, and collapses as volume rises.
+   <b>The source is tiered once, at registration, by publisher class, by a named person, with the reason recorded.</b> Items inherit the tier of their source. Item-by-item tiering is not auditable and does not hold as volume rises.
    <div style="margin-top:9px">The test that makes it deterministic: <b>if this turns out to be wrong, who is accountable, and is there a correction mechanism?</b></div>
    <div class="stagerub">
     <div class="stagerub-r"><span class="stagerub-n">Tier A</span><span class="stagerub-d">The source <b>is</b> the primary record of the fact. IEC, ISO and IEEE texts, new work item proposals, official regulatory texts, patent registers, company filings.<span class="stagerub-e">Accountable: the issuing authority.</span></span></div>
     <div class="stagerub-r"><span class="stagerub-n">Tier B</span><span class="stagerub-d">Independent evidence with editorial or peer accountability. Peer-reviewed journals, national laboratories, institutional reports, trade press with named editors.<span class="stagerub-e">Accountable: an editor or a reviewer.</span></span></div>
     <div class="stagerub-r"><span class="stagerub-n">Tier C</span><span class="stagerub-d">A leading indicator, unverified. Vendor announcements, conference abstracts, analyst notes without a stated method, posts.<span class="stagerub-e">Accountable: nobody.</span></span></div>
    </div>
-   <div style="margin-top:12px"><b>Three edge cases, written down, so they are not relitigated every week:</b></div>
-   <div class="drv" style="margin-top:6px">A Tier A body <b>quoted in</b> Tier C press stays Tier C until the primary is retrieved. Report the primary or do not claim it.</div>
+   <div style="margin-top:12px"><b>Three edge cases, recorded so that they are applied consistently:</b></div>
+   <div class="drv" style="margin-top:6px">A Tier A body <b>quoted in</b> Tier C press stays Tier C until the primary is retrieved. The primary source is retrieved before the claim is made.</div>
    <div class="drv">A vendor filing is <b>Tier A for what the vendor claims</b> and <b>Tier C for whether it works</b>. The tier attaches to the claim type, not to the document.</div>
-   <div class="drv">Aggregators and newswires inherit nothing. They are pointers to a source, not a source.</div>
-   <div style="margin-top:10px"><b>A Tier C item never stands alone.</b> It needs Tier A or B corroboration before an analyst can validate it. That is what stops the system amplifying vendor marketing.</div>
-   <div class="hw-note2" style="margin-top:10px"><b>The caveat we state rather than bury.</b> Tiering by publisher systematically favours incumbents, and a genuine weak signal first appears in Tier C almost by definition. So tiering controls what may be <b>published as established</b>. It is never used to suppress Tier C, because suppressing Tier C would mean suppressing weak signals, which is the entire point of the tool.</div>
+   <div class="drv">Aggregators and newswires carry no tier. They are references to a source, not a source.</div>
+   <div style="margin-top:10px"><b>A Tier C item never stands alone.</b> It needs Tier A or B corroboration before an analyst can validate it. This prevents an unverified vendor claim from being published as established.</div>
+   <div class="hw-note2" style="margin-top:10px"><b>A limitation of this rule.</b> Tiering by publisher favours incumbents, and a weak signal typically appears first in Tier C. Tiering therefore governs what may be published as established. It is not used to exclude Tier C material, since weak signals are the object of the exercise.</div>
   </div></div>`}
  else if(t==="loop"){body=`${foundationsBand(true)}<span class="run-eyebrow">Runs continuously \u00b7 who does the work, step by step</span><div class="actors">${ACTORS.map(a=>`<div class="actor"><div class="at" style="background:${a.c}">${a.n}<small>${a.s}</small></div><div class="ab">${a.is}<div class="lbl">Does</div><ul>${a.does.map(d=>`<li>${d}</li>`).join("")}</ul><div class="lbl">Never</div><ul>${a.not.map(d=>`<li>${d}</li>`).join("")}</ul></div></div>`).join("")}</div>
   <div class="flow6">${LOOP.map(l=>`<div class="fstep"><div class="n">${l.n}</div><h5>${l.t}</h5><p>${l.p}</p><div class="who">${l.w}</div></div>`).join("")}</div>
@@ -2732,7 +2924,7 @@ if(t==="sources"){body=`
   <div class="card" style="margin-top:18px"><h3>Agent roster<span class="c">${AGENTS.length}</span></h3><table class="raci"><tr><th style="text-align:left">Agent</th><th style="text-align:left">Job</th><th>Autonomy</th><th style="text-align:left">Escalates when</th></tr>${AGENTS.map(a=>`<tr><td style="text-align:left;font-weight:600;color:var(--purple)">${a[0]}</td><td style="text-align:left">${a[1]}</td><td><span class="pillstat" style="background:#efe4f4;color:var(--purple)">${a[2]}</span></td><td style="text-align:left">${a[3]}</td></tr>`).join("")}</table></div>
   <div class="card" style="margin-top:18px"><h3>Guardrails</h3><div class="pad">${GUARDRAILS.map(g=>`<div class="drv"><b style="color:var(--purple)">${g[0]}</b> · ${g[1]}</div>`).join("")}</div></div>
   ${rn('<b>Grounding (RAG):</b> the model may only use facts fetched from source documents, not its own memory, and every claim must link to a source. This adds a small processing step and keeps each statement traceable.')}
-  ${docCallout('source-universe.html','Source Universe & Credibility Tiers','The bounded, tiered list of sources the agents may read \u2014 Tier A primary, B corroborating, C unconfirmed \u2014 plus languages and licensed feeds. For the Board to validate.')}`}
+  ${docCallout('source-universe.html','Source Universe & Credibility Tiers','The bounded, tiered list of sources the agents may read: Tier A primary, B corroborating, C unconfirmed: plus languages and licensed feeds. For the Board to validate.')}`}
  else if(t==="method"){
   const ex=(name,col,t2,chips,note)=>`<div class="worked"><div style="font-family:var(--fm);font-size:10px;color:${col};text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Worked example · ${name}</div><b style="color:var(--purple)">${t2}</b><div class="chips2">${chips.map(c=>`<span>${c}</span>`).join("")}</div><div style="font-size:11.5px;color:var(--muted);margin-top:8px">${note}</div></div>`;
   const MEASURES=[
@@ -2755,16 +2947,16 @@ if(t==="sources"){body=`
   body=`${lensCard}<div class="card"><h3>How a signal is classified · the questions we ask</h3><div class="srcnote" style="padding:11px 15px 0">Nothing is scored or forecast. The label comes from weighing these five questions, not a single number. How each measure is read, and how they combine into a label, is set out below.</div><div class="pad">${RUBRIC.map(r=>`<div class="feat"><div class="fn">${r[0]}</div><div class="fd">${r[1]}</div><div class="fw" style="color:var(--muted);text-align:right;min-width:210px">${r[2]}</div></div>`).join("")}</div></div>
   <div class="card" style="margin-top:18px"><h3>How each measure is read</h3><div class="pad"><div class="srcnote" style="padding:0 0 8px">Each question rests on one measure. Here is how each is read, and whether it is computed or set by an analyst in this prototype.</div>${MEASURES.map(m=>`<div class="msr"><div class="msr-h"><span class="msr-n">${m[0]}</span><span class="msr-q">${m[1]}</span><span class="msr-tag ${m[5]}">${m[4]}</span></div><div class="msr-d">${m[2]}</div><div class="msr-src">${m[3]}</div></div>`).join("")}</div></div>
   <div class="card" style="margin-top:18px"><h3>How the label is decided</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.65">
-   <b>A named analyst sets the label.</b> It is stored on the signal, not computed from a formula. The five measures above are shown as evidence beside it. They inform the judgement; they do not make it.
+   <b>A named analyst sets the label.</b> It is stored on the signal and is not computed from a formula. The five measures above are displayed as evidence alongside it.
    <div class="drv" style="margin-top:9px"><b>Weak signal</b> \u00b7 first reports only, thin or unconfirmed corroboration.</div>
    <div class="drv"><b>Building</b> \u00b7 independent sources agree, but it is not settled.</div>
    <div class="drv"><b>Established</b> \u00b7 proven, well corroborated, ready to inform standards work.</div>
-   <div style="margin-top:10px">There is no composite score and no forecast. A number you cannot trace back to a source is the first thing a technical committee would take apart, so we do not produce one.</div>
-   <div style="margin-top:8px"><b>One rule constrains the analyst.</b> A signal already inside a published standard cannot be labelled below Established. Evidence of that strength is not outvoted by a source count. The tool checks this on every load.</div>
+   <div style="margin-top:10px">There is no composite score and no forecast. A composite number cannot be traced back to a source, so the tool does not produce one.</div>
+   <div style="margin-top:8px"><b>One rule constrains the analyst.</b> A signal already within a published standard cannot be labelled below Established. The tool verifies this on every load.</div>
    <span style="color:var(--muted);display:block;margin-top:8px">In the live build, agents propose a label and an analyst confirms, edits or rejects it. Every override is logged with its reason.</span>
   </div></div>
   <div class="card" style="margin-top:18px"><h3>How proven is it \u00b7 the TRL, and what we do when TRL does not apply</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.65">
-   <b>What puts a signal on a rung.</b> The TRL is not a feeling. Each rung is pinned to the artefact that proves it, so two analysts reading the same evidence land on the same number and a technical committee can check us.
+   <b>What places a signal on a rung.</b> Each rung is pinned to the artefact that evidences it, so two analysts reading the same evidence assign the same rung, and a technical committee can verify it.
    <div class="trlmap">
     <div class="trlmap-r"><span class="trlmap-n">3 \u2013 4</span><span>A published paper, or a validated lab result.</span></div>
     <div class="trlmap-r"><span class="trlmap-n">5 \u2013 6</span><span>Tested in conditions close to real use, or a working prototype in a relevant setting.</span></div>
@@ -2772,7 +2964,7 @@ if(t==="sources"){body=`
     <div class="trlmap-r"><span class="trlmap-n">8</span><span>A complete system, finished and qualified through testing.</span></div>
     <div class="trlmap-r"><span class="trlmap-n">9</span><span>A published standard, or everyday commercial use.</span></div>
    </div>
-   <div style="margin-top:10px"><b>Where the line sits.</b> Maturity strong enough to support an Established label begins at <b>TRL 7</b>, the first rung with something running in the real world. TRL 6 is a prototype; TRL 7 is an operation. That is a real step, and it is where we draw the line.</div>
+   <div style="margin-top:10px"><b>Where the threshold sits.</b> Maturity sufficient to support an Established label begins at <b>TRL 7</b>, the first rung at which the technology is in operation. TRL 6 is a prototype. TRL 7 is a deployment.</div>
    <div style="margin-top:10px"><b>TRL applies to technology signals only.</b> ${SIGNALS.filter(x=>x.q==="tech").length} of the ${SIGNALS.length} signals carry one. A trade rule has no technology readiness level, and giving one to a regulation would be a category error. Market, regulatory and geopolitical signals are judged on the maturity stage below instead, and every signal shows which of the two it was judged on.</div>
    <div class="stagerub">${STAGE_RUBRIC.map(r=>`<div class="stagerub-r"><span class="stagerub-n">${r[1]}</span><span class="stagerub-d">${r[2]}<span class="stagerub-e">Evidence: ${r[3]}</span></span></div>`).join("")}</div>
   </div></div>
@@ -2836,6 +3028,8 @@ function openSignal(id){const s=sigById(id);if(!s)return;const watched=state.wat
   <div class="dsec"><div class="lbl">Lifecycle · this signal through the loop <span style="font-family:var(--fm);font-size:9px;color:var(--muted);text-transform:none;letter-spacing:0;margin-left:auto">→ Agents & automation</span></div>
    <div class="drv"><b>Monitor & extract</b> · ${s.src} sources pulled and tagged to ${sec.name}${s.lang.length>1?', captured in '+s.lang.join('/'):''}.</div>
    <div class="drv"><b>Triage</b> · clustered, then labelled <b>${CLSLABEL[s.cls]}</b> by a named analyst. Momentum ${({hot:'accelerating',watch:'building',stable:'steady'})[s.mom]}; corroboration ${s.sub.corr} and maturity ${s.sub.mat} are the evidence shown beside that judgement, not the thing that made it.</div>
+   ${dl(s)?`<div class="drv" style="border-left:3px solid #e0044e;padding-left:10px"><b>Deadline \u00b7 ${fmtDate(dl(s).date)}, in ${daysTo(dl(s).date)} days.</b> ${dl(s).what} <span style="display:block;color:var(--muted);margin-top:3px">Binds: ${dl(s).binds}</span><span style="display:block;color:var(--muted)">${dl(s).why}</span></div>`:""}
+   <div class="drv"><b>Dates</b> \u00b7 first seen ${fmtDate(s.first)}, ${daysAgo(s.first)} days ago. Last updated ${fmtDate(s.upd)}.${s.prev?` Label changed from ${CLSLABEL[s.prev]} to ${CLSLABEL[s.cls]} on ${fmtDate(s.movedOn)}.`:""} ${s.dated?'<span style="color:#2f6f4f">Taken from the cited sources.</span>':'<span style="color:var(--muted)">Illustrative in this prototype. Live, these are the ingestion and re-check timestamps.</span>'}</div>
    <div class="drv"><b>Judged on</b> · ${s.basis==="trl"?`Technology readiness. TRL ${s.trl} of 9 \u00b7 ${TRL_LADDER[s.trl-1][1]}.`:`Maturity stage. ${STAGE_LABEL[s.ring]} \u00b7 ${(STAGE_RUBRIC.find(r=>r[0]===s.ring)||[])[2]||""} TRL is not applied to ${Q[s.q].toLowerCase()} signals: a rule has no technology readiness level.`}</div>
    <div class="drv"><b>Cross-check</b> · ${s.src} independent sources; no single-source or contradiction flags.</div>
    <div class="drv"><b>Route</b> · sent to ${s.comm.map(c=>(COMM[c]||c).split(' · ')[0]).join(', ')}.</div>
@@ -2845,8 +3039,9 @@ function openSignal(id){const s=sigById(id);if(!s)return;const watched=state.wat
   <div class="dsec"><div class="lbl">Why it matters · drivers</div>${s.drv.map(d=>`<div class="drv">${d}</div>`).join("")}</div>
   <div class="dsec"><div class="lbl">Maps to IEC committees</div>${s.comm.map(c=>`<span class="tcchip" data-action="committee" data-c="${c}">${COMM[c]}</span>`).join("")}</div>
   <div class="dsec"><div class="lbl">Assigned to</div><div class="assignbar">${assignee?`<span class="miniav" style="background:${member(assignee).color}">${member(assignee).initials}</span><span style="font-size:12.5px">${member(assignee).name}</span>`:'<span style="font-size:12.5px;color:var(--muted)">Unassigned</span>'}<span style="font-size:11px;color:var(--muted);margin-left:6px">reassign:</span>${TEAM.filter(m=>m.id!=="you").map(m=>`<button class="chip" data-action="assign" data-id="${id}" data-m="${m.id}">${m.initials}</button>`).join("")}</div></div>
-  <div class="dsec"><div class="lbl">Sources · backup &nbsp;<span style="font-family:var(--fm);font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0">showing ${s.sources.length} of ${s.src}</span></div>
-   ${s.sources.map(src=>`<a class="srcrow" href="${src.url}" target="_blank" rel="noopener"><span class="srctier st-${srcTier(src.ty)}" title="Level ${srcTier(src.ty)} source">${srcTier(src.ty)}</span><span class="srcty ${tyClass(src.ty)}">${src.ty}</span><span class="srcmain"><span class="srct">${src.title}</span><span class="srcm">${src.org} · ${src.date} · ${src.lang}</span></span><svg class="ext" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-9 9M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"/></svg></a>`).join("")}
+  <div class="dsec"><div class="lbl">Sources &nbsp;<span style="font-family:var(--fm);font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0">${isVerified(s)?`${s.sources.length} verified citations`:`showing ${s.sources.length} of ${s.src}`}</span></div>
+   ${isVerified(s)?'<div class="srcnote" style="margin:0 0 8px"><b>Verified.</b> Each entry below is a specific document with its publisher, date and link. The claim in this signal was checked against them, and corrected where they contradicted it.</div>':'<div class="srcnote" style="margin:0 0 8px"><b>Illustrative source records.</b> These entries show the structure of the evidence trail: tier, type, publisher, language and date. In this prototype they do not cite specific documents. When the ingestion pipeline is live, each entry is a retrieved document with its own URL and retrieval date. Seven signals in this set carry verified citations and are marked as such.</div>'}
+   ${s.sources.map(src=>`<a class="srcrow" href="${src.url}" target="_blank" rel="noopener"><span class="srctier st-${srcTier(src.ty,src)}" title="Level ${srcTier(src.ty,src)} source">${srcTier(src.ty,src)}</span><span class="srcty ${tyClass(src.ty)}">${src.ty}</span><span class="srcmain"><span class="srct">${src.title}</span><span class="srcm">${src.org} · ${src.date} · ${src.lang}</span></span><svg class="ext" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-9 9M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5"/></svg></a>`).join("")}
    <div class="srcnote"><span class="tierkey"><b>A</b> primary · <b>B</b> corroborating · <b>C</b> early.</span> All ${s.src} sources are kept with the signal for traceability (provenance) and travel with any brief. Links shown are illustrative.</div></div>
   <div class="dsec"><div class="lbl">Discussion <span style="font-family:var(--fm);font-size:9px;color:var(--muted);text-transform:none;letter-spacing:0;margin-left:auto">${cmts.length} comment${cmts.length===1?'':'s'}</span></div>
    ${cmts.length?cmts.map(c=>`<div class="cmt"><span class="av" style="background:${member(c.a).color}">${member(c.a).initials}</span><div class="cb"><div><span class="cn">${member(c.a).name}</span><span class="ct">${c.t}</span></div><div class="cx">${c.x}</div></div></div>`).join(""):'<div style="font-size:12.5px;color:var(--muted)">No comments yet · start the thread.</div>'}
@@ -2953,10 +3148,10 @@ ul{margin:2px 0 0;padding-left:18px}li{font-size:9.5pt;margin:2px 0}.muted{color
    <div class="foot">Provenance: every signal carries its sources; links are illustrative in this demonstration set. Nothing leaves the platform without a named human sign-off.</div>
    </div></body></html>`;
  const w=window.open('','_blank');
- if(!w){toast('Allow pop-ups, then Export again \u2014 it opens a print-ready brief');return;}
+ if(!w){toast('Allow pop-ups, then Export again: it opens a print-ready brief');return;}
  w.document.open();w.document.write(doc);w.document.close();
  w.onload=()=>{try{w.focus();w.print();}catch(e){}};
- toast('Opened a print-ready brief \u2014 choose \u201cSave as PDF\u201d');}
+ toast('Opened a print-ready brief: choose \u201cSave as PDF\u201d');}
 
 /* ================= ROUTER ================= */
 function setView(v){
@@ -3004,6 +3199,7 @@ document.addEventListener("click",e=>{
  else if(act==="graphsig"){}
  else if(act==="fs"){fsToggle()}
  else if(act==="hwgo"){closeHowWorks();setView(a.dataset.view)}
+ else if(act==="faqgo"){if(a.dataset.optab)state.opTab=a.dataset.optab;setView(a.dataset.view)}
  else if(act==="gmode"){state.graphMode=a.dataset.mode;el("#main").innerHTML=V.graph();kgRender()}
  else if(act==="kgexport"){const b=new Blob([kgJSONLD()],{type:"application/ld+json"});const u=URL.createObjectURL(b);const l=document.createElement("a");l.href=u;l.download="foresight-knowledge-graph.jsonld";l.click();URL.revokeObjectURL(u)}
  else if(act==="optab"){state.opTab=a.dataset.tab;el("#main").innerHTML=V.howitworks()}
@@ -3072,9 +3268,12 @@ function fsIn(){const d=document.documentElement;const r=d.requestFullscreen||d.
 function fsOut(){const x=document.exitFullscreen||document.webkitExitFullscreen;if(x)try{const q=x.call(document);if(q&&q.catch)q.catch(()=>{})}catch(e){}}
 function fsOn(){return !!(document.fullscreenElement||document.webkitFullscreenElement)}
 function fsToggle(){fsTried=true;fsOn()?fsOut():fsIn();setTimeout(fsBtnSync,120)}
-function fsBtnSync(){const b=el("#fsBtn");if(b)b.setAttribute("title",fsOn()?"Leave full screen":"Full screen")}
+function fsBtnSync(){}
 document.addEventListener("click",()=>{if(fsTried||!fsSupported())return;fsTried=true;if(!fsOn())fsIn()},{once:true});
 document.addEventListener("fullscreenchange",fsBtnSync);
+/* Ctrl+Shift+F. A keydown is a valid user gesture, so this works. Ctrl+Shift+R cannot: the browser
+   intercepts it as a reload, the page is destroyed, and the new load carries no gesture. */
+document.addEventListener("keydown",e=>{if(e.ctrlKey&&e.shiftKey&&(e.key==="F"||e.key==="f")){e.preventDefault();fsToggle()}});
 document.addEventListener('change',e=>{const t=e.target;if(t&&t.dataset&&t.dataset.action==='graphsig'){state.graphSig=t.value;el('#main').innerHTML=V.graph();kgRender()}});
 let glObserver=null;
 function startGlossary(){const root=el("#main");
