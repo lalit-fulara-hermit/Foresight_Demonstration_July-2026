@@ -181,6 +181,27 @@ svg.radar{width:auto;height:min(72vh,600px);max-width:100%;display:block;margin:
 .dl-w{font-size:12.5px;color:#2a1832}
 .dl-b{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
 .dl-s{font-family:var(--fm);font-size:10px;color:var(--muted);text-align:right}
+.kglegend{position:absolute;left:14px;bottom:12px;background:rgba(255,255,255,.94);border:1px solid var(--mist);border-radius:8px;padding:8px 10px;font-size:10.5px;color:#6b6572;line-height:1.9}
+.kglegend span{display:inline-block;margin-right:7px;vertical-align:middle}
+.lg-dot{width:11px;height:11px;border-radius:50%;background:#43224d}
+.lg-box{width:16px;height:10px;border:1.3px solid #e0044e;border-radius:3px;background:#fff}
+.lg-arrow{color:#b3a3bd;font-weight:700}
+.lg-conv{color:#b3a3bd;font-weight:700;font-size:13px;line-height:1}
+.lg-hint{color:#b3a3bd;font-size:12px}
+.kgtip{position:absolute;z-index:20;max-width:352px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 14px 34px -18px rgba(42,24,50,.45);padding:11px 13px;display:none;pointer-events:none}
+.kgtip.show{display:block}
+.kt-h{font-family:var(--fm);font-size:10px;color:var(--magenta);letter-spacing:.05em;text-transform:uppercase}
+.kt-s{font-size:13px;color:#2a1832;font-weight:600;margin-top:2px;line-height:1.4}
+.kt-m{font-size:11.5px;color:var(--muted);margin-top:4px}
+.kt-d{font-size:11.5px;color:#e0044e;margin-top:5px;border-left:2px solid #e0044e;padding-left:7px}
+.kt-w{margin-top:8px;border-top:1px solid var(--mist);padding-top:7px;font-size:11.5px;color:#3c2944}
+.kt-w>b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:#9b8fa6;margin-bottom:5px}
+.kt-row{padding:5px 0;border-bottom:1px solid var(--mist)}
+.kt-row:last-child{border-bottom:0}
+.kt-t{display:block;font-weight:600;color:#2a1832;font-size:11.5px}
+.kt-why{display:block;color:#3c2944;margin-top:2px;line-height:1.5}
+.kt-by{display:block;color:#2f6f4f;font-family:var(--fm);font-size:10px;margin-top:2px}
+.kt-none{display:block;color:#9b8fa6;margin-top:2px}
 .vbadge{font-family:var(--fm);font-size:9px;color:#2f6f4f;background:#e9f5ee;border:1px solid #cfe6d9;border-radius:4px;padding:1px 5px}
 .dbadge{font-family:var(--fm);font-size:9px;color:#e0044e;background:#fdeef3;border:1px solid #f6d4df;border-radius:4px;padding:1px 5px}
 .setline{display:inline-block;margin-top:4px;color:#9b8fa6;font-size:11.5px}
@@ -962,6 +983,28 @@ const DEADLINES=[
 function dl(s){return DEADLINES.find(d=>d.sig===s.id)}
 function daysTo(d){return Math.round((new Date(d)-today())/86400000)}
 function dueWithin(n){return DEADLINES.filter(d=>{const k=daysTo(d.date);return k>=0&&k<=n})}
+const EDGE_WHY={
+ "cra|tc108":{why:"The CRA applies to products with digital elements, which is the same product scope TC 108 covers for electronic-equipment safety. Conformity for those products will be assessed against harmonised standards, and TC 108 work is in that path.",by:"Priya N.",on:"2026-06-12"},
+ "cra|sc27":{why:"The reporting duty from 11 September 2026 is a vulnerability-handling obligation. SC 27 owns the vulnerability disclosure and handling standards (ISO/IEC 29147 and 30111) that manufacturers will cite to evidence conformance.",by:"Priya N.",on:"2026-06-12"},
+
+ "gfi|tc8":{why:"Grid-forming behaviour is a system-stability requirement, and TC 8 owns electrical energy supply system aspects. The GB Grid Code modification expected late 2026 would make it a connection condition.",by:"Priya N.",on:"2026-02-04"},
+ "gfi|tc22":{why:"The requirement is implemented in the converter itself. TC 22 covers power electronic systems, which is where the UNIFI V3 pass-or-fail benchmarks land in practice.",by:"Daniel R.",on:"2026-02-04"},
+ "gfi|sc8a":{why:"Grid-forming inverters are being mandated primarily at renewable and storage connection points, which is SC 8A scope.",by:"Priya N.",on:"2026-02-04"},
+
+ "crm|tc2":{why:"The licensed elements are dysprosium and terbium, used in sintered NdFeB magnets. Those magnets are the material basis of high-efficiency rotating machines, which is TC 2 scope.",by:"Mei L.",on:"2026-02-18"},
+ "crm|tc88":{why:"Direct-drive wind generators are among the most magnet-intensive products in the electrotechnical sector, so a licensing constraint on heavy rare earths reaches TC 88 directly.",by:"Mei L.",on:"2026-02-18"},
+
+ "dcp|sc39":{why:"SC 39 covers data-centre sustainability, including the efficiency and resource metrics that connection decisions are increasingly assessed against.",by:"Daniel R.",on:"2026-02-14"},
+ "dcp|tc8":{why:"The binding constraint reported by the IEA is the connection queue, not generation: over 2 500 GW is stalled. Connection conditions and system adequacy are TC 8 scope.",by:"Daniel R.",on:"2026-02-14"},
+
+ "mcs|tc69":{why:"TC 69 owns electric vehicle conductive charging, and it is the committee publishing the megawatt charging work itself: IEC TS 63379 for the connector, IEC 61851-23-3 for the supply equipment.",by:"Priya N.",on:"2026-03-06"},
+
+ "ai42|sc42":{why:"ISO/IEC 42001 is a JTC 1/SC 42 deliverable. The committee that owns the standard is the committee that carries the consequences of its adoption as an EU AI Act conformance route.",by:"Sam K.",on:"2026-02-20"},
+
+ "wbg|tc47":{why:"TC 47 covers semiconductor devices, which is where GaN and SiC device qualification and characterisation sit.",by:"Daniel R.",on:"2026-03-16"},
+ "wbg|tc22":{why:"The commercial question is not the device but the converter it enables. TC 22 covers power electronic systems, which is where the cost and efficiency case is decided.",by:"Daniel R.",on:"2026-03-16"}
+};
+function edgeWhy(sigId,tc){return EDGE_WHY[sigId+"|"+tc]||null}
 const VERIFIED={
  cra:[
   {ty:"Policy",tier:"A",org:"European Commission",title:"Cyber Resilience Act: policy page and implementation timeline",url:"https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act",date:"2026",lang:"EN"},
@@ -2687,9 +2730,12 @@ function kgModel(){
    domain:s.sector,color:(SECTOR_BY[s.sector]||{}).color||"#776ea9",cls:s.cls,imp:s.imp,src:s.src}}));
  Object.keys(COMM).forEach(c=>{const v=COMM[c],d=v.indexOf(" \u00b7 ");
   nodes.push({data:{id:"tc:"+c,kind:"committee",label:d>0?v.slice(0,d):v,scope:d>0?v.slice(d+3):"",code:c}})});
+ let _cp=0;
  SIGNALS.forEach(s=>(s.comm||[]).forEach(c=>{
+  const w=edgeWhy(s.id,c);
   edges.push({data:{id:"e:"+s.id+":"+c,source:"sig:"+s.id,target:"tc:"+c,rel:"affects",
-    generatedBy:"analyst",derivedFrom:s.src+" sources"}})}));
+    cpd:(_cp++%2?38:-38),generatedBy:"analyst",derivedFrom:s.src+" sources",
+    why:w?w.why:null, whoBy:w?w.by:null, whenOn:w?w.on:null}})}));
  return {nodes,edges};
 }
 function kgJSONLD(){
@@ -2706,7 +2752,22 @@ function kgJSONLD(){
   g.push({"@id":"tc:"+c,"@type":["Committee","skos:Concept"],"skos:prefLabel":i>0?v.slice(0,i):v,"skos:definition":i>0?v.slice(i+3):""})});
  return JSON.stringify({"@context":KG_CONTEXT,"@graph":g},null,1);
 }
-let CY=null;
+let CY=null,EGO_LAYOUT=null,EGO_HIDDEN=0;
+/* Three columns: the signal, the committees it affects, the other signals on those committees.
+   An edge only ever spans adjacent columns, so no node can sit on an edge that does not touch it. */
+function egoPositions(els,id){
+ const W=1000,H=460;
+ const centre="sig:"+id;
+ const comms=els.filter(x=>x.data.kind==="committee").map(x=>x.data.id);
+ const sibs=els.filter(x=>x.data.kind==="signal"&&x.data.id!==centre).map(x=>x.data.id);
+ const pos={};
+ pos[centre]={x:110,y:H/2};
+ const spread=(list,x)=>{const n=list.length;const gap=Math.min(96,(H-70)/Math.max(n,1));
+  const top=H/2-((n-1)*gap)/2;list.forEach((idd,i)=>{pos[idd]={x,y:top+i*gap}})};
+ spread(comms,W/2);
+ spread(sibs,W-120);
+ return pos;
+}
 function kgAnalytics(){
  const M=kgModel();
  const cy=cytoscape({headless:true,elements:[...M.nodes,...M.edges]});
@@ -2730,11 +2791,27 @@ function kgRender(){
  let els;
  if(state.graphMode==="ego"){
   const id=state.graphSig||SIGNALS.slice().sort((a,b)=>b.imp-a.imp)[0].id;
-  const keepC=new Set(("sig:"+id)&&(sigById(id).comm||[]).map(c=>"tc:"+c));
+  const s0=sigById(id);
+  const keepC=new Set((s0.comm||[]).map(c=>"tc:"+c));
   const keepS=new Set(["sig:"+id]);
   M.edges.forEach(e=>{if(keepC.has(e.data.target))keepS.add(e.data.source)});
-  els=[...M.nodes.filter(n=>keepS.has(n.data.id)||keepC.has(n.data.id)),
-       ...M.edges.filter(e=>keepS.has(e.data.source)&&keepC.has(e.data.target))];
+  const sibsAll=[...keepS].filter(x=>x!=="sig:"+id);
+  const shown=sibsAll.map(x=>sigById(x.slice(4))).sort((a,b)=>b.imp-a.imp||b.src-a.src).slice(0,8);
+  const keepShown=new Set(["sig:"+id, ...shown.map(x=>"sig:"+x.id)]);
+  EGO_HIDDEN=sibsAll.length-shown.length;
+  keepS.forEach(x=>{if(!keepShown.has(x))keepS.delete(x)});
+  const base=M.edges.filter(e=>keepS.has(e.data.source)&&keepC.has(e.data.target));
+  /* Two kinds of claim, drawn differently.
+     "affects"  : an analyst attached this signal to that committee. A person said so.
+     "shares"   : two signals land on the same committee. Derived by the tool, not asserted.
+     They must never look the same, because one carries a name and the other carries arithmetic. */
+  els=[...M.nodes.filter(n=>keepS.has(n.data.id)||keepC.has(n.data.id)), ...base];
+  els.forEach(e=>{if(!e.data.source)return;
+   /* A straight edge whose endpoints sit either side of a third node passes behind it and reads as
+      two edges that do not exist. Columns do not prevent this; a bow does. The sign alternates so
+      that parallel edges separate rather than overlap. */
+   e.data.cpd=(e.data.id.charCodeAt(3)%2?1:-1)*38;});
+  EGO_LAYOUT=egoPositions(els,id);
  } else {
   const deg={};M.edges.forEach(e=>{deg[e.data.source]=(deg[e.data.source]||0)+1;deg[e.data.target]=(deg[e.data.target]||0)+1});
   els=[...M.nodes.filter(n=>deg[n.data.id]),...M.edges];
@@ -2751,21 +2828,73 @@ function kgRender(){
    {selector:'node[kind="committee"]',style:{'shape':'round-rectangle','background-color':'#fff',
      'border-color':'#e0044e','border-width':1.3,'label':'data(label)','width':'label','height':18,
      'padding':'6px','font-size':'9.5px','font-family':'var(--fm)','color':'#e0044e','text-valign':'center'}},
-   {selector:'edge',style:{'width':1.1,'line-color':'#cbbfd4','curve-style':'straight','opacity':0.75,
-     'target-arrow-shape':'triangle','target-arrow-color':'#cbbfd4','arrow-scale':0.6}},
+   /* Curved, not straight. A straight edge whose endpoints sit either side of a third node passes
+      behind it and reads as two edges: the picture then implies a relationship that is not in the
+      data. Bezier curves make that impossible. */
+   {selector:'edge[rel="affects"]',style:{'width':1.4,'line-color':'#b3a3bd','curve-style':'unbundled-bezier',
+     'control-point-distances':'data(cpd)','control-point-weights':0.5,'opacity':0.9,
+     'target-arrow-shape':'triangle','target-arrow-color':'#b3a3bd','arrow-scale':1.15,
+     'label':'affects','font-size':'8.5px','font-family':'var(--fm)','color':'#8d7f97',
+     'text-rotation':'autorotate','text-background-color':'#fff','text-background-opacity':0.9,
+     'text-background-padding':'2px','text-background-shape':'roundrectangle'}},
+   {selector:'edge[rel="shares"]',style:{'width':1.1,'line-color':'#cfc5d6','curve-style':'unbundled-bezier',
+     'control-point-distances':'data(cpd)','control-point-weights':0.5,'line-style':'dashed','opacity':0.85,'target-arrow-shape':'none',
+     'label':'data(label)','font-size':'8px','font-family':'var(--fm)','color':'#a89bb0',
+     'text-rotation':'autorotate','text-background-color':'#fff','text-background-opacity':0.9,
+     'text-background-padding':'2px','text-background-shape':'roundrectangle'}},
    {selector:'node:selected',style:{'border-color':'#43224d','border-width':3}},
    {selector:'.dim',style:{'opacity':0.12}}
   ],
   layout: state.graphMode==="ego"
-    ? {name:'concentric',concentric:n=>(n.data('kind')==='signal'&&n.id()==='sig:'+(state.graphSig||''))?10:(n.data('kind')==='committee'?5:1),levelWidth:()=>1,minNodeSpacing:54,padding:34,animate:false}
+    ? {name:'preset',positions:n=>EGO_LAYOUT[n.id()]||{x:0,y:0},fit:true,padding:60,animate:false}
     : {name:'cose',idealEdgeLength:78,nodeOverlap:14,nodeRepulsion:9000,gravity:0.5,numIter:900,padding:26,animate:false}
  });
+
+ /* Hover to read, click to pin. Hover alone is useless on a touch screen, and a demo may be run
+    from a tablet. */
+ const tip=document.getElementById("kgtip");
+ let pinned=false;
+ const commTipHTML=(n)=>{
+  const code=n.data("label"), scope=n.data("scope")||"";
+  const on=CY.edges().filter(e=>e.target().id()===n.id());
+  const sigs=on.map(e=>e.source());
+  const rows=on.map(e=>{const sg=sigById(e.source().id().slice(4));
+   return `<div class="kt-row"><span class="kt-t">${sg.t.length>58?sg.t.slice(0,57)+"\u2026":sg.t}</span>
+    ${e.data("why")
+      ? `<span class="kt-why">${e.data("why")}</span><span class="kt-by">Attached by ${e.data("whoBy")} on ${fmtDate(e.data("whenOn"))}.</span>`
+      : `<span class="kt-none">Attached by an analyst. Rationale not recorded in this prototype.</span>`}</div>`}).join("");
+  const deg=on.length;
+  return `<div class="kt-h">${code}</div><div class="kt-s">${scope}</div>
+   <div class="kt-m">${deg} signal${deg>1?"s":""} attached${state.graphMode==="full"?`. Degree ${deg}.`:""}</div>
+   <div class="kt-w"><b>Why these signals were attached</b>${rows}</div>`;
+ };
+ const sigTipHTML=(n)=>{
+  const sg=sigById(n.id().slice(4));const d=dl(sg);
+  return `<div class="kt-h">${Q[sg.q]}</div><div class="kt-s">${sg.t}</div>
+   <div class="kt-m">${CLSLABEL[sg.cls]} \u00b7 ${sg.basis==="trl"?("TRL "+sg.trl):STAGE_LABEL[sg.ring]} \u00b7 ${isVerified(sg)?`<b style="color:#2f6f4f">${sg.sources.length} verified sources</b>`:`${sg.src} sources, illustrative`}</div>
+   ${d?`<div class="kt-d">Deadline ${fmtDate(d.date)}, in ${daysTo(d.date)} days. ${d.what}</div>`:""}
+   <div class="kt-m" style="margin-top:5px;color:#9b8fa6">Click to open the signal.</div>`;
+ };
+ const show=(n,evt)=>{
+  tip.innerHTML = n.data("kind")==="committee" ? commTipHTML(n) : sigTipHTML(n);
+  tip.classList.add("show");
+  const host=document.getElementById("cyhost").getBoundingClientRect();
+  /* An event without a pointer position (keyboard, or a synthetic event) must not throw. Fall back
+     to the node's own rendered position. */
+  const rp=(evt&&evt.renderedPosition)||n.renderedPosition();
+  const x=Math.min(rp.x+16, host.width-360);
+  const y=Math.min(rp.y+12, host.height-40);
+  tip.style.left=Math.max(8,x)+"px"; tip.style.top=Math.max(8,y)+"px";
+ };
+ const hide=()=>{if(!pinned)tip.classList.remove("show")};
+ CY.on('mouseover','node',e=>{if(!pinned)show(e.target,e)});
+ CY.on('mouseout','node',hide);
+ CY.on('tap','node[kind="committee"]',e=>{pinned=true;show(e.target,e);
+   CY.elements().addClass('dim');const n=e.target;
+   n.removeClass('dim');n.connectedEdges().removeClass('dim').connectedNodes().removeClass('dim');});
  CY.on('tap','node[kind="signal"]',e=>{const id=e.target.id().slice(4);openSignal(id)});
- CY.on('tap','node[kind="committee"]',e=>{
-   const n=e.target;CY.elements().addClass('dim');
-   n.removeClass('dim');n.connectedEdges().removeClass('dim').connectedNodes().removeClass('dim');
- });
- CY.on('tap',e=>{if(e.target===CY)CY.elements().removeClass('dim')});
+ CY.on('tap',e=>{if(e.target===CY){pinned=false;tip.classList.remove("show");CY.elements().removeClass('dim')}});
+
 }
 V.graph=()=>{
  const A=kgAnalytics();
@@ -2783,8 +2912,21 @@ V.graph=()=>{
    <span class="spacer"></span>
    <button class="chip" data-action="kgexport">Export JSON-LD</button>
   </div>
-  <div class="kg"><div id="cyhost" style="width:100%;height:460px"></div></div>
-  <div class="srcnote" style="margin-top:6px">Nodes are signals (coloured by IEC domain, sized by impact) and committees (outlined). An arrow means the analyst attached that signal to that committee. Layout is ${mode==="ego"?"concentric, centred on the signal you chose":"CoSE, a compound spring embedder"}: it is a named algorithm, and it optimises edge length and node separation, not similarity. Click a committee to isolate it. Click a signal to open it.</div>
+  <div class="kg" style="position:relative"><div id="cyhost" style="width:100%;height:480px"></div>
+   <div class="kgtip" id="kgtip"></div>
+   <div class="kglegend">
+    <div><span class="lg-dot"></span>Signal, coloured by IEC domain, sized by impact</div>
+    <div><span class="lg-box"></span>IEC committee</div>
+    <div><span class="lg-arrow">\u2192</span>affects: an analyst attached this signal to that committee</div>
+    <div><span class="lg-conv">\u21f6</span>two arrows into the same box means those signals share that committee. It is read from the structure, not drawn as a line</div>
+    <div><span class="lg-hint">\u2315</span>hover any node for detail. Click a committee to pin it</div>
+   </div></div>
+  <div class="srcnote" style="margin-top:6px">${mode==="ego"?(()=>{const s0=sigById(state.graphSig||SIGNALS.slice().sort((a,b)=>b.imp-a.imp)[0].id);
+    const sibs=SIGNALS.filter(x=>x.id!==s0.id&&x.comm.some(c=>s0.comm.includes(c)));
+    const byC={};sibs.forEach(x=>x.comm.filter(c=>s0.comm.includes(c)).forEach(c=>{(byC[c]=byC[c]||[]).push(x)}));
+    const lines=Object.keys(byC).map(c=>`<b>${(COMM[c]||c).split(" \u00b7 ")[0]}</b> also carries ${byC[c].length} other signal${byC[c].length>1?"s":""}`).join("; ");
+    return `${EGO_HIDDEN>0?`Showing the eight most significant neighbours; ${EGO_HIDDEN} further signals share a committee with this one and are not drawn, so the picture stays readable. `:""}Three columns: the signal, the committees it affects, and the other signals on those committees. An arrow means an analyst attached that signal to that committee. Where two signals point at the same box, they share that committee: that is read from the structure and is not drawn as a separate line. ${lines?lines+".":""}`})()
+  :"Nodes are signals (coloured by IEC domain, sized by impact) and committees (outlined). An arrow means the analyst attached that signal to that committee. Layout is CoSE, a compound spring embedder: a named algorithm that optimises edge length and node separation, not similarity."} Click a committee to isolate it. Click a signal to open it.</div>
   <div class="grid2" style="margin-top:18px">
    <div class="card"><h3>Most exposed committees <span class="c">degree</span></h3><div class="pad">
     <div class="srcnote" style="margin-bottom:8px">Degree centrality: the number of signals attached to a committee. This is the workload question.</div>${exposed}</div></div>
