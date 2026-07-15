@@ -2314,7 +2314,8 @@ const NAV=[
  {v:"workspace",label:"Team workspace",grp:5,c:()=>NOTIFS.length,ic:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 6a3 3 0 0 1 0 6M21 20a6 6 0 0 0-5-5.9"/>'},
  {v:"reports",label:"Reports & briefs",grp:5,c:()=>REPORTS.length,ic:'<path d="M6 3h9l3 3v15H6zM9 12h6M9 16h6M9 8h3"/>'},
  {v:"alerts",label:"Alert settings",grp:5,ic:'<path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10 21a2 2 0 0 0 4 0"/>'},
- {v:"faq",label:"Questions",grp:6,c:()=>FAQ.length,ic:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7M12 17h.01"/>'},
+ {v:"faq",label:"Q&A",grp:6,c:()=>FAQ.length,ic:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7M12 17h.01"/>'},
+ {v:"qiec",label:"Questions for IEC",grp:6,c:()=>QIEC.length,ic:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M10 11a2 2 0 1 1 2.6 1.9c-.5.2-.8.7-.8 1.3M12 17h.01"/>'},
  {v:"howitworks",label:"How it works",grp:6,ic:'<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.4-2.5h-4l-.4 2.5a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.4 2.5h4l.4-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/>'},
  {v:"audit",label:"Requirements audit",grp:7,c:()=>REQS.reduce((a,g)=>a+g.items.length,0),ic:'<path d="M9 11l3 3 8-8"/><path d="M21 12v7H4V5h11"/>'},
 ];
@@ -2698,12 +2699,86 @@ const FAQ=[
   a:"It changes. The committee-to-domain mapping is our curation and is listed as an open Board validation item.",
   v:"howitworks", tab:"controls", go:"Controls and risk"}
 ];
+/* ================= QUESTIONS FOR IEC ================= */
+const QKEY="foresight_iec_questions_v1";
+const QIEC=[
+ {id:"sc1",cluster:"Scope",q:"What single decision should Foresight support for the Board, in one sentence, so we build to that and not beyond it?",context:"Everything downstream, the sources, the cadence and the outputs, is sized to this one decision."},
+ {id:"sc2",cluster:"Scope",q:"Which IEC domains and committees are in scope for the funded build, and are any explicitly out for now?",context:"The demonstration set spans all domains. The funded build can be narrower."},
+ {id:"sc3",cluster:"Scope",q:"Who is the audience beyond the Market Strategy Board, for example the SMB, named TCs or national committees?",context:"Audience sets the reading level and the access model."},
+ {id:"so1",cluster:"Sources",q:"Which source families should ingestion cover, for example IEC and ISO drafts by stage, regulatory registers, patents and news, and in what priority?",context:"The pipeline is specified but switched off until the source universe is agreed."},
+ {id:"so2",cluster:"Sources",q:"Are there licensed or member-only sources IEC can provide, and on what terms?",context:"Access terms affect what can be cited and stored."},
+ {id:"so3",cluster:"Sources",q:"What refresh cadence is required per source family?",context:"Cadence drives cost and sets the meaning of the New count."},
+ {id:"me1",cluster:"Method",q:"Do you accept classify-not-score, with analyst-set labels, no composite index and no forecast, or does the Board want a scored output?",context:"This is the core design choice. It is reversible now and expensive later."},
+ {id:"me2",cluster:"Method",q:"Is Established, Building, Weak signal the right vocabulary, or should it map to an IEC-recognised maturity scale?",context:"The vocabulary can map to an IEC scale if one is preferred."},
+ {id:"me3",cluster:"Method",q:"For technology signals, is TRL the right basis, with the rung-to-artefact rules as shown?",context:"TRL applies to technology signals only, not to market or regulatory ones."},
+ {id:"go1",cluster:"Governance",q:"The committee mapping is our curation, not IEC's. Who is the named authority to validate and sign off attachments?",context:"This is listed on screen as an open Board validation item."},
+ {id:"go2",cluster:"Governance",q:"Who holds the analyst-validation and Board sign-off roles in the loop?",context:"Needed to turn the roles in the demonstration into named people."},
+ {id:"go3",cluster:"Governance",q:"What are the override and audit requirements, meaning who may override a label and what must be logged?",context:"Sets the record-keeping the live build must enforce."},
+ {id:"de1",cluster:"Delivery and commercials",q:"Repository and privacy: IEC domain, private repository, or IEC authentication, and by when?",context:"Determines where the funded build is hosted and who can reach it."},
+ {id:"de2",cluster:"Delivery and commercials",q:"What are the success criteria and timeline for the funded build?",context:"Defines done and the sequence to get there."},
+ {id:"de3",cluster:"Delivery and commercials",q:"Who is the single decision-maker on the IEC side for the build phase?",context:"One name keeps the build phase decisive."}
+];
+function qLoad(){const empty={meta:{name:"",role:"",date:""},ans:{}};try{const raw=localStorage.getItem(QKEY);if(!raw)return empty;const d=JSON.parse(raw);return{meta:{name:(d.meta&&d.meta.name)||"",role:(d.meta&&d.meta.role)||"",date:(d.meta&&d.meta.date)||""},ans:(d.ans&&typeof d.ans==="object")?d.ans:{}}}catch(e){return empty}}
+let QANS=qLoad();
+function qSave(){try{localStorage.setItem(QKEY,JSON.stringify(QANS))}catch(e){}}
+function qClusters(){const seen=[];QIEC.forEach(q=>{if(seen.indexOf(q.cluster)<0)seen.push(q.cluster)});return seen}
+function qAnswered(){return QIEC.filter(q=>((QANS.ans&&QANS.ans[q.id])||"").trim()).length}
+function qRefreshCount(){const c=el("#qCount");if(c)c.textContent=qAnswered()+" of "+QIEC.length+" answered"}
+function qExportJSON(){const m=QANS.meta||{};const payload={tool:"Foresight (IEC Edition)",type:"questions-for-iec",exportedAt:new Date().toISOString(),respondent:{name:m.name||"",role:m.role||"",date:m.date||fmtDate(today())},answers:QIEC.map(q=>({id:q.id,cluster:q.cluster,question:q.q,answer:(QANS.ans&&QANS.ans[q.id])||""}))};const b=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});const u=URL.createObjectURL(b);const l=document.createElement("a");l.href=u;l.download="foresight-questions-for-iec.json";l.click();URL.revokeObjectURL(u);toast("Exported answers as JSON")}
+function qImportFile(file){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d&&Array.isArray(d.answers)){d.answers.forEach(a=>{if(a&&a.id&&typeof a.answer==="string")QANS.ans[a.id]=a.answer})}if(d&&d.respondent){QANS.meta.name=d.respondent.name||QANS.meta.name;QANS.meta.role=d.respondent.role||QANS.meta.role;QANS.meta.date=d.respondent.date||QANS.meta.date}qSave();el("#main").innerHTML=V.qiec();toast("Answers imported")}catch(err){toast("Could not read that file")}};r.onerror=()=>toast("Could not read that file");r.readAsText(file)}
+function qExportPDF(){
+ const es=t=>String(t==null?"":t).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+ const m=QANS.meta||{};const dt=fmtDate(today());
+ let body="";
+ qClusters().forEach(cl=>{body+='<h2>'+es(cl)+'</h2>';QIEC.filter(q=>q.cluster===cl).forEach(q=>{const a=(QANS.ans&&QANS.ans[q.id])||"";body+='<div class="qq"><div class="q">'+es(q.q)+'</div>'+(q.context?'<div class="cx">'+es(q.context)+'</div>':"")+'<div class="a'+(a?"":" empty")+'">'+(a?es(a):"No answer given")+'</div></div>'})});
+ const css='@page{margin:20mm}*{box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#241526;margin:0;font-size:12pt;line-height:1.5}.head{border-bottom:3px solid #43224d;padding-bottom:12px;margin-bottom:18px}.ey{font-size:9pt;letter-spacing:.12em;text-transform:uppercase;color:#7c6a86}.ey b{color:#43224d}h1{font-size:20pt;margin:8px 0 4px;color:#43224d}.hmeta{font-size:10pt;color:#7c6a86}h2{font-size:12pt;color:#43224d;margin:20px 0 8px;padding-bottom:4px;border-bottom:1px solid #ece4f1}.qq{margin:0 0 14px;page-break-inside:avoid}.q{font-weight:600;font-size:11pt}.cx{font-size:9.5pt;color:#7c6a86;margin:2px 0 6px}.a{white-space:pre-wrap;border-left:3px solid #e0044e;padding:6px 10px;background:#faf7fb;border-radius:0 6px 6px 0;font-size:10.5pt}.a.empty{color:#b8a9c2;border-left-color:#ded4e6;font-style:italic}.foot{margin-top:24px;padding-top:10px;border-top:1px solid #ece4f1;font-size:8.5pt;color:#7c6a86}.bar{position:fixed;top:0;left:0;right:0;background:#fdeef3;border-bottom:1px solid #f3c9d9;padding:9px 16px;font-size:10pt;color:#43224d;text-align:center}.bar button{background:#e0044e;color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:10pt;cursor:pointer;margin-left:8px}@media print{.bar{display:none}}';
+ const doc='<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Questions for IEC</title><style>'+css+'</style></head><body><div class="bar">Use your browser print dialog and choose Save as PDF.<button onclick="window.print()">Save as PDF</button></div><div class="head"><div class="ey"><b>Insightsfirst</b> Foresight \u00b7 IEC Edition</div><h1>Questions for IEC</h1><div class="hmeta">Respondent '+es(m.name||"not stated")+(m.role?" \u00b7 "+es(m.role):"")+" \u00b7 "+es(m.date||dt)+" \u00b7 "+qAnswered()+" of "+QIEC.length+' answered</div></div>'+body+'<div class="foot">Prepared by Evalueserve for the IEC Market Strategy Board. Answers as entered in the tool.</div></body></html>';
+ const w=window.open("","_blank");
+ if(!w){toast("Allow pop-ups, then Export PDF again");return}
+ w.document.open();w.document.write(doc);w.document.close();
+ w.onload=()=>{try{w.focus();w.print()}catch(e){}};
+ toast("Opened a print-ready sheet: choose Save as PDF")
+}
 V.faq=()=>{
  return `<div class="crumb">Operate / Questions</div><div class="phead"><h1>Questions</h1><div class="sub">Each answer states the position and its limits, and routes to the screen that holds the full explanation. Facts are stated once, in one place.</div></div>
   ${note('faq')}
   ${FAQ.map(f=>`<div class="card" style="margin-bottom:12px"><h3>${f.q}</h3><div class="pad" style="font-size:12.5px;color:#3c2944;line-height:1.65">${f.a}
    <div style="margin-top:8px"><button class="btn ghost" data-action="faqgo" data-view="${f.v}"${f.tab?` data-optab="${f.tab}"`:""}>${f.go} \u2192</button></div>
   </div></div>`).join("")}`;
+};
+V.qiec=()=>{
+ const m=QANS.meta||{};
+ const esc=t=>String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+ const dateVal=m.date||fmtDate(today());
+ let cards="";
+ qClusters().forEach(cl=>{
+  cards+='<h3 style="margin:20px 0 8px;color:#43224d;font-size:14px">'+cl+'</h3>';
+  QIEC.filter(q=>q.cluster===cl).forEach(q=>{
+   const a=(QANS.ans&&QANS.ans[q.id])||"";
+   cards+='<div class="card qcard" style="margin-bottom:12px"><div class="pad">'
+    +'<div style="font-weight:600;font-size:13px;color:#241526">'+esc(q.q)+'</div>'
+    +(q.context?'<div class="srcnote" style="margin:4px 0 8px">'+esc(q.context)+'</div>':'<div style="height:6px"></div>')
+    +'<textarea data-action="qans" data-id="'+q.id+'" rows="3" placeholder="IEC response" style="width:100%;box-sizing:border-box;font:inherit;font-size:12.5px;color:#241526;border:1px solid var(--line);border-radius:8px;padding:8px 10px;resize:vertical;background:#fff">'+esc(a)+'</textarea>'
+    +'<div class="qsaved" style="font-size:11px;color:#8a739a;margin-top:4px;min-height:14px">'+(a.trim()?"Saved":"")+'</div>'
+    +'</div></div>';
+  });
+ });
+ return '<div class="crumb">Operate / Questions for IEC</div>'
+  +'<div class="phead"><h1>Questions for IEC</h1><div class="sub">The questions we need IEC to answer to move Foresight from demonstration to funded build. Type answers here, then export. Answers are saved in this browser and included in the export.</div></div>'
+  +'<div class="card" style="margin-bottom:14px"><div class="pad" style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">'
+   +'<label style="font-size:11px;color:#6b5877">Respondent name<br><input data-action="qmeta" data-f="name" value="'+esc(m.name||"")+'" placeholder="Name" style="margin-top:3px;font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;min-width:200px"></label>'
+   +'<label style="font-size:11px;color:#6b5877">Role<br><input data-action="qmeta" data-f="role" value="'+esc(m.role||"")+'" placeholder="Role or committee" style="margin-top:3px;font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;min-width:200px"></label>'
+   +'<label style="font-size:11px;color:#6b5877">Date<br><input data-action="qmeta" data-f="date" value="'+esc(dateVal)+'" style="margin-top:3px;font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;min-width:130px"></label>'
+   +'<div style="margin-left:auto;font-size:12px;color:#43224d;font-weight:600" id="qCount">'+qAnswered()+' of '+QIEC.length+' answered</div>'
+  +'</div></div>'
+  +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px">'
+   +'<button class="btn" data-action="qexport">Export answers (JSON)</button>'
+   +'<button class="btn ghost" data-action="qpdf">Export PDF</button>'
+   +'<button class="btn ghost" data-action="qimport">Import answers</button>'
+   +'<button class="btn ghost" data-action="qclear">Clear</button>'
+   +'<input type="file" id="qFile" accept=".json,application/json" style="display:none">'
+  +'</div>'
+  +cards;
 };
 V.tech=()=>V_lens("tech");
 V.market=()=>V_lens("market");
@@ -3353,10 +3428,16 @@ document.addEventListener("click",e=>{
  else if(act==="digest"){DIGEST=a.dataset.c;el("#main").innerHTML=V.alerts();toast("Digest set to "+DIGEST.toLowerCase())}
  else if(act==="cowork"){toast("Co-working session started · team invited");state.activity.unshift({txt:"You started a <b>co-working session</b>",t:"now"});const on=TEAM.filter(m=>m.online&&m.id!=="you");let i=0;const iv=setInterval(()=>{if(i>=on.length){clearInterval(iv);return}toast(on[i].name+" joined the session");i++},800);el("#main").innerHTML=V.workspace()}
  else if(act==="invite"){toast("Invite link copied · share with a colleague")}
+ else if(act==="qexport"){qExportJSON()}
+ else if(act==="qpdf"){qExportPDF()}
+ else if(act==="qimport"){const f=el("#qFile");if(f)f.click()}
+ else if(act==="qclear"){if(confirm("Clear all answers and respondent details saved in this browser?")){QANS={meta:{name:"",role:"",date:""},ans:{}};qSave();el("#main").innerHTML=V.qiec();toast("Answers cleared")}}
 });
 el("#q").addEventListener("input",e=>{state.search=e.target.value;runSearch(e.target.value)});
 el("#q").addEventListener("keydown",e=>{if(e.key==="Enter"){el("#searchDrop").classList.remove("show");state.search=e.target.value;state.view="feed";buildNav();el("#main").innerHTML=V.feed()}});
 document.addEventListener("change",e=>{const a=e.target.closest("[data-action]");if(!a)return;if(a.dataset.action==="feedsort"){state.feedSort=e.target.value;el("#main").innerHTML=V.feed()}else if(a.dataset.action==="feedsector"){state.feedSector=e.target.value;el("#main").innerHTML=V.feed()}});
+document.addEventListener("input",e=>{const t=e.target.closest("[data-action]");if(!t)return;const ac=t.dataset.action;if(ac==="qans"){QANS.ans[t.dataset.id]=t.value;qSave();qRefreshCount();const dot=t.closest(".qcard")&&t.closest(".qcard").querySelector(".qsaved");if(dot)dot.textContent=t.value.trim()?"Saved":""}else if(ac==="qmeta"){QANS.meta[t.dataset.f]=t.value;qSave()}});
+document.addEventListener("change",e=>{const t=e.target;if(t&&t.id==="qFile"&&t.files&&t.files[0]){qImportFile(t.files[0]);t.value=""}});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer();closeHowWorks();closeDoc();el("#searchDrop").classList.remove("show")}if(e.key==="/"&&document.activeElement!==el("#q")){e.preventDefault();el("#q").focus()}});
 
 function graphHighlight(id){const svg=el("#graphsvg");if(!svg)return;
